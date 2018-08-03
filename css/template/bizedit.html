@@ -1,0 +1,79 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+    <li ><a href="{php echo $this->createWebUrl('biz')}">商家管理</a></li>
+    <li class="active" ><a href="{php echo $this->createWebUrl('biz',array('op'=>'edit'))}" ><i class="fa fa-plus"></i>商家添加</a></li>
+</ul>
+<div class="clearfix">
+</div>
+<style>
+.group{display:none}
+.clear{ clear:both}
+</style>
+
+<div class="panel panel-default">
+
+<div class="panel-heading">{if !empty($id)}修改商家{else}添加商家{/if}</div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" class="form-horizontal" action="{php echo $this->createweburl('biz',array('op'=>'save'))}">
+    <div class="form-group">
+    <label for="type" class="col-md-1 control-label" style="text-align:right">商家类型</label>
+    <div class="col-md-8">
+   <select name="biz[type]" class="form-control">
+
+<option value="0">请选择商家类型</option>
+   {loop $types $row}
+   <option value="{$row}" {if $row==$biz['type']}selected="selected"{/if}>{$row}</option>
+   {/loop}
+    </select>
+    </div>
+    <div class="clear"></div>
+    </div>
+    <div class="form-group">
+        <label for="biz[title]" class="col-md-1 control-label">商家名称</label>
+        <div class="col-md-3"><input type="text" name="biz[name]" value="{$biz['name']}" class="form-control"   placeholder=""/></div>
+    </div>
+<div class="form-group">
+<label for="biz[logo]" class="col-md-1 control-label">logo</label>
+        <div class="col-md-8">{php echo tpl_form_field_image('biz[logo]',$biz['logo'],'',array('global'=>false))}
+        <span class="help-block"><strong class="text-danger"></strong></span></div> 
+</div>
+<div class="form-group">
+    <label for="biz[thumb]" class="col-md-1 control-label">缩略图</label>
+        <div class="col-md-8">{php echo tpl_form_field_image('biz[thumb]',$biz['thumb'],'',array('global'=>false))}
+        <span class="help-block"><strong class="text-danger"></strong></span></div> 
+</div>
+<div class="form-group">
+        <label for="biz[title]" class="col-md-1 control-label">营业时间</label>
+        <div class="col-md-3"><input type="text" name="biz[biz_hours]" value="{$biz['biz_hours']}" class="form-control"   placeholder=""/>
+        <span class="help-block"></span></div>
+    </div>
+    <div class="form-group">
+        <label for="sum" class="col-md-1 control-label">电话</label>
+        <div class=" col-md-2"><input type="text" name="biz[phone]" value="{$biz['phone']}" class="form-control"   placeholder=""/><span class="help-block"></span></div>
+    </div>
+    <div class="form-group">
+    <label for="biz[rate]" class="col-md-1 control-label">地址</label>
+        <div class="col-md-11" id=app3><input type="text" name="biz[address]" value="{$biz['address']}" class="form-control" placeholder=""/>
+        <span class="help-block"></span></div>
+    </div>
+    <div class="form-group">
+    <label for="biz[rate]" class="col-md-1 control-label">特色服务</label>
+        <div class="col-md-11" id=app3><input type="text" name="biz[special_service]" value="{$biz['special_service']}" class="form-control" placeholder=""/>
+        <span class="help-block">非必填</span></div>
+    </div>
+    <div class="form-group"><label for="biz[rate]" class="col-md-1 control-label">描述</label>
+        <div class="col-md-11" id=app3><input name="biz[description]" class="form-control" value="{$biz['description']}"/>
+    <span class="help-block"></span></div>
+    </div>
+    <div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-1 control-label"></label>
+ 	  <div class="col-sm-6 col-md-8 col-xs-12">
+      <input name="biz[id]" type="hidden" value="{$biz['id']}" />
+      <input name="saveedit" type="submit" value="保存商家" class="btn btn-primary"/></div>
+	</div>
+    </form>
+</div>
+    </div>
+
+</div>
+{template 'common/footer'}

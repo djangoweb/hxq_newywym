@@ -1,0 +1,183 @@
+{template 'header'}
+<style>
+body{ background-size:100% 100% ;background: #fff;}
+a.more:link{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+a.more:hover{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+.more{height: 18px ; display: inline-block;  line-height:14px; font-size:1.4rem;color: #000； padding:2 4px; }
+.btn{width: 80px; height: 80px; line-height: 80px; background: orange; color: #e60012;position: absolute;bottom: 15%;left: 0px;right: 0px;margin: auto;text-align: center;border-radius:50%;font-weight: bolder;font-size: 2.4rem;border:none;}
+.btn.disable{ background: #cccccc; color:#fff;}
+.award{ height:75%;width: 100%; position: relative;}
+
+.btm{position: fixed;display:flex; height: 45px;bottom:0px;width: 100% }
+.btm>div{flex:1; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 55px}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+input.button{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem;border:none;}
+input.large{ width: 100%;font-size: 1.4rem }
+input.danger{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3);}
+input.success{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3);}
+a.button:link{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:hover{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:visited{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.large{ width: 100%;font-size: 1.4rem }
+a.danger:link{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:hover{ background: #f44040 ;color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:visited{ background: #f44040; color:#fff; box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:link{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:hover{ background: #5cb85c ;color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:visited{ background: #5cb85c;color:#fff; box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.disable:link{ padding: 0px 10px;height:35px;line-height: 35px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+a.disable:visited{ padding: 0px 10px;height:35px;line-height: 35px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+.top{ height:25%; }
+.top img{ width:100%;height: 100%}
+</style>
+<style>
+.banner{position: relative;width: 100%;height: 45%;}
+.banner>.logo{ position: absolute;left: 40px;top:0px;width: 60px;height: 80px; }
+.desc{margin:10px auto;width: 92%;font-size: 14px;word-break: break-all;}
+.title{position: absolute;bottom:50px;line-height: 40px;font-size: 20px;font-weight: bolder;text-align: center;width: 100%;color: #fff}
+.subtitle{position: absolute;bottom:10px;line-height: 30px;font-size: 14px;text-align: center;width: 100%;color: #fff}
+.corpright{text-align: center;line-height: 35px;}
+</style>
+
+<script type="text/javascript">
+var dscanwarning={$act['dscanwarning']};
+var tk='{$_GPC['tk']}';
+{if !empty($act['districtarr'])}
+var districtarr={php echo json_encode($act['districtarr'])};
+{/if}
+var strDistrict='{$act['strDistrict']}';
+var rptype={$act['rptype']};
+var granttype={$act['granttype']};
+var scanid={if $_M['scanid']}{$_M['scanid']}{else}0{/if};
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+
+var mycoupons={if $mycoupons}{php echo json_encode($mycoupons)}{else}{}{/if};
+var myawarded={if $mytokens}{php echo json_encode($mytokens)}{else}{}{/if};
+</script>
+<div class="banner"><img src="{php echo $_W['attachurl'].$page['banner']}" width="100%" height="100%"><div class="logo"><img src="{php echo $_W['attachurl'].$page['logo']}" width="100%"></div><div class="title">{$page['title']}</div><div class="subtitle">{$page['subtitle']}</div></div>
+<div style="margin:10px auto"><img src="{MODULE_URL}images/activity_v1_descbanner.png" width="100%"></div>
+{loop $page['desc'] $key $item}
+
+{if $item['type']=='image'}
+<div class="desc"><img src="{$_W['attachurl']}{$item['value']}" width="100%"></div>
+{elseif $item['type']=='text'}
+<div class="desc">{$item['value']}</div>
+{elseif $item['type']=='video'}
+<div class="desc" style="text-align:center">
+<video id="video_" src="{$_W['attachurl']}{$item['value']}" style="background:#000;border-radius:5px;" width="100%" height="215" autoplay="autoplay" loop="loop" controls="controls"></video>
+<!--
+<div id="jquery_jplayer_1" style="width:100%;height:300px"></div>
+<div id="jp_container_1">
+ <a href="#" class="jp-play">Play</a>
+ <a href="#" class="jp-pause">Pause</a>
+</div>
+<div id="jplayer_inspector"></div> -->
+</div>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $('#video_').height($('#video_').width()*3/4+'px');
+    var u = navigator.userAgent;
+    var isiOS = u.indexOf('iPhone'); //ios终端>0
+    if (isiOS>0){
+    $('body').one('touchstart',function(e){
+      video_=document.getElementById('video_')
+      video_.play()
+      })
+    }else{
+      video_.play()
+    }
+})
+/* require(['jquery.jplayer'],function($){
+  $("#jquery_jplayer_1").jPlayer({
+    ready: function () {
+      $(this).jPlayer("setMedia", {
+        title: "Big Buck Bunny",
+        m4v: "http://www.jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v",
+        ogv: "http://www.jplayer.org/video/ogv/Big_Buck_Bunny_Trailer.ogv",
+        webmv: "{$_W['attachurl']}{$item['value']}",
+        poster: "http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"
+      }).jPlayer('play');
+    },
+    swfPath: "{MODULE_URL}/js/dist/jplayer",
+    supplied: "webmv, ogv, m4v",
+    size: {
+      width: "100%",
+      height: "300px",
+      cssClass: "jp-video-360p"
+    },
+    useStateClassSkin: true,
+    autoBlur: false,
+    smoothPlayBar: true,
+    keyEnabled: true,
+    remainingDuration: true,
+    toggleDuration: true
+  });
+  //$("#jplayer_inspector").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});
+})*/
+</script>
+{elseif $item['type']=='coupon'}
+<div class="desc" style="text-align:center;height:75px;">
+<div style="background:{$coupons[$item['value']]['style']};float:left;background:url({MODULE_URL}/images/bl-1.png) {$coupons[$item['value']]['style']} no-repeat;background-size:contain;width:3%;height:75px"></div><div style="float:left;height:75px;width:30%;padding:0 5px;background:{$coupons[$item['value']]['style']}"><div style="line-height:45px;font-size:14px;color:#fff;text-align:left;overflow:hidden;padding:0 10px;font-size:24px;color:#fff;text-align:center;overflow:hidden;">{$coupons[$item['value']]['name']}</div><div style="line-height:30px;font-size:14px;color:#fff;text-align:center;overflow:hidden;padding:0 5px;">{$coupons[$item['value']]['requirement']}</div></div><div style="float:left;line-height:75px;font-size:24px;color:#fff;text-align:center;overflow:hidden;padding:0 5px;background:{$coupons[$item['value']]['style']};width:50%;" class="biz">{$coupons[$item['value']]['biz']}</div><div style="float:left;background: {$coupons[$item['value']]['style']};width:17%;height:75px;line-height: 37.5px;color: #fff; border-top-right-radius: 5px;border-bottom-right-radius:5px;"><div style="margin:10px 5px;height:55px;padding:5px;background:#fff;line-height:22.5px;border-radius: 5px;{if $coupons[$item['value']]['grantfantotal']>=$coupons[$item['value']]['perfan']||$coupons[$item['value']]['granttotal']>=$coupons[$item['value']]['total']}color:#ccc;{else}color:{$coupons[$item['value']]['style']}{/if}" {if $coupons[$item['value']]['grantfantotal']>=$coupons[$item['value']]['perfan']||$coupons[$item['value']]['granttotal']>=$coupons[$item['value']]['total']}{else} class="btn-coupon"{/if} data-id="{$item['value']}">{if $coupons[$item['value']]['grantfantotal']>=$coupons[$item['value']]['perfan']}已领取{elseif $coupons[$item['value']]['granttotal']>=$coupons[$item['value']]['total']}已领完{else}立即<br>领取{/if}</div></div><div class="clearfix"></div>
+</div>
+{/if}
+{/loop}
+<div class="corpright">{php echo $this->module['config']['corpright']}</div>
+<div id="ucenter" style="position:fixed;bottom:20px;right:10px; display:none;z-index:5"><a href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}"><img width="60"  src="{MODULE_URL}images/ucenter.png?{TIMESTAMP}"></a></div>
+<div id="errorlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="body">
+<div class="message"></div>
+<div class="rpmessage"></div>
+<div class="hmessage"></div>
+</div>
+<div class="footer"><a class="button" href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}">个人中心</a></div>
+</div>
+<div id="lotterylayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="body">
+<div style="text-align: center;font-size: 1.4rem"><img src="{MODULE_URL}/images/lzl.png" width=30% /></div>
+<div class="message"></div>
+<div class="rpmessage"></div>
+<div class="hmessage"></div>
+</div>
+<div class="footer"><a class="button" href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}">个人中心</a></div>
+</div>
+<script>
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+require(['jquery','main'],function($,main){
+      if (jsonlength(mycoupons)||jsonlength(myawarded.length)){
+         $('#ucenter').show();
+      }
+      $('.btn-coupon').on('click',function(){
+            self=this
+             $.post("{php echo $this->createmobileurl('coupon',array('op'=>'get','actid'=>$act['id'],'cateid'=>$cate['id']))}",{id:$(this).data('id')},function(data){
+                if (data.errno==0){
+                  $('#couponlayer').showlayer(data.message,'',false,true,'middle',function(){$('#ucenter').show()})
+                }else if (data.errno==1){
+                  $(self).html('已领取').css('background-color','#cccccc').css('color','#fff').off()
+                  $('#timeoutlayer').showlayer(data.message,'',3,false,'middle','')
+                }else if (data.errno==2){
+                  $(self).html('已领完').css('background-color','#cccccc').css('color','#fff').off()
+                  $('#timeoutlayer').showlayer(data.message,'',3,false,'middle','')
+                }
+             },'JSON')
+   })
+	if (err.errno!=0){
+		$('#errorlayer').find('.message').html(err.message)
+		$('#errorlayer').find('.rpmessage').html(err.rpmessage)
+		$('#errorlayer').find('.hmessage').html(err.hmessage)
+		$('#errorlayer').showlayer('','',false,true,'middle','');
+	}else{
+		$('#lotterylayer').find('.message').html(err.message)
+		$('#lotterylayer').find('.rpmessage').html(err.rpmessage)
+		$('#lotterylayer').find('.hmessage').html(err.hmessage)
+		$('#lotterylayer').showlayer('','',false,true,'middle','');
+	}
+})
+</script>
+{template 'footer'}

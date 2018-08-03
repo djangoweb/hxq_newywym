@@ -1,0 +1,39 @@
+{template 'header'}
+<style>
+html{ width:100%; height:100%;margin: 0px;padding: 0px;text-align: center;}
+body{ width:100%; height:100%;margin: 0px;padding: 0px;text-align: center;background: #EBEBEB}
+.box{width: 100%;}
+.box>a>img{width: 100%;}
+</style>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+</head>
+
+<script type="text/javascript">
+</script>
+<body >
+<div class="container container-fill">
+<style>
+.formbox{ width: 95%;margin:20px auto 0px auto ; }
+
+.formbox .row{ width: 100%;margin:5px auto; }
+
+.formbox .row>.text{ width: 100%;height:35px;border: 1px solid #c9c9c9;color: #c9c9c9;line-height: 23px;padding: 5px;font-size: 14px }
+.formbox .row_{ width: 100%;height:35px;border: 1px solid #c9c9c9;color: #c9c9c9;line-height: 23px;padding: 5px;font-size: 14px }
+</style>
+<script>
+require(['bindverifer'],function(modal){
+	params={url:'{php echo $this->createmobileurl('bindverifer',array('op'=>'bind','actid'=>$_GPC['actid']))}'}
+	modal.init(params)
+})
+</script>
+<div class="formbox">
+<div style="margin: auto;line-height: 40px;font-size: 24px"><h3>绑定核销员</h3></div>
+<form name="bj">
+<div class="row"><input name="name" class="text" placeholder="请输入您的姓名"></div>
+<div class="row"><input name="mobile" class="text" placeholder="请输入您的手机号码"></div>
+<div class="row" style="margin-top:50px "><input type="submit" value="绑定核销员" class="btn btn-success" style="width:100%;background: #4453ca;border:1px solid #4453ca;height: 35px;margin: 0px "></div>
+</form></div>
+</div>
+<div id="timeoutlayer" class="layercontent"><div class="message"></div></div>
+<div id="ajaxloading" class="layercontent"><img src="{MODULE_URL}/images/loading.gif"  height="30"/></div>
+{template 'footer'}

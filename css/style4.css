@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+/* base 公共部分 */
+body { font: 12px/22px Arial, "微软雅黑"; color:#555; margin: 0px; text-align:center;}
+*{ padding:0; margin:0;}
+a { color:#555; text-decoration:none;}
+a:hover{ color:#0278b8; text-decoration:none;}
+ul,li{ list-style:none;}
+img { border:none; }
+.clearboth { clear:both; }
+.page{ text-align:center; margin:10px 0; width:100%; float:left;}
+.page a{ background:#b3b3b3; color:#fff; margin:0 2px; padding:2px 8px;}
+.page a.dq,.page a:hover{ background:#555;}
+
+
+.mhome{padding:0; min-width:300px; max-width:640px; margin:0 auto;  }
+.wrapper{ min-width:300px; max-width:640px; margin:0 auto;overflow:hidden;}
+.title{padding:0 0 8% 0; background:#3a55a2; color:#fff; font-size:1.5em; text-align:center; font-weight:bold; }
+.header{width:100%; padding:5% 0; background:#40549d; }
+.header ul li{width:50%; float:left; text-align:center; font-size:1.0em;}
+.header ul li img{width:30%;}
+.header ul li a{color:#fff; font-weight:Bold;}
+
+
+.slideBox{ width:100%;  overflow:hidden; position:relative;  }
+.slideBox .hd{width:60px;margin-left:-30px; height:15px; overflow:hidden; position:absolute; left:50%; bottom:5px; z-index:1; }
+.slideBox .hd ul{ overflow:hidden; zoom:1; float:left;  }
+.slideBox .hd ul li{ float:left; margin:0 5px;  width:12px; height:12px;  background:#d3d2d0; cursor:pointer; -webkit-border-radius:12px; -moz-border-radius:12px;border-radius:12px; }
+.slideBox .hd ul li.on{ background:#41539d; color:#fff; }
+.slideBox .bd{ position:relative; height:100%; z-index:0;   }
+.slideBox .bd li{ zoom:1; vertical-align:middle; }
+.slideBox .bd img{ width:100%;  display:block;  }
+
+.main{width:100%;padding-bottom:25%;}
+.box1{width:100%;}
+.box1 ul{width:100%;}
+.box1 ul li{width:50%; border-right:1px solid #ececec; border-bottom:1px solid #ececec;float:left; text-align:left; margin-left:-1px; padding-bottom:4%;margin-bottom:1px;}
+.box1 ul li.noborder{border-right:none; margin-left:0;}
+.box1 ul li img{width:99%;}
+.box1 ul li p{padding:2% 8%; font-size:1.0em;}
+.box1 ul li span.price{font-size:1.3em; padding:0 8%; }
+.box1 ul li a span.price{color:#d60002;}
+
+.footer{padding:3% 0;  position:fixed;  left:0;bottom:0;width:100%;background:#fff; }
+.footer ul li{width:33.3%; float:left;}
+.footer ul li a.active{color:#3439a6; font-size:1.0em;}
+.footer ul li img{width:30%;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

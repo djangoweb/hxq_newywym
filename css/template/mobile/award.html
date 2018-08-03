@@ -1,0 +1,480 @@
+{template 'header'}
+<style>
+body{ width:100%; height:100%;background-color:{$act['pagesetting']['bgcolor']};}
+.container{ width:100%; height:100%;margin:auto; padding:0px;{if !$_GPC['preview']}display:none{/if}}
+.actinterval{ margin:7px auto; width:290px; line-height:20px; font-size:14px; text-align:center;color:#F00}
+.grantsection{position:absolute; top:{$act['pagesetting']['grantinfopos']}%; height:{$act['pagesetting']['grantinfoheight']}px; margin-top:-110px; color:red;left:50%; margin-left:-180px;width:{$act['pagesetting']['grantinfowidth']}px;background:url({php echo $_W['attachurl'].$act['pagesetting']['grantinfobgimg']});  background-size:100% 100%;}
+.fanavatar{ position:absolute; top:{$act['pagesetting']['grantavtpos']}px; width:100%; height:40px; text-align: center ;}
+.fanavatar img{ width:40px; height:40px;  }
+.grantmessage{ position: absolute; top:{$act['pagesetting']['grantfanpos']}px; margin:auto; text-align:center; width:100%; height:26px; line-height:26px; font-size:12px; color:#FFF; white-space:normal}
+.message_{width:130px; line-height:18px; margin:auto; text-align:left}
+.grantbtn{ position: absolute;top:{$act['pagesetting']['grantbtnpos']}px; width:100%; height:26px;text-align: center ; text-align:center}
+.grantbtn img{  height:40px; width:auto;}
+#bottom .cardbox{ float:left; width:{php echo substr(sprintf("%.3f",(100-$act['totalcard'])/$act['totalcard']), 0, -1)}%; margin:0px 0.5%; height:auto; overflow:hidden;}
+#btn-btm-back{position: fixed; bottom:0px; width:100%}
+.btnasrow-back{  text-align:center;  width:100%}
+.btnasrow-back a{ color:#FFF; text-decoration:none; display:inline-block; font-size:14px; margin:auto; width:100%}
+.btnasrow-back img{ width:100%}
+.btnasrow-back:before{font:12px FontAwesome ;font-size:12px;content:'\f053' ;position:absolute; left:5px;inherit; color:#FFF; top:50%; margin-top:-6px; height:12px; line-height:12px}
+.h35{ height:35px;}
+.grey{ background-color:#CCC !important; border:1px solid #CCC}
+.fieldarea{ overflow:hidden; margin:2px 0}
+.field{ list-style:none; width:30%; float:left; height:35px; line-height:35px; text-align:left}
+.fieldvalue{ list-style:none; width:70%; float:left; height:35px;line-height:35px;text-align:left}
+</style>
+<script>
+var getfaninfo={$act['getfaninfo']};
+var faninfo={php echo json_encode($fan['info'])};
+var info={php echo json_encode($act['faninfo'])};
+var starttime={$act['starttime']};
+var endtime={$act['exendtime']};
+var cards={php echo json_encode($cards)};
+var awards={php echo json_encode($awards)};
+var fancardgroup={php echo json_encode($fancardgroup)};
+var fantotalcard={$fantotalcard};
+var pageurl='{$_W['siteurl']}';
+var crtgive_url='{php echo $this->createmobileurl('index',array('op'=>'creategive','actid'=>$act['id']))}'
+var give_url='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('give',array('actid'=>$act['id']))}';
+var getgive_url='{php echo $this->createmobileurl('index',array('op'=>'getgive','actid'=>$act['id']))}'
+var checklocation_url='{php echo $this->createMobileUrl('checkposition',array('actid'=>$act['id']))}'
+var checkiplocation_url='{php echo $this->createMobileUrl('checkipposition',array('actid'=>$act['id']))}'
+
+var fannickname='{$_W['fans']['nickname']}'
+var fanavatar='{$_W['fans']['tag']['avatar']}'
+var sharetype={$act['sharetype']};
+var granturl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('grant',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var helpurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('help',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var indexurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('index',array('actid'=>$act['id']))}';
+var sharedata_={php echo json_encode($act['sharedata'])};
+var module_url='{MODULE_URL}'
+var area='{$act['area']}'
+var iparea='{$act['iparea']}'
+var cardname='{$act['cardname']}';
+var getlocation=function (){
+	return undefined;
+};
+var getiplocation=function (){
+	return undefined;
+};
+{if !empty($initdata)}
+var accessdata={$initdata};
+{/if}
+		     wx.ready(function (){
+		     if (sharetype){
+		 		wx.hideAllNonBaseMenuItem();
+			 }else{
+				{if !empty($fan)}
+				var sharedata={
+					title:sharedata_.sharetitle,
+					imgUrl:sharedata_.sharethumb,
+					desc:sharedata_.sharedesc,
+					link:helpurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{else}
+				var sharedata={
+					title:sharedata_.defaultsharetitle,
+					imgUrl:sharedata_.defaultsharethumb,
+					desc:sharedata_.defaultsharedesc,
+					link:indexurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{/if}
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+			 }
+	   	    })
+</script>
+<script src="{MODULE_URL}/resources/js/module.js?{TIMESTAMP}"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+<script>
+function setinterval(){
+		var datetime=new Date()
+		var timestamp=datetime.getTime()
+		var timestamp=timestamp.toString().substring(0,10);
+		//console.log(timestamp)
+		var minute=60
+		var hour=60*minute
+		var day=24*hour
+		if (timestamp<starttime){
+			$('.timeout>.tipname').html('距离活动开始还有')
+			rm=starttime-timestamp
+
+		}else if(timestamp>=starttime&&timestamp<endtime){
+			$('.timeout>.tipname').html('距离活动兑奖结束还有')
+			rm=endtime-timestamp
+		}else{
+			$('.timeout>.tipname').html('活动兑奖已结束')
+			rm=endtime-timestamp
+		}
+			if (rm>0){
+					if (rm>day){
+				rmday=Math.floor(rm/day)
+				rm=rm-rmday*day
+			}else{
+				rmday=0;
+			}
+			if (rm>hour){
+				rmhour=Math.floor(rm/hour)
+				rm=rm-rmhour*hour
+			}else{
+				rmhour=0
+				}
+			if (rm>minute){
+				rmminute=Math.floor(rm/minute)
+				rm=rm-rmminute*minute
+				
+			}else{
+				rmminute=0
+			}
+			rmsecond=rm
+			if (!rmsecond){
+				rmsecond=0
+			}
+				$('.timeout>.day').html(rmday+'天').show()
+				$('.timeout>.hour').html(rmhour+'时').show()
+				$('.timeout>.minute').html(rmminute+'分').show()
+				$('.timeout>.second').html(rmsecond+'秒').show()
+			setTimeout('setinterval()',1000)
+			}
+}
+$(function(){
+		    {if !$_GPC['preview']}initpage();{/if}
+			setinterval() 
+						   })	
+function changeaward(awardid){
+	var award,message,requireinfo,strhtml,cardsstr
+	award=awards[awardid]
+	changecards=award.changecards
+	// for (cardid in changecards){
+	// 	typeof cardsstr=='undefined'?cardsstr=cards[cardid]['title']+'×'+changecards[cardid]:cardsstr+=','+cards[cardid]['title']+'×'+changecards[cardid]
+	// }
+	// chgtotalcard=award.chgtotalcard;
+	// // for (cardid in changecards){
+	// // 	if (changecards[cardid]>fancardgroup[cardid]){
+	// // 		$('#timeoutlayer').showlayer('兑换该奖品需要 '+cardsstr+' ，您当前的字卡不满足兑换条件，继续加油！','',true,false,'middle','');
+	// // 		return
+	// // 	}
+	// // }
+	if (getfaninfo&&faninfo.length==0){
+		requireinfo=info;
+		$('#requireinfolayer').showlayer(message,'',false,true,'40%',changeaward_);
+		$(window.currentlayer).find('.fieldarea').remove()
+		strhtml=''
+		for (k in requireinfo){
+			 strhtml+='<div class="fieldarea"><li class="field">'+requireinfo[k]+'</li><li class="fieldvalue"><input name="'+k+'" type="text"  placeholder="请填写'+requireinfo[k]+'" class=form-control></li></div>';
+		}
+		$(window.currentlayer).find('.body').prepend(strhtml)
+		function changeaward_(e){
+												e=e||window.event;
+												e.preventDefault();
+												self=this;
+												$.ajax({
+														type:'get',
+														data:$(window.currentlayer).find('form').serialize(),
+														datatype:'json',
+														url:'{php echo $this->createmobileurl('award',array('op'=>'change','actid'=>$act['id']))}&awardid='+awardid,
+														success:function(data){
+														data=eval("("+data+')');
+														$(window.currentlayer).hidelayer()
+														if (data.errno==0){
+															
+															fantotalgroup=data.fantotalgroup
+															fantotalcard=data.fantotalcard
+															faninfo=data.faninfo;
+						$('#award_'+awardid).find('.rest').html(data.rest)
+						$('#timeoutlayer').showlayer(data.message,data.redirect,6,false,'middle','');
+						console.log(data.message)
+					}else{
+						$('#timeoutlayer').showlayer(data.message,data.redirect,3,false,'middle','');
+					}
+														},
+														error:function(a,b,c){
+															alert(b);
+														}
+														})
+		}
+	}else{
+		message=award['type']==2?'提示：您当前有'+fantotalcard+'张{$act['cardname']}，兑换此奖品将会消耗'+award['chgtotalcard']+'张{$act['cardname']}<span style="color:red">实物类奖品兑奖成功后需要到活动规则中指定的地址领取。</span>':'提示：您当前有'+fantotalcard+'张{$act['cardname']}{$act['cardname']}。'
+		$('#confirmlayer').showlayer(message,'',false,true,'40%',changeaward_);
+			function changeaward_(){
+			$.ajax({
+				type:'get',
+				url:'{php echo $this->createmobileurl('award',array('op'=>'change','actid'=>$act['id']))}&awardid='+awardid,
+				dataType:'json',
+				success:function(data){
+					$(window.currentlayer).hidelayer()
+					if (data.errno==0){
+						fantotalgroup=data.fantotalgroup
+						fantotalcard=data.fantotalcard
+						$('#award_'+awardid).find('.rest').html(data.rest)
+						$('#timeoutlayer').showlayer(data.message,data.redirect,6,false,'middle','');
+						console.log(data.message)
+					}else{
+						$('#timeoutlayer').showlayer(data.message,data.redirect,3,false,'middle','');
+					}
+				},
+				error:function(){
+				}
+				})
+		}
+	}	
+}
+function verif(cid){
+		var cid
+		$('#veriflayer').showlayer('','',false,true,'30%',verif_);
+		function verif_(){
+		e=event||window.event
+		e.preventDefault();
+		var form
+		form=$(window.currentlayer).find('form')
+		$.ajax({
+													type:'get',
+													dataType:'json',
+													data:$(form).serialize(),
+													url:'{php echo $this->createMobileUrl('award',array('actid'=>$act['id'],'op'=>'verif'))}&cid='+cid,
+													success:function(data){
+														if (data.errno==0){
+															$(window.currentlayer).hidelayer()
+															$('#change_'+cid).removeAttr('onclick').addClass('grey')
+															$('#timeoutlayer').showlayer(data.message,data.redirect,true,false,'middle');
+														}else{
+															$(window.currentlayer).find('.errorinfo').html(data.message)
+														}
+													},
+													error:function(a,b,c){
+														alert(b);
+													}
+													})
+		}
+}
+</script>
+<style type="text/css">
+#awardlist{ width:96%;background-color:#f8f6ec; margin:10px auto; border-radius:2px; box-shadow:0px 2px 2px 0px rgba(0,0,0,.3)}
+.section_header{ height:41px; background-color:#FFF ; font-size:14px; position:relative;  font-family:'微软雅黑'; width:100%; vertical-align:middle; }
+.section_body{ border-radius:0px 0px 2px 2px;padding:5px; }
+#awardlist_header{ border-bottom:3px solid #ee6a04;}
+#awardlist_header a:link{     color:#ed6603;   font-size:14px; text-decoration:none; width:100%; height:100%;  display:block}
+#awardlist_header a:hover{  color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+#awardlist_header a:active{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+#awardlist_header a:visited{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+#awardlist ul{ margin:0px; padding:0px;}
+.awardlist_award{ list-style:none; margin:auto; padding:10px 0px; width:100%; overflow:hidden; height:auto;position:relative}
+.awardlist_award:first-child{ margin-top:10px;}
+.awardlist_award:after{	position:absolute;
+	right:0;
+	bottom:0;
+	left:0px;
+	height:2px;
+	content:'';
+	border-top:#dad6c5 1px solid;
+	border-bottom:#ffffff  1px solid;
+	box-sizing:border-box}
+.awardlist_award:last-child:after{height:0px;border:0px}
+.awardlist_row{ margin: 10px 0px; position:relative;}
+.awardlist_row_{ margin: 10px 0px; position:relative; padding: 5px; background: #f2b11e; border-radius: 5px;}
+.awardlist_thumb{ position:relative; width:80px; float:left; overflow:hidden; color:#FFF; height:100%}
+.awardlist_thumb>img{ width:100%;  height:100%}
+.awardlist_content{ box-sizing:border-box;overflow:hidden;margin:0px; text-align:left; font-size:12px;height:100%}
+.awardlist_content .awardinfo{float:left; width:72%;height:100%; font-size:12px; margin-left:3%;}
+.awardlist_content .awardinfo div{ line-height:18px}
+.awardlist_content .awardinfo div span{ display:inline-block; border-radius:2px; color:green}
+.awardlist_content .awardinfo div .change{ float:right; color:green; margin-right:5px;}
+.f14{ font-size:14px;}
+.awardlist_content .btnbox{ float:left; width:25%;height:100%; padding:5px auto;}
+a.awardlist_button{height:100%; line-height:70px;box-sizing:border-box; min-width:100%; text-align:center;text-decoration:none; padding:0px; background-color:#f2b11e; vertical-align:middle;display:inline-block; border-radius:4px; color:#FFF !important;white-space:nowrap; -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);}
+a.awardlist_button_hhalf{ height:30px; margin:0px;box-sizing:border-box; min-width:100%; text-align:center;text-decoration:none; padding:0px; background-color:#f2b11e; line-height:30px;display:inline-block; border-radius:4px; color:#FFF !important; font-size:10px; white-space:nowrap; -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);}
+a.awardlist_button_hhalf:nth-child(2){ margin-top:10px}
+a.awardlist_button:active{ text-decoration:none;opacity:0.8}
+a.awardlist_button_gray{background:#cccccc; border:1px solid #cccccc; color:#FFF}
+#changelist{ width:96%;background-color:#f8f6ec; margin:10px auto; border-radius:2px; box-shadow:0px 2px 2px 0px rgba(0,0,0,.3)}
+#changelist_header{ border-bottom:3px solid #ee6a04 ;}
+#changelist_body{ min-height:350px;}
+.headertab_c{ width:50%; position:relative; height:100%; display:block; background-color:#ed6603; color:#fff;float:left;font-size:14px; line-height:41px; text-align:center; font-weight:bolder;}
+.headertab_c .baseline{ position: absolute; bottom:-8px;width:100%; height:5px;}
+.headertab_c .baseline img{ vertical-align:top}
+.headertab_c a:link{     color:#FFF;   font-size:14px; text-decoration:none; width:100%; height:100%;  display:block}
+.headertab_c a:hover{  color:#FFF;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab_c a:active{    color:#FFF;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab_c a:visited{    color:#FFF;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab{ width:50%; position:relative; height:100%; display:block; background-color:#fff; color:#ed6603;float:left; font-weight: bolder;font-size:14px; line-height:41px; text-align:center}
+.headertab a:link{     color:#ed6603;   font-size:14px; text-decoration:none; width:100%; height:100%;  display:block}
+.headertab a:hover{  color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab a:active{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab a:visited{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab .baseline{ position: absolute; bottom:-5px;width:100%; height:5px; display:none}
+.changelist_row{ width:100%; margin:auto; padding:5px 0px; list-style:none; position:relative; overflow:hidden}
+.changelist_row:first-child{ margin-top:10px;}
+.changelist_row:after{	position:absolute;
+	right:0;
+	bottom:0;
+	left:0px;
+	height:2px;
+	content:'';
+	border-top:#dad6c5 1px solid;
+	border-bottom:#ffffff  1px solid;
+	box-sizing:border-box}
+.changelist_row:last-child:after{ height:0px; border:0px}
+.changelist_row_avatar{ padding:0px; width:30px;float:left; margin-left:5px;}
+.changelist_row_avatar>img{ width:30px; height:30px ; border-radius:15px}
+.changelist_row_content{  margin-left:40px}
+.changelist_row_content_content{ width:78%; float:left;min-height:30px; line-height:20px;  font-size:14px;}
+.changelist_row_content_content_{ width:70%; float:left;min-height:30px; line-height:20px;  font-size:14px;}
+.changelist_row_content_date{ width:22%; float:left; text-align:center;line-height:20px; padding:5px;}
+.changelist_row_content_btn{ width:30%; float:left; text-align:center;line-height:20px; padding:5px;}
+</style>
+
+<style>
+.awardcard_left{ float: left; width:80px; min-height:75px;text-align: center;   position: relative; }
+.awardcard_left_{position: absolute;top:50%;margin-top:-20px;line-height:20px; width:100%;text-align: center; font-size: 1.4rem; color: #fff}
+.awardcard_left:after{ content:" "; position: absolute;  height: 8px; width: 8px; left:65px; border-right: 1px solid #fff;border-bottom: 1px solid #fff;transform:rotate(-45deg);top:50%; margin-top:-4px;}
+.awardcard_right{ margin: 0px 0 0 80px !important;  min-height:60px; overflow: hidden; padding: 5px !important;  background: #fff}
+.awardcard_right li{ list-style: none; width:15.66%; margin: 0 0 0 1%; float: left;}
+.awardcard_right li .cardbox_{ position: relative; width: 100%}
+.awardcard_right li .cardbox_ img{width:100%; height: 100%}
+.awardcard_right li .cardbox_ div{ line-height: 16px; height: 20px; padding: 2px 0; width: 100%; margin-top:2px; text-align: center; background:red; color:#fff; border-radius: 2px }
+.changecard>div{ list-style: none; line-height:30px;height:30px; overflow: hidden; margin: 0 0 0 1%;display:inline-block;}
+.changecard>div.cardbox_{ list-style: none; width:30px; height:30px; overflow: hidden; margin: 0 0 0 1%;display:inline-block;}
+.changecard>div img{width:100%;}
+.changecard>div.title{ line-height: 16px; height: 20px; padding: 2px 0;  margin-top:2px; text-align: center; background:red; color:#fff; border-radius: 2px; display: inline-block;}
+</style>
+</head>
+<body>
+<div class="container container-fill">
+<div id="top"><img src="{php echo $_W['attachurl'].$act['pagesetting']['topimg']}" width="100%" /></div>
+<div class="actinterval timeout"><span class="totaltip">{$totalfan}人参与 已发放{$totalgrantcard}张{$act['cardname']} </span><br/><span class="totaltip">共{$totalaward}份奖品，已兑换{$totalchangeaward}， 先兑先得，兑完即止 </span><br /><span class="tipname"></span><span class="day"></span><span class="hour"></span><span class="minute"></span><span class="second"></span></div>
+<div id="awardlist">
+<div id="awardlist_header" class="section_header">
+<div class="headertab_c">兑换奖品<div class="baseline"><img src="{MODULE_URL}/resources/images/square.png" height="5" /></div></div>
+<div class="headertab"><a class="" href="{php echo $this->createmobileurl('rule',array('actid'=>$act['id']))}">活动规则</a><div class="baseline"><img src="{MODULE_URL}/resources/images/square.png" height="5" /></div></div></div>
+<div id="awardlist_body" class="section_body">
+{loop $awards $row}
+<li class="awardlist_award">
+<div class="awardlist_row">
+<div class="awardlist_thumb">
+<img src="{php echo $row['thumb']}"/>
+</div>
+<div class="awardlist_content" id="award_{$row['id']}"><div class="awardinfo"><div class="title"><b>{$row['title']} {if $row['type']==1}{if $row['redpack']['min']<$row['redpack']['max']}{php echo ($row['redpack']['min']/100).'-'.($row['redpack']['max']/100)}元{else}{php echo ($row['redpack']['min'])}{/if}{/if}</b><div class="change"><div class="">总数 <span class="total">{$row['total']}</span> 剩余<span class="rest">{php echo $row['total']-$row['granttotal']}</span></div></div></div><div class="infodesc">{$row['desc']}</div></div>
+<div class="btnbox">
+{if $row['type']==1}
+<a href="javascript:void(0)" class="awardlist_button" data="{$row['id']}" onClick="changeaward({$row['id']})">兑奖</a>
+{else}
+<a href="javascript:void(0)" class="awardlist_button_hhalf" data="{$row['id']}" onClick="changeaward({$row['id']})">兑奖</a>
+<!-- <a href="{php echo $this->createmobileurl('position',array('actid'=>$act['id'],'awardid'=>$row['id']))}" class="awardlist_button_hhalf" >兑奖地址</a> -->
+{/if}
+</div>
+</div>
+<div style="clear:both"></div>
+</div>
+<div class="awardlist_row_">
+<div class="awardcard_left"><div class="awardcard_left_">兑换<br>组合</div></div>
+<ul class="awardcard_right">
+{loop $row['changecards'] $key $item}
+<li><div class="cardbox_"><img src="{php echo $_W['attachurl'].$cards[$key]['thumb']}"><div>×{$item}</div></div></li>
+{/loop}
+<div class="" style="clear:both"></div>
+</ul>
+<div class="" style="clear:both"></div>
+</div>
+</li>
+{/loop}
+</div>
+</div>
+<div id="changelist">
+<div id="changelist_header" class="section_header">
+<div class="{if $op=='allchange'}headertab_c{else}headertab{/if}"><a class="" href="{php echo $this->createmobileurl('award',array('actid'=>$act['id'],'op'=>'allchange'))}">兑换大厅</a><div class="baseline"><img src="{MODULE_URL}/resources/images/square.png" height="5" /></div></div>
+<div class="{if $op=='mychange'}headertab_c{else}headertab{/if}"><a class="" href="{php echo $this->createmobileurl('award',array('actid'=>$act['id'],'op'=>'mychange'))}">我的兑换</a><div class="baseline"><img src="{MODULE_URL}/resources/images/square.png" height="5" /></div></div>
+</div>
+<div id="changelist_body" class="section_body">
+{if $op=='allchange'}
+{php $i==0}
+{loop $changelist $row}
+<li class="changelist_row">
+  <div class="changelist_row_avatar"><img src="{php echo $row['avatar']}" /></div>
+  <div class="changelist_row_content"><div class="changelist_row_content_content  changecard"><div>{$row['nickname']} 使用 </div>{loop $awards[$row['awardid']]['changecards'] $key $item}
+<div class="cardbox_"><img src="{php echo $_W['attachurl'].$cards[$key]['thumb']}"></div><div class="title">×{$item}</div>
+{php $i++}
+{/loop}<div>兑换了 {$row['awardtitle']}{if $row['awardtype']==1}{$row['redpack']}元{/if}</div></div><div class="changelist_row_content_date">{$row['addtime']}</div>
+<div style="clear: both"></div></div>
+<div style="clear: both"></div>
+</li>
+{/loop}
+{elseif $op=='mychange'}
+{loop $changelist $row}
+<li class="changelist_row">
+  <div class="changelist_row_avatar"><img src="{php echo $row['avatar']}" /></div>
+  <div class="changelist_row_content"><div class="changelist_row_content_content_ changecard"><div>您使用</div>
+	{php $i==0}
+  {loop $awards[$row['awardid']]['changecards'] $key $item}
+<div class="cardbox_"><img src="{php echo $_W['attachurl'].$cards[$key]['thumb']}"></div><div class="title">×{$item}</div>
+{php $i++}
+{/loop}<div>兑换了 {$row['awardtitle']}{if $row['awardtype']==1}{$row['redpack']}元{/if}</div></div><div class="changelist_row_content_btn">{if $row['awardtype']==2}{if $awards[$row['awardid']]['verifway']==2}{if !$row['isverif']}待发放{else}已发放{/if}{else}{if !$row['isverif']}<a id="change_{$row['id']}" href="javascript:void(0)" class="btn" onClick="verif({$row['id']})" >核销</a>{else}<a id="change_{$row['id']}" href="javascript:void(0)" class="btn grey"  >核销</a>{/if}{/if}{/if}</div>
+<div style="clear: both"></div>
+</div>
+<div style="clear: both"></div>
+</li>
+{/loop}
+{/if}</div>
+</div>
+<div class="h35" style="margin-bottom:3px"></div>
+<div id="btn-btm-back" class="btnasrow-back"><a href="{php echo $this->createmobileurl('index',array('actid'=>$act['id'],'j'=>$acid),false)}" ><img src="{MODULE_URL}/resources/images/btn-back.png" /></a></div></div>
+<div id="tiplayer" class="layercontent">
+<hr style="width:90%; height:1px; margin:0 auto"/> 
+<div class="body">
+<div class="message"></div>
+</div></div>
+<div id="confirmlayer" class="layercontent"><span class="close close_"><img src="{MODULE_URL}/resources/images/close.png" width="30" height="30"/></span>
+<div class="header">确认兑换奖品</div>
+<hr style="width:90%; height:1px; margin:0 auto"/>
+<div class="body">
+<div class="tip"></div>
+<div class="message"></div>
+</div>
+<div  class="footer"><button type="submit" class="btn submit">确认</button> <button type="button" class="close_ btn">取消</button></div>
+</div>
+<div id="requireinfolayer" class="layercontent"><span class="close close_"><img src="{MODULE_URL}/resources/images/close.png" width="30" height="30"/></span>
+<div class="header">请填写资料兑换奖品</div>
+<hr style="width:90%; height:1px; margin:0 auto"/>
+<form method="post" >
+<div class="body">
+<div class="fieldarea"><input name="password" type="password"  class="form-control"/></div>
+<div class="errorinfo"></div>
+</div>
+<div  class="footer"><button type="submit" class="btn submit">确认</button> <button type="button" class="close_ btn">取消</button></div>
+</form>
+</div>
+<div id="veriflayer" class="layercontent"><span class="close close_"><img src="{MODULE_URL}/resources/images/close.png" width="30" height="30"/></span>
+<div class="header">确认兑换奖品</div>
+<hr style="width:90%; height:1px; margin:0 auto"/>
+<form method="post" action="{$_W['siteurl']}">
+<div class="body">
+<div class="tip"></div>
+<div class="field"><input name="password" type="password"  class="form-control"/></div>
+<div class="errorinfo"></div>
+</div>
+<div  class="footer"><button type="submit" class="btn submit">确认</button> <button type="button" class="close_ btn">取消</button></div>
+</from>
+</div>
+
+<div id="followlayer" class="layercontent">
+<div class="header">提示</div>
+<hr style="width:90%; height:1px; margin:0 auto"/> 
+<div class="body">
+<div><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div class="message">长按识别二维码，关注{$_W['account']['name']}公众号。发送 <span style="color:red">{$act['keyword']}</span> 参与活动</div>
+</div>
+</div>
+<div id="timeoutlayer" class="layercontent"></div>
+<div id="sharelayer" class="layercontent"><img src="{MODULE_URL}/resources/images/share.png"  /></div>
+<div id="ajaxloading" class="layercontent"><img src="{MODULE_URL}/resources/images/loading.gif"  height="30"/></div>
+{template 'footer'}

@@ -1,0 +1,86 @@
+{template 'header'}
+<style type='text/css'>
+.top{width:100%; height:180px;background: {$coupon['style']};padding:1px 0px;text-align:center}
+.top_logo{height:40px;margin:10px auto 5px auto;line-height: 40px;text-align: center;display: inline-block;}
+.top_logo_logo{width: 40px;height: 40px;float: left;}
+.top_logo_logo >img{width: 40px;height: 40px;border-radius: 50%;}
+.top_logo_coupontype{height:40px;float:left;margin-left: 10px;font-size: 2.0rem;color: #fff}
+.top_name{height:40px;line-height:40px;margin:5px auto;width:90%;line-height: 30px;text-align: center;font-size: 2.2rem;color:#fff;font-weight: bolder}
+.top_row{height:20px;margin:2px auto;width:90%;line-height: 25px;text-align: center;color:#fff;font-size:1.4rem;}
+.params{ background: #fff ;margin: 10px auto;padding: 1px 0px}
+.params_row{width: 100%;line-height: 25px;height:25px;margin: 10px auto;font-size: 1.4rem}
+.params_name{width: 20%;line-height: 25px;float: left;color:#cbcbcb;text-align: right;font-size:1.4rem;}
+.params_value{width: 80%;line-height: 25px;float: left;padding-left: 10px;font-size:1.4rem;}
+.bottom{ position: fixed;bottom: 0px;background:{$coupon['style']};text-align:center;font-size:1.6rem;width:100%;line-height:50px; color:#fff}
+.div50{height: 50px;}
+.nav{position: fixed;top:15px;height: 40px;}
+.back{border-radius: 50%;width: 40px;height: 40px; background: rgba(0,0,0,0.6);line-height:40px;float: left;margin-left: 10px;font-size: 1.6rem;color: #fff;text-align: center;}
+.nav a{display: block;border-left:1px solid #fff;border-top:1px solid #fff;transform:rotate(-45deg);margin: 10px 10px 10px 15px;height: 20px;width: 20px; }
+
+.wxtips{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;  background: #f8f6ec; font-size: 1.2rem; }
+</style>
+<div class="nav"><div class="back"><a href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}"></a></div></div>
+<div class="top">
+  <div class="top_logo"><div class="top_logo_logo"><img src="{$_W['attachurl']}{$coupon['logo']}"></div><div class="top_logo_coupontype">{$coupon['coupontype']}</div></div>
+  <div class="top_name">{$coupon['name']}</div>
+  <div class="top_row">{$coupon['requirement']}</div>
+  <div class="top_row">有效期 {$coupon['starttime']} 至 {$coupon['endtime']}</div>
+  <div class="top_row">{$biz['name']}</div>
+  <div class="clearfix"></div>
+
+</div>
+<div class="params">
+<div class="params_row"><div class="params_name">联系电话</div><div class="params_value"><a href="tel:{$coupon['phone']}" class="blue">{$coupon['phone']}</a></div><div class="clearfix"></div></div>
+<div class="params_row"><div class="params_name">适用地址</div><div class="params_value">{$coupon['address']}</div><div class="clearfix"></div></div>
+<div class="params_row"><div class="params_name">使用说明</div><div class="params_value">{$coupon['description']}</div><div class="clearfix"></div></div><div class="clearfix"></div>
+
+</div>
+<div class="div50"></div>
+{if $grant['veriftime']}<div class="bottom" style="background:#ccc" data-veriftime="{$grant['veriftime']}">已核销</div>{else}
+{if $coupons[$grant['couponid']]['endtime']>TIMESTAMP}<div class="bottom" style="" data-veriftime="{$grant['veriftime']}">立即使用</div>{else}<div class="bottom" style="background:#ccc" data-veriftime="1">已过期</div>{/if}{/if}
+<script type="text/javascript">
+  require(['jquery','main'],function($,main){
+      $('.bottom').off().click(function(){
+
+        if ($(this).data('veriftime')!=0){
+          return false;
+        }
+        callback=function(){
+            if (window.currentlayer.find('input[name=password]').val()==''){
+                  window.currentlayer.find('.message').html('请输入核销密码')
+                  return false;
+                }
+                $.ajax({
+                                              type:'get',
+                                              dataType:'json',
+                                              url:'{php echo $this->createmobileurl('verif',array('actid'=>$act['id'],'op'=>'coupon','id'=>$grant['id']))}',
+                                              data:{'password':window.currentlayer.find('input[name=password]').val()},
+                                             success:function(data){    
+                                                    if (data.errno==0){
+                                                       window.currentlayer.hidelayer()
+                                                       $('#timeoutlayer').showlayer(data.message,'',3,false,'middle','')
+                                                       $('.bottom').css('background-color','#ccc')
+                                                    }else{
+                                                       window.currentlayer.find('.message').html(data.message)
+                                                    }
+                                             }
+                                             })
+        }
+        $('#veriflayer').showlayer('','',false,true,'middle',callback)
+
+
+      })
+  })
+</script>
+<div id="veriflayer" class="layercontent">
+<div class="header"></div>
+<form class="form-horizontal">
+<div class="body">
+<div class="verifer"><input value="" type="password" name="password" class="form-control" placeholder="请商家输入核销密码"></div>
+<div class="message"></div>
+<div class="footer"><a href="javascript:;" class="button disable close_">取消</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="button submit" href="javascript:;">核销</a></div>
+</div>
+</form>
+</div>
+<div id="timeoutlayer" class="layercontent"><div class="message"></div></div>
+{template 'footer'}

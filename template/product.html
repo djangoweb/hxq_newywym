@@ -1,0 +1,76 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+  <li class="active"><a href="{php echo $this->createWebUrl('product',array('bizid'=>$biz['id']))}">管理</a></li>
+  <li><a href="{php echo $this->createWebUrl('product',array('op'=>'edit','bizid'=>$biz['id']))}" ><i class="fa fa-plus"></i>添加</a></li>
+</ul>
+
+
+
+
+<div class="clearfix"></div>
+
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+.wrap{white-space: normal;word-wrap: break-word;word-break: break-all;}
+.nowrap{white-space: nowrap;word-break: normal;}
+</style>
+
+<div class="panel panel-default">
+<div class="panel-heading">商家 <span class="label label-success">{$biz['name']}</span></div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" action="{php echo $this->createWebUrl('coupon')}">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="150" align="center">产品名称</th>
+    <th width="80" align="center">缩略图</th>
+    <th width="80" align="center">售价</th>
+    <th width="80" align="center">门市价</th>
+    <th width="" align="center">描述</th>
+    <th width="" align="center">上架</th>
+    <th width="80" align="center">点击</th>
+    <th width="100" align="center">操作</th>
+    </tr>
+    {loop $products $row}
+    <tr> <td valign="middle" class="wrap">{$row['name']}<br>[{$bizs[$row['bizid']]['name']}]</td>
+      <td valign="middle"><img src="{php echo $_W['attachurl'].$row['thumb']}" width="50" height="50"></td>
+       <td valign="middle" class="wrap">{$row['price']}</td>
+        <td valign="middle" class="wrap">{$row['goodsprice']}</td>
+      <td valign="middle" class="wrap">{$row['description']}</td>
+      <td valign="middle" class="wrap">{if $row['disabled']==='0'}<a class="label-success label" href="{php echo $this->createweburl('product',array('op'=>'disable','id'=>$row['id'],'bizid'=>$_GPC['bizid']))}">是</a>{else}<a class="label-danger label" href="{php echo $this->createweburl('product',array('op'=>'disable','id'=>$row['id'],'bizid'=>$_GPC['bizid']))}">否</a>{/if}</td>
+    <td valign="middle">{$row['click']}</td>
+    <td valign="middle">
+    <a data-original-title="修改" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('product',array('op'=>'edit','id'=>$row['id']))}"><i class="fa fa-edit"></i></a>
+    <a data-original-title="删除" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('product',array('op'=>'delete','id'=>$row['id']))}"><i class="fa fa-remove"></i></a>
+    </td>
+    </tr>
+    {/loop}
+    </table>
+  {$pager}
+  </form>
+
+ </div></div>
+
+</div>
+    <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+
+{template 'common/footer'}

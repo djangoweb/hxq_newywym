@@ -1,0 +1,29 @@
+	<script type="text/javascript">
+	sharedata={
+	title:'{$act['sharetitle']}',
+	imgUrl:'{php echo $_W['attachurl'].$act['sharethumb']}',
+	desc:'{$act['sharedesc']}',
+	link:'{if ($act['shareoutlink'])}{php echo $_W['siteroot'].'app/'.$this->createmobileurl('redirect',array('actid'=>$act['id']))}{else}{php echo $_W['siteroot'].'app/'.$this->createmobileurl('content',array('actid'=>$act['id']))}{/if}',
+	success:function(){
+		{if $_GPC['do']=='index'}
+		if (granttype==2){
+			location.href='{php echo $this->createmobileurl('lottery',array('tk'=>$_GPC['tk'],'vtk'=>$_GPC['vtk'],'scanid'=>$_GPC['scanid'],'actid'=>$act['id']))}'
+		}
+		{/if}
+	},
+	fail:function(data){
+		alert(data)
+	}
+	}
+	wx.ready(function () {
+		wx.onMenuShareAppMessage(sharedata);
+		wx.onMenuShareTimeline(sharedata);
+		if (granttype==2){
+			wx.hideMenuItems({
+			    menuList: ["menuItem:share:appMessage","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone","menuItem:editTag","menuItem:delete","menuItem:copyUrl","menuItem:originPage","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:email","menuItem:share:brand"]
+				});
+		}
+	});
+	</script>
+</body>
+</html>

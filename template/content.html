@@ -1,0 +1,31 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+
+	<li><a href="{php echo $this->createWebUrl('activity')}">活动管理</a></li> 
+
+    <li class="active"><a href="{php echo $this->createWebUrl('content',array('id'=>$act['id'],'op'=>'display'))}">修改{$act['title']}细则</a></li> 
+
+</ul>
+
+
+<form method="post" action="{php echo $this->createweburl('content',array('op'=>'save','id'=>$id))}">
+<div class="form-group">
+      <textarea name="jj" class="form-control" rows=6 >{$jj}</textarea>
+        <span class="help-block">简短的活动说明，在抽奖页面上显示，支持换行。</span>
+</div>
+<div class="form-group">
+      {php echo tpl_form_field_image('dthumb',$dthumb,'',array('global'=>false))}
+
+        <span class="help-block">活动说明页面顶部top图片</span>
+</div>
+<div class="form-group">{php echo tpl_ueditor('description', $description);}
+    <span class="help-block text-danger">活动说明页内容。</span>
+</div>
+<div class="form-group">
+      <input name="token" value="{$_W['token']}" type="hidden" />
+      <input name="submit" type="submit" value="保存" class="btn btn-primary"/>
+	  <a href="/app/{php echo $this->createmobileurl('content',array('actid'=>$id))}"  class="btn btn-default" target="_blank">预览</a>
+</div>
+</form>
+{template 'common/footer'}

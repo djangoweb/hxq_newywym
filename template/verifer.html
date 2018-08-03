@@ -1,0 +1,56 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+	<li class="active" ><a href="{php echo $this->createWebUrl('verifer',array('bizid'=>$_GPC['bizid']))}">管理核销员</a></li>
+</ul>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">商家 <span class="label label-success">{$biz['name']}</span></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" action="">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+      <th width="50" align="center">id</th>
+      <th width="140" align="center">昵称</th>
+      <th width="100" align="center">openid</th>
+      <th width="80" align="center">核销总数</th>
+      <th width="120" align="center">操作</th>
+    </tr>
+    {loop $verifers $row}
+    <tr>
+      <td valign="middle">{$row['id']}</td>
+      <td width="200">{$row['nickname']}</td>
+      <td  valign="middle">{$row['oauth_openid']}</td>
+      <td valign="middle">{$row['totalverif']}</td>
+      <td valign="middle" width="160"><a data-original-title="奖品" title="" data-toggle="tooltip" data-placement="top" data-id={$row['id']} class="btn btn-default" data-mintk={$row['mintk']} data-maxtk={$row['maxtk']} data-actid={$row['actid']} onclick="return confirm('确定删除码段，删除码段后该码段即无法抽奖？')" href="{php echo $this->createweburl('biz',array('op'=>'delvfer','id'=>$row['id']))}"><i class="fa fa-remove"></i></a></td>
+    </tr>
+    {/loop}
+    </table>
+  </form>
+    {$pager}
+ </div></div>
+
+    <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+</div>
+
+{template 'common/footer'}

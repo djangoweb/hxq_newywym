@@ -1,0 +1,154 @@
+{template 'header'}
+<style>
+body{ background:{$act['pagesetting']['bgcolor']};width:100%; height:100%}
+.container{ width:100%; height:100%;margin:auto; padding:0px;{if !$_GPC['preview']}display:none{/if}}
+.actinterval{ margin:10px auto;height:48px; width:260px; line-height:24px; font-size:14px; text-align:center;color:#F00}
+#rule{ width:96%; margin:10px auto; background-color:#f8f6ec; margin:10px auto; border-radius:2px; box-shadow:0px 2px 2px 0px rgba(0,0,0,.3)}
+#rulecontent{ padding:10px;font-size:14px; min-height:350px;}
+#rule_header{ text-align:center; border-bottom:3px solid #ee6a04;}
+.section_header{ height:41px; background-color:#FFF ; font-size:14px; position:relative;  font-family:'微软雅黑'; width:100%; vertical-align:middle; }
+.section_body{ border-radius:0px 0px 2px 2px;padding:5px; }
+.section_footer{ border-radius:0px 0px 2px 2px;padding:5px; background-color:#999; background-color:#FFF; text-align:center}
+#rule_header{ border-bottom:3px solid #ee6a04; background:#ed6603}
+#rule_header a:link{     color:#ed6603;   font-size:14px; text-decoration:none; width:100%; height:100%;  display:block}
+#rule_header a:hover{  color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+#rule_header a:active{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+#rule_header a:visited{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+
+.headertab_c{ position:relative; height:100%; display:block; background-color:#ed6603; color:#fff;float:left;font-size:14px; line-height:41px; text-align:center; font-weight:bolder; margin:0px 0px 0px 10px;}
+.headertab_c .baseline{ position: absolute; bottom:-8px;width:100%; height:5px;}
+.headertab_c .baseline img{ vertical-align:top}
+#btn-btm-back{position: fixed; bottom:0px; width:100%}
+.btnasrow-back{  text-align:center;  width:100%}
+.btnasrow-back a{ color:#FFF; text-decoration:none; display:inline-block; font-size:14px; margin:auto; width:100%}
+.btnasrow-back img{ width:100%}
+.btnasrow-back:before{font:12px FontAwesome ;font-size:12px;content:'\f053' ;position:absolute; left:5px;inherit; color:#FFF; top:50%; margin-top:-6px; height:12px; line-height:12px}
+.h35{ height:35px;}
+</style>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+<style>
+html,body{ margin:0px; padding:0px;}
+body{ width:100%; height:100%;margin:0px; padding:0px; text-align:center;}
+</style>
+<script>
+var starttime={$act['starttime']};
+var endtime={$act['endtime']};
+
+var sharetype='{$act['sharetype']}'
+var pageurl='{$_W['siteurl']}';
+var granturl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('grant',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var helpurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('help',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var indexurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('index',array('actid'=>$act['id']))}';
+var checklocation_url='{php echo $this->createMobileUrl('checkposition',array('actid'=>$act['id']))}'
+var checkiplocation_url='{php echo $this->createMobileUrl('checkipposition',array('actid'=>$act['id']))}'
+
+var sharedata_={php echo json_encode($act['sharedata'])};
+var area='{$act['area']}'
+var iparea='{$act['iparea']}'
+var cardname='{$act['cardname']}';
+var getlocation=function (){
+	return undefined;
+};
+var getiplocation=function (){
+	return undefined;
+};
+{if !empty($initdata)}
+var accessdata={$initdata};
+{/if}
+$(function(){
+		   {if !$_GPC['preview']}initpage();{/if}
+		   }
+		   )
+		 	  wx.ready(function (){
+		     if (sharetype){
+		 		wx.hideAllNonBaseMenuItem();
+			 }else{
+				{if !empty($fan)}
+				var sharedata={
+					title:sharedata_.sharetitle,
+					imgUrl:sharedata_.sharethumb,
+					desc:sharedata_.sharedesc,
+					link:helpurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{else}
+				var sharedata={
+					title:sharedata_.defaultsharetitle,
+					imgUrl:sharedata_.defaultsharethumb,
+					desc:sharedata_.defaultsharedesc,
+					link:indexurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{/if}
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+			 }
+	   	    })
+</script>
+<script src="{MODULE_URL}/resources/js/module.js?{TIMESTAMP}"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+</head>
+<body>
+</head>
+<body>
+<div class="container container-fill">
+<div id="top"><img src="{php echo $_W['attachurl'].$act['pagesetting']['topimg']}" width="100%" /></div>
+<div id="rule">
+<div id="rule_header" class="section_header"><div class="headertab_c">{$act['title']}奖品兑换地址<div class="baseline"><img src="{MODULE_URL}/resources/images/square.png" height="5" /></div></div></div>
+<div id="rule_body" class="section_body"><div id="rulecontent"></div></div>
+
+</div>
+<div class="h35" style="margin-bottom:3px"></div>
+<div id="btn-btm-back" class="btnasrow-back"><a href="{php echo $this->createmobileurl('index',array('actid'=>$act['id'],'j'=>$acid),false)}" ><img src="{MODULE_URL}/resources/images/btn-back.png" /></a></div>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("rulecontent");    // 创建Map实例
+	var point = new BMap.Point({$postion['lng']}, {$postion['lat']});// 创建点坐标
+	map.centerAndZoom(new BMap.Point({$postion['lng']}, {$postion['lat']}), 15)
+	map.addControl(new BMap.MapTypeControl());		
+	var marker = new BMap.Marker(point);  // 创建标注
+	map.addOverlay(marker);     
+	$(function(){
+			   $.ajax({
+																			 type:"get",
+																			 url:"http://api.map.baidu.com/geocoder/v2/?ak=w3eANxBZ5urVZwMvj8bWj0cn&location={$postion['lat']},{$postion['lng']}&pois=0&callback=?&output=json",
+																			 dataType : "json",
+																			 jsonpCallback:"getaddress",
+																			 success:function(json){
+																					   if (json.status=="0")
+																						{
+																							var opts = {
+																							  width : 200,     // 信息窗口宽度
+																							  height: 100,     // 信息窗口高度
+																							  title : '兑换地址', // 信息窗口标题
+																							  enableMessage:true,//设置允许信息窗发送短息址喔~"
+																							  message:json.result.formatted_address ,
+																							}
+																							var infoWindow = new BMap.InfoWindow(json.result.formatted_address,opts);  // 创建信息窗口对象 
+																							map.openInfoWindow(infoWindow,point); //开启信息窗口
+																							marker.addEventListener("click", function(){          
+																							map.openInfoWindow(infoWindow,point); //开启信息窗口
+																							});
+																						}
+																						else
+																						{																					
+																							console.log("百度获取地址信息接口返回失败:"+json.status)
+																						}
+																					 },
+																			 error:function(){
+																				  alert('微信坐标转百度坐标失败');
+																				  } 
+																			 })
+			   })
+</script>
+{template 'footer'}

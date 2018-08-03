@@ -1,0 +1,94 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+  <li class="active" ><a href="{php echo $this->createWebUrl('awardedmanage',array('id'=>$_GPC['id']))}">提现管理</a></li>
+  <div class="form-inline pull-right">
+<label >切换活动</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('getcash')}&actid='+this.options[this.selectedIndex].value">
+<option value="0">所有活动</option>
+{loop $acts $row}<option value="{$row['id']}" {if $actid==$row['id']}selected="selected"{/if} >{$row['name']}</option>{/loop}
+</select> &nbsp;
+</div>
+</ul>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+.awardbt{ margin:5px auto; width:49%; text-align:left}
+._awardbt{ margin:10px 0 5px 0;}
+  .account-stat{overflow:hidden; color:#666;}
+  .account-stat .account-stat-btn{width:100%; overflow:hidden;}
+  .account-stat .account-stat-btn > div{text-align:center; margin-bottom:5px;margin-right:2%; float:left;width:14%;  padding-top:10px;font-size:16px; border-left:1px #DDD solid;}
+  .account-stat .account-stat-btn > div:first-child{border-left:0;}
+  .account-stat .account-stat-btn > div span{display:block; font-size:30px; font-weight:bold
+</style>
+
+{if !empty($awardstotal)}
+<div class="panel panel-default"><div class="panel-body"><div class="container-fluid">
+<div class="row">
+{loop $awardstotal $row}
+<div class="col-md-3">
+<a class="btn btn-xs btn-success" style=" max-width: 50%; white-space: nowrap;  overflow: hidden" href="{php echo $this->createweburl('awardmanage',array('actid'=>$this->act['id'],'id'=>$row['awardid'],'op'=>'edit'))}">ID:{$row['awardid']} {$row['award']['title']}</a> <a class="btn btn-xs btn-default" href="{php echo $this->createweburl('awardedmanage',array('actid'=>$this->act['id'],'awardid'=>$row['awardid']))}">已抽<strong class="text-danger">{$row['total']}</strong></a> <a class="btn btn-xs btn-default" href="{php echo $this->createweburl('awardedmanage',array('actid'=>$this->act['id'],'awardid'=>$row['awardid'],'isverif'=>1))}">核销<strong class="text-danger">{$row['total']}</strong></a>
+</div>
+{/loop}
+</div>
+</div></div></div>
+{/if}
+<div class="panel panel-default">
+<div class="panel-heading">共{$total}条记录</div>
+<div class="panel-body">
+<table border="0" cellpadding="0" cellspacing="0" class="table">
+    <tr>
+    <th width="60" align="center">ID</th>
+    <th width="60" align="center">活动名</th>
+    <th width="70" align="center">昵称</th>
+    <th width="100" align="center">oauth_openid</th>
+    <th width="80" align="center">提现列表</th>
+    <th width="60" align="center">提现金额</th>
+    <th width="100" align="center">提现时间</th>
+    <th width="100" align="center">提现IP</th>
+    </tr>
+   {loop $awardeds $row}
+    <tr>
+    <td valign="middle">{$row['id']}</td>
+    <td valign="middle">{$acts[$row['actid']]['name']}</td>
+    <td valign="middle">{$row['nickname']}</td>
+    <td valign="middle">{$row['oauth_openid']}</td>
+    <td  valign="middle">{php echo join(',',iunserializer($row['awardedids']))}</td>
+    <td  valign="middle">{$row['totalredpack']}</td>
+    <td  valign="middle">{php echo date('Y-m-d',$row['addtime'])}<br>{php echo date('H:i',$row['addtime'])}</td>
+    <td  valign="middle">{php echo $row['addip']}</td>
+    
+
+    </tr> 
+
+    {/loop}
+
+</table>
+
+</div>
+</div>
+
+{$pager}
+
+   <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+</div>
+
+{template 'common/footer'}

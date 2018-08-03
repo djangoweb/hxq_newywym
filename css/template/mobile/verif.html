@@ -1,0 +1,104 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs" >
+   <li  ><a href="{php echo $this->createWebUrl('verifer',array('actid'=>$act['id']))}">核销员</a></li>
+  <li><a href="{php echo $this->createWebUrl('verifer',array('op'=>'edit','actid'=>$act['id']))}" ><i class="fa fa-plus"></i>添加核销员</a></li>
+  <li class="active"><a href="{php echo $this->createWebUrl('verifer',array('op'=>'displayverif','actid'=>$act['id']))}">核销记录</a></li>
+<div class=" form-inline pull-right">
+  <label >切换活动</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('verifer',array('op'=>'displayverif'))}&actid='+this.options[this.selectedIndex].value">
+<option value="0">所有活动</option>
+{loop $acts $row}
+<option value="{$row['id']}" {if $actid==$row['id']}selected="selected"{/if} >{$row['name']}</option>{/loop}
+</select>
+<label >切换码段</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('verifer',array('actid'=>$act['id'],'op'=>'displayverif'))}&cateid='+this.options[this.selectedIndex].value">
+<option value="0">所有批次</option>
+{loop $cates $row}
+<option value="{$row['id']}" {if $cate['id']==$row['id']}selected="selected"{/if} >[{$acts[$row['actid']]['name']}] ID:{$row['id']} ({$row['mintk']}-{$row['maxtk']})</option>{/loop}
+</select> &nbsp;
+</div>
+</ul>
+<div class="clearfix"></div>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+.awardbt{ margin:10px auto;}
+</style>
+
+
+<div class="panel panel-default">
+<div class="panel-heading">共{$total}条核销记录,总价值{$totalprice}<div class=" form-inline pull-right">
+<label>切换核销员</label>
+<select name="actid" class="form-control" onchange="location.href='{php echo $this->createWebUrl($_GPC['do'],array('op'=>'displayverif','actid'=>$act['id']))}&veriferid='+this.options[this.selectedIndex].value">
+{if empty($verifers)}
+<option value="0">暂无核销员</option>
+{else}
+<option value="0">所有核销员</option>
+{loop $verifers $row}<option value="{$row['id']}" {if $_GPC['veriferid']==$row['id']}selected="selected"{/if} >{$row['name']}({$row['mobile']})</option>{/loop}
+{/if}
+</select>
+</div></div>
+<div class="panel-body">
+
+{if empty($verifs)}
+
+暂无记录！
+
+{else}
+
+<table border="0" cellpadding="0" width="100%" cellspacing="0" class="table">
+    <tr>
+  <th width="100" align="center">ID</th>
+
+      <th width="100" align="center">活动</th>
+      <th width="100" align="center">奖品名称</th>
+      <th width="" align="center">奖品金额</th>
+      <th width="" align="center">中奖人</th>
+      <th width="120" align="center">中奖时间</th>
+      <th width="120" align="center">核销人</th>
+      <th width="120" align="center">核销时间</th>
+      </tr>
+   {loop $verifs $row}
+    <tr>
+      <td valign="middle">{$acts[row['actid']]['title']}</td>
+      <td valign="middle">{$row['title']}</td>
+      <td valign="middle">{$row['swprice']}</td>
+      <td valign="middle">{$row['nickname']}</td>
+      <td valign="middle">{php echo date('Y-m-d h:i:s',$row['addtime'])}</td>
+      <td valign="middle">{$row['verifernickname']}</td>
+      <td valign="middle">{php echo date('Y-m-d h:i:s',$row['veriftime'])}</td>
+    </tr>
+   {/loop}
+</table>
+
+{/if}
+
+{$pager}
+
+</div>
+
+</div>
+   <script type="text/javascript">
+
+/*  require(['bootstrap'],function($){
+
+    $('.btn').hover(function(){
+
+      $(this).tooltip('show');
+
+    },function(){
+
+      $(this).tooltip('hide');
+
+    });
+
+  });*/
+</script>
+<script>
+
+</script>
+
+
+</div>
+
+{template 'common/footer'}

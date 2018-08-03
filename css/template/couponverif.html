@@ -1,0 +1,102 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+  <li ><a href="{php echo $this->createWebUrl('coupon',array('actid'=>$act['id']))}">优惠券管理</a></li>
+  <li><a href="{php echo $this->createWebUrl('coupon',array('op'=>'edit','actid'=>$act['id']))}" ><i class="fa fa-plus"></i>优惠券添加</a></li>
+  <li  ><a href="{php echo $this->createWebUrl('coupon',array('op'=>'coupongrant','actid'=>$act['id']))}">页面优惠券发放</a></li>
+  <li class="active"><a href="{php echo $this->createWebUrl('coupon',array('op'=>'couponverif','actid'=>$act['id']))}" >页面优惠券核销</a></li>
+
+    <li ><a href="{php echo $this->createWebUrl('coupon',array('op'=>'couponverif_','actid'=>$act['id']))}" >奖品优惠券核销</a></li>
+    <div class="form-inline pull-right">
+<label>切换活动</label>
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('coupon',array('op'=>'couponverif'))}&actid='+this.options[this.selectedIndex].value">
+{loop $acts $row}
+<option value="{$row['id']}" {if $act['id']==$row['id']}selected="selected"{/if} >{$row['name']}</option>
+{/loop}
+</select>
+
+<label>优惠券</label>
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('coupon',array('op'=>'couponverif','actid'=>$act['id']))}&couponid='+this.options[this.selectedIndex].value">
+<option value="0">所有优惠券</option>
+{loop $coupons $row}
+<option value="{$row['id']}" {if $_GPC['couponid']==$row['id']}selected="selected"{/if} >{$row['name']}</option>
+{/loop}
+</select>
+</div>
+</ul>
+<div class="clearfix"></div>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+</style>
+
+<div class="panel panel-default">
+<div class="panel-heading"><div class="pull-right form-inline">
+<label>核销员</label>
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('coupon',array('op'=>'couponverif','actid'=>$act['id'],'couponid'=>$_GPC['couponid']))}&veriferid='+this.options[this.selectedIndex].value">
+<option value="0">所有核销员</option>
+{loop $verifers $row}
+<option value="{$row['id']}" {if $_GPC['veriferid']==$row['id']}selected="selected"{/if} >{$row['name']}</option>
+{/loop}
+</select>
+<label>微信卡券核销员</label>
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('coupon',array('op'=>'couponverif','actid'=>$act['id'],'couponid'=>$_GPC['couponid']))}&veriferid='+this.options[this.selectedIndex].value">
+<option value="0">所有核销员</option>
+{loop $wxverifers $row}
+<option value="{$row['verifer']}" {if $_GPC['veriferid']==$row['verifer']}selected="selected"{/if} >{$row['name']}</option>
+{/loop}
+</select>
+</div>
+活动 <span class="label label-success">{$act['name']}</span> {if $_GPC['veriferid']}<span class="label label-success">{$verifers[$_GPC['veriferid']]['name']}</span>{/if} {if $_GPC['couponid']}<span class="label label-success">{$coupons[$_GPC['couponid']]['name']}</span>{/if} {$total}条记录</div>
+<div class="clearfix"></div>
+<div class="panel-body">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="80" align="center">编号</th>
+    <th width="100" align="center">活动名称</th>
+    <th width="100" align="center">商家</th>
+    <th width="100" align="center">类型</th>
+    <th width="80" align="center">头像</th>
+    <th width="100" align="center">用户名</th>
+    <th width="100" align="center">优惠券</th>
+    <th width="60" align="center">核销员</th>
+    <th width="80" align="center">核销时间</th>
+    </tr>
+    {loop $couponverifs $row}
+    <tr>
+    <td valign="middle">{$row['id']}</td>
+    <td valign="middle">{$acts[$row['actid']]['name']}</td>
+    <td valign="middle">{$coupons[$row['cid']]['biz']}</td>    
+    <td valign="middle">{if $coupons[$row['cid']]['type']==1}模块优惠券{else}微信卡券{/if}</td>
+    <td valign="middle"><img src="{if $row['avatar']}{$row['avatar']}{else}{php echo MODULE_URL.'/images/noavatar.png'}{/if}" width="40"></td>
+    <td valign="middle">{$row['oauth_openid']}</td>
+    <td valign="middle">{$coupons[$row['cid']]['name']}</td>
+    <td valign="middle">{if $row['verifer']}{if $verifers[$row['verifer']]['name']}<span class="label label-primary">{$verifers[$row['verifer']]['name']}</span>{else}<span class="label label-primary">{$wxverifers[$row['verifer']]['name']}</span>{/if}{/if}</td>
+    <td valign="middle">{if $row['veriftime']}{php echo  date('Y-m-d',$row['veriftime'])}<br>{php echo  date('H:i',$row['veriftime'])}{/if}</td>
+    </tr>
+    {/loop}
+
+    </table>
+  {$pager}
+ </div></div>
+</div>
+    <script type="text/javascript">
+
+  var category = [];
+
+  require(['bootstrap'],function($){
+
+    $('.btn').hover(function(){
+
+      $(this).tooltip('show');
+
+    },function(){
+
+      $(this).tooltip('hide');
+
+    });
+
+  });
+
+</script>
+
+
+{template 'common/footer'}

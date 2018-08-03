@@ -1,0 +1,86 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+  <li class="active"><a href="{php echo $this->createWebUrl('coupon',array('bizid'=>$biz['id']))}">管理</a></li>
+  <li><a href="{php echo $this->createWebUrl('coupon',array('op'=>'edit','bizid'=>$biz['id']))}" ><i class="fa fa-plus"></i>添加</a></li>
+  <li><a href="{php echo $this->createWebUrl('coupon',array('op'=>'coupongrant','bizid'=>$biz['id']))}">发放</a></li>
+  <li><a href="{php echo $this->createWebUrl('coupon',array('op'=>'couponverif','bizid'=>$biz['id']))}" >核销</a></li>
+</ul>
+
+
+
+
+<div class="clearfix"></div>
+
+<style>
+
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+
+</style>
+
+<div class="panel panel-default">
+<div class="panel-heading">商家 <span class="label label-success">{$biz['name']}</span> </div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" action="{php echo $this->createWebUrl('coupon')}">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="100" align="center">优惠名称</th>
+    <th width="80" align="center">优惠类型</th>
+    <th width="80" align="center">优惠内容</th>
+    <th width="100" align="center">使用条件</th>
+    <th width="60" align="center">颜色</th>
+    <th width="100" align="center">到期日期</th>
+    <th width="60" align="center">发放</th>
+    <th width="60" align="center">核销</th>
+    <th width="60" align="center">显示</th>
+    <th width="60" align="center">上架</th>
+    <th width="100" align="center">操作</th>
+    </tr>
+    {loop $coupons $row}
+    <tr {if $row['disabled']} class="active"{/if}>
+      <td valign="middle">[{$bizs[$row['bizid']]['name']}]<br>{$row['name']}</td>
+      <td valign="middle">{$_M['coupontypes'][$row['type']]}</td>
+      <td valign="middle">{$row['value']}</td>
+    <td valign="middle">{$row['requirement']}</td>
+    <td valign="middle"><div style="width:30px;height:30px;background:{$_M['couponstyles'][$row['style']]}"></div></td>
+    
+    <td valign="middle">{php echo date('Y-m-d H:i',$row['endtime'])}{if $row['endtime']<TIMESTAMP}<br><span class="label label-danger">过期</span>{/if}</td>
+    <td valign="middle"><span class="label-success label">{$row['totalgrant']}</span></td>
+    <td valign="middle"><span class="label-danger label">{$row['totalverif']}</span></td>
+    <td valign="middle">{if $row['isshow']==='1'}<a class="label-success label" href="{php echo $this->createweburl('coupon',array('op'=>'isshow','id'=>$row['id'],'bizid'=>$_GPC['bizid']))}">是</a>{else}<a class="label-danger label" href="{php echo $this->createweburl('coupon',array('op'=>'isshow','id'=>$row['id'],'bizid'=>$_GPC['bizid']))}">否</a>{/if}</td>
+    <td valign="middle">{if $row['enable']==='1'}<a class="label-success label" href="{php echo $this->createweburl('coupon',array('op'=>'enable','id'=>$row['id'],'bizid'=>$_GPC['bizid']))}">是</a>{else}<a class="label-danger label" href="{php echo $this->createweburl('coupon',array('op'=>'enable','id'=>$row['id'],'bizid'=>$_GPC['bizid']))}">否</a>{/if}</td>
+    <td valign="middle">
+    <a data-original-title="修改" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('coupon',array('op'=>'edit','id'=>$row['id'],'bizid'=>$_GPC['bizid']))}"><i class="fa fa-edit"></i></a>
+    <a data-original-title="删除" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('coupon',array('op'=>'delete','id'=>$row['id'],'bizid'=>$_GPC['bizid']))}" onclick="return confirm('删除优惠券会导致，改优惠券的所有数据丢失，确认删除？')">删除</a>
+    </td>
+    </tr>
+    {/loop}
+    </table>
+  {$pager}
+  </form>
+
+ </div></div>
+
+</div>
+    <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+
+{template 'common/footer'}

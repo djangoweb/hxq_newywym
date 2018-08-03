@@ -1,0 +1,100 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+
+  <li class="active"><a href="{php echo $this->createWebUrl('coupon',array('actid'=>$act['id']))}">优惠券管理</a></li>
+  <li><a href="{php echo $this->createWebUrl('coupon',array('op'=>'edit','actid'=>$act['id']))}" ><i class="fa fa-plus"></i>优惠券添加</a></li>
+  <li  ><a href="{php echo $this->createWebUrl('coupon',array('op'=>'coupongrant','actid'=>$act['id']))}">优惠券发放</a></li>
+  <li><a href="{php echo $this->createWebUrl('coupon',array('op'=>'couponverif','actid'=>$act['id']))}" >优惠券核销</a></li>
+    <div class="form-inline pull-right">
+<label>切换活动</label>
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('coupon')}&actid='+this.options[this.selectedIndex].value">
+{loop $acts $row}
+<option value="{$row['id']}" {if $act['id']==$row['id']}selected="selected"{/if} >{$row['name']}</option>
+{/loop}
+</select>
+</div>
+</ul>
+
+
+
+
+<div class="clearfix"></div>
+
+<style>
+
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+
+</style>
+
+<div class="panel panel-default">
+<div class="panel-heading">活动 <span class="label label-success">{$act['name']}</span></div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" action="{php echo $this->createWebUrl('coupon')}">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="80" align="center">类型</th>
+    <th width="100" align="center">商家名称</th>
+    <th width="100" align="center">优惠内容</th>
+    <th width="100" align="center">优惠类型</th>
+    <th width="100" align="center">优惠条件</th>
+    <th width="60" align="center">颜色</th>
+    <th width="80" align="center">每人领取</th>
+    <th width="80" align="center">总数</th>
+    <th width="100" align="center">操作</th>
+    </tr>
+    {loop $coupons $row}
+    <tr {if $row['disabled']} class="active"{/if}>
+      <td valign="middle">{if $row['type']==1}优惠券{else}微信卡券{/if}</td>
+      <td valign="middle">{$row['biz']}</td>
+      <td valign="middle">{$row['name']}</td>
+      <td valign="middle">{$row['coupontype']}</td>
+      <td valign="middle">{$row['requirement']}</td>
+    <td valign="middle"><div style="width:30px;height:30px;background:{$row['style']}"></div></td>
+    <td valign="middle"><span class="label label-success">{$row['perfan']}</span></td>
+    <td valign="middle"><span class="label label-success">{$row['total']}</span></td>
+    <td valign="middle">
+    <a data-original-title="修改" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('coupon',array('op'=>'edit','id'=>$row['id'],'cateid'=>$cate['id']))}"><i class="fa fa-edit"></i></a>
+    {if empty($row['disabled'])}<a data-original-title="禁用" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('coupon',array('op'=>'disable','id'=>$row['id'],'cateid'=>$cate['id']))}"><i class="fa fa-ban-circle"></i></a>
+    {else}
+    <a data-original-title="启用" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('coupon',array('op'=>'disable','id'=>$row['id'],'cateid'=>$cate['id']))}"><i class="fa fa-ok-circle"></i></a>
+    {/if}
+    </td>
+    </tr>
+    {/loop}
+
+    </table>
+  </form>
+
+ </div></div>
+ <div class="form-group">
+
+    <input name="token" type="hidden" value="{$_W['token']}"/>
+
+    <input name="dosort" type="submit" value="更新排序" class="btn btn-primary"/>
+
+  </div>
+</div>
+    <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+
+{template 'common/footer'}

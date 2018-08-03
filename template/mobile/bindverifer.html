@@ -1,0 +1,12 @@
+{template 'header'} 
+<script>
+require(['weixin'],function(wx){
+                   wx.config({debug:jssdkconfig.debug,appId:jssdkconfig.appId,timestamp:jssdkconfig.timestamp,nonceStr:jssdkconfig.nonceStr,signature:jssdkconfig.signature,jsApiList:jssdkconfig.jsApiList});
+                                  wx.ready(function () {
+                                  	
+alert('{$error['message']}');
+                                    wx.closeWindow();
+                   });
+})
+</script>
+{template 'footer'}

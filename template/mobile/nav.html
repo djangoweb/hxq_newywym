@@ -1,0 +1,71 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('nav')}">导航管理</a></li>
+</ul>
+<style>
+.table tr td{ vertical-align:top !important;; }
+</style>
+<pre>导航管理说明：
+一.支持自定义【扫码】、【公众号】两个菜单项。</pre>
+
+<div class="panel panel-default">
+<div class="panel-heading">{if !empty($id)}修改商品{else}添加商品{/if}</div>
+<div class="clearfix"></div>
+<div class="panel panel-body">
+<form id="form1" name="form1" method="post" class="form-horizontal" action="{php echo $this->createweburl('product')}">
+   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="120" align="center">icon</th>
+    <th width="100" align="center">菜单名称</th>
+    <th width="100" align="center">类型</th>
+    <th width="180" align="center">链接或js代码</th>
+    </tr>
+    <tr>
+  <td valign="top">{php echo tpl_form_field_image('navs[1][icon]',$navs[1]['icon'],array())}</td>
+  <td valign=""><input type="text" name="navs[1][name]" value="{$navs[1]['name']}" class="form-control"   placeholder=""/></td>
+  <td valign="">
+        <label class="radio-inline"><input name="navs[1][type]" data-tgtelm="getfaninfo_" type="radio" value="url"/>链接</label>
+        <label class="radio-inline"><input name="navs[1][type]" data-tgtelm="getfaninfo_" type="radio" value="js"/>js</label></td>
+  <td valign=""><input type="text" name="navs[1][action]" value="{$navs[1]['action']}" class="form-control"   placeholder=""/></td>
+      </tr>
+          <tr>
+  <td valign="top">{php echo tpl_form_field_image('navs[1][icon]',$navs[1]['icon'],array())}</td>
+  <td valign=""><input type="text" name="navs[1][name]" value="{$navs[1]['name']}" class="form-control"   placeholder=""/></td>
+  <td valign="">
+        <label class="radio-inline"><input name="navs[1][type]" data-tgtelm="getfaninfo_" type="radio" value="url"/>链接</label>
+        <label class="radio-inline"><input name="navs[1][type]" data-tgtelm="getfaninfo_" type="radio" value="js"/>js</label></td>
+  <td valign=""><input type="text" name="navs[1][action]" value="{$navs[1]['action']}" class="form-control"   placeholder=""/></td>
+      </tr>
+          <tr>
+  <td valign="top">{php echo tpl_form_field_image('navs[1][icon]',$navs[1]['icon'],array())}</td>
+  <td valign=""><input type="text" name="navs[1][name]" value="{$navs[1]['name']}" class="form-control"   placeholder=""/></td>
+  <td valign="">
+        <label class="radio-inline"><input name="navs[1][type]" data-tgtelm="getfaninfo_" type="radio" value="url"/>链接</label>
+        <label class="radio-inline"><input name="navs[1][type]" data-tgtelm="getfaninfo_" type="radio" value="js"/>js</label></td>
+  <td valign=""><input type="text" name="navs[1][action]" value="{$navs[1]['action']}" class="form-control"   placeholder=""/></td>
+      </tr>
+          <tr>
+  <td valign="top">{php echo tpl_form_field_image('navs[1][icon]',$navs[1]['icon'],array())}</td>
+  <td valign=""><input type="text" name="navs[1][name]" value="{$navs[1]['name']}" class="form-control"   placeholder=""/></td>
+  <td valign="">
+        <label class="radio-inline"><input name="navs[1][type]" data-tgtelm="getfaninfo_" type="radio" value="url"/>链接</label>
+        <label class="radio-inline"><input name="navs[1][type]" data-tgtelm="getfaninfo_" type="radio" value="js"/>js</label></td>
+  <td valign=""><input type="text" name="navs[1][action]" value="{$navs[1]['action']}" class="form-control"   placeholder=""/></td>
+      </tr>
+    </table>
+
+     <div class="form-group" >
+
+      <div class="col-sm-6 col-md-12 col-xs-12">
+
+      <input name="token" type="hidden" value="{$_W['token']}" />
+
+      <input name="savenav" type="submit" value="保存奖项" class="btn btn-primary"/></div>
+
+      </div>
+</div>
+</form>
+</div>
+</div>
+{template 'common/footer'}

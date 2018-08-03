@@ -1,0 +1,551 @@
+{template 'header'}
+
+<style>
+body{background-repeat: no-repeat ; background-size:100% 100% ; {if $page['bg']}background-image: url({php echo $_W['attachurl'].$page['bg']}) ;{else}background: #fff ; {/if}}
+a.more:link{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+a.more:hover{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+.more{height: 18px ; display: inline-block;  line-height:14px; font-size:1.4rem;color: #000； padding:2 4px; }
+.btn{width: 80px; height: 80px; line-height: 80px; background: orange; color: #e60012;position: absolute;bottom: 15%;left: 0px;right: 0px;margin: auto;text-align: center;border-radius:50%;font-weight: bolder;font-size: 2.4rem;border:none;}
+.btn.disable{ background: #cccccc; color:#fff;}
+.award{ height:75%;width: 100%; position: relative;}
+.btm{position: fixed;display:flex; height: 45px;bottom:0px;width: 100% }
+.btm>div{flex:1; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 55px}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+.top{ height:25%; }
+.top img{ width:100%;height: 100%}
+</style>
+<style>
+.banner{position: relative;width: 100%;font-size: 0}
+.banner>.logo{ position: absolute;left: 40px;top:0px;width: 60px;height: 60px; }
+.banner>.logo>img{width: 100%;height: 100%}
+.desc{font-size: 14px;word-break: break-all;}
+.title{position: absolute;bottom:25px;line-height: 40px;font-size: 20px;font-weight: bolder;text-align: center;width: 100%;color: #fff}
+.subtitle{position: absolute;bottom:5px;line-height: 20px;font-size: 14px;text-align: center;width: 100%;color: #fff}
+.biz{position: relative;}
+.biz:before{position: absolute;height: 70%;top:15%;left:0px;width: 1px;background:rgba(255,255,255,0.4);content:"";}
+</style>
+<script type="text/javascript">
+</script>
+<div class="banner">{if $page['banner']}<img src="{php echo $_W['attachurl'].$page['banner']}" width="100%" height="100%">{/if}<div class="title" style="color:{$page['titlecolor']}">{$page['title']}</div><div class="subtitle" style="color:{$page['subtitlecolor']}">{$page['subtitle']}</div></div>
+{if $page['banner_']}
+<div style="margin:10px auto"><img src="{MODULE_URL}images/activity_v1_descbanner.png" width="100%"></div>
+{/if}
+{loop $page['desc'] $key $item}
+{if $item['type']=='image'}
+<div class="desc" style="font-size:0px;margin:{$item['upm']}px {$item['rightm']}px {$item['downm']}px {$item['leftm']}px;"><a href="{if $item['link']}{$item['link']}{else}javascript:;{/if}"><img src="{$_W['attachurl']}{$item['value']}" width="100%"></a></div>
+{elseif $item['type']=='text'}
+<div class="desc" style="margin:{$item['upm']}px {$item['rightm']}px {$item['downm']}px {$item['leftm']}px;">{$item['value']}</div>
+{elseif $item['type']=='video'}
+<div class="desc" style="text-align:center;margin:{$item['upm']}px {$item['rightm']}px {$item['downm']}px {$item['leftm']}px;">
+<video id="video_" src="{if strpos($item['value'],'http')===false}{php echo $_W['attachurl'].$item['value']}{else}{$item['value']}{/if}" style="background:#000;border-radius:5px;z-index: -1" width="100%" height="215" autoplay="autoplay" loop="loop" controls="controls"></video>
+</div>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $('#video_').height($('#video_').width()*3/4+'px');
+    var u = navigator.userAgent;
+    var isiOS = u.indexOf('iPhone'); //ios终端>0
+    if (isiOS>0){
+    $('body').one('touchstart',function(e){
+      video_=document.getElementById('video_')
+      video_.play()
+      })
+    }else{
+      video_.play()
+    }
+})
+/* require(['jquery.jplayer'],function($){
+  $("#jquery_jplayer_1").jPlayer({
+    ready: function () {
+      $(this).jPlayer("setMedia", {
+        title: "Big Buck Bunny",
+        m4v: "http://www.jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v",
+        ogv: "http://www.jplayer.org/video/ogv/Big_Buck_Bunny_Trailer.ogv",
+        webmv: "{$_W['attachurl']}{$item['value']}",
+        poster: "http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"
+      }).jPlayer('play');
+    },
+    swfPath: "{MODULE_URL}/js/dist/jplayer",
+    supplied: "webmv, ogv, m4v",
+    size: {
+      width: "100%",
+      height: "300px",
+      cssClass: "jp-video-360p"
+    },
+    useStateClassSkin: true,
+    autoBlur: false,
+    smoothPlayBar: true,
+    keyEnabled: true,
+    remainingDuration: true,
+    toggleDuration: true
+  });
+  //$("#jplayer_inspector").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});
+})*/
+</script>
+{elseif $item['type']=='coupon'}
+{if $coupons[$item['value']]}
+{php $coupon=$coupons[$item['value']]}
+<div class="desc" style="margin:{$item['upm']}px {$item['rightm']}px {$item['downm']}px {$item['leftm']}px;">
+<div class="newcoupon newcoupon{$coupon['style']}">
+  <div class="newcoupon-row1">
+    <div class="newcoupon-row1-l"><div class="newcoupon-row1-1-1">{$coupon['value']}</div><div class="newcoupon-row1-1-2">{$_M['coupontypes'][$coupon['type']]}</div></div><div class="newcoupon-row1-r">{if !$coupon['grant']}<a class="newcoupon-row1-r-btn" href="javascript:;"  data-id="{$coupon['id']}">领取</a><div class="newcoupon-row1-r-desc"></div>{else}{if $coupon['grant']['veriftime']}<a class="newcoupon-row1-r-btndisable" href="javascript:;"  data-id="{$coupon['id']}">已使用</a>{else}<a class="newcoupon-row1-r-btn newcoupon-row1-r-btn_"  href="{php echo $this->createmobileurl('coupon',array('op'=>'displayverif','id'=>$coupon['grant']['id'],'actid'=>$act['id']))}"  data-id="{$coupon['id']}">使用</a><div class="newcoupon-row1-r-desc">已领取</div>{/if}{/if}</div>
+    <div class="newcoupon-row1-c"><div class="newcoupon-row1-c-1">{$coupon['name']}</div><div class="newcoupon-row1-c-2">有效期{php echo date('Y-m-d',$coupon['starttime'])}至{php echo date('Y-m-d',$coupon['endtime'])}</div></div></div>
+    <div class="newcoupon-row2">
+    <div class="newcoupon-row2-l"><img src="{MODULE_URL}images/cl_{$coupon['style']}.png?{TIMESTAMP}" width="100%"></div><div class="newcoupon-row2-r"><img src="{MODULE_URL}images/cr_{$coupon['style']}.png?{TIMESTAMP}" width="100%"></div>
+    <div class="newcoupon-row2-c"><div class="newcoupon-row2-c-1"></div><div class="newcoupon-row2-c-2"></div></div></div>
+  <div class="newcoupon-row3">{$coupon['requirement']}</div>
+</div>
+<div class="clearfix"></div>
+</div>
+{/if}
+{/if}
+{/loop}
+<div id="followlayer" class="layercontent">
+<div class="body">
+<div class="img"><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div id="bar"></div>
+<div class="message"></div>
+</div>
+<div class="footer" style="display:none"><a id=button href="javascript:;" class="button">复制口令</a></div>
+</div>
+<div id="errorlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="header">提醒</div>
+<div class="body">
+<div class="message"></div>
+<div class="hmessage"></div>
+</div>
+</div>
+<div id="myerrorlayer" class="layercontent">
+<span class="close submit" data-target=''>×</span>
+<div class="header">您已中奖</div>
+<div class="body">
+<div class="message"><div class="message_"><div class="fee"></div><div class="font"></div></div></div>
+<div class="message_gift"><div class="thumb"><img src="" width="60" height="60" style="border-radius:50%"></div><div class="name"></div></div>
+<div class="umessage"></div>
+<div class="hmessage"></div>
+</div>
+<div class="footer"><a class="button"  href="{php echo $this->createmobileurl('awardedrcd',array('type'=>($scandata['type']<5?$scandata['type']:'coupon'),'cateid'=>$cate['id']))}">查看详细</a></div>
+</div>
+<div id="awardlayer" class="layercontent">
+<span class="close submit" data-target=''><img src="{php echo MODULE_URL.'/images/close.png'}" width="20"></span>
+<div class="body">
+<img width="100%" src="{MODULE_URL}images/khb.png">
+<div class="title">恭喜您获得</div>
+<div class="message"><div class="message_"><div class="fee"></div><div class="font"></div></div></div>
+<div class="message_gift"><div class="thumb"><img src="" width="60" height="60" style="border-radius:50%"></div><div class="name"></div></div>
+<div class="layerbtn"><a class="button" href="javascript:;">点击领取</a></div>
+</div>
+</div>
+<div id="couponlayer" class="layercontent">
+<span class="close_ close submit" data-target=''>×</span>
+<div class="header">领取成功</div>
+<div class="body">
+<div class="message"><div class="message_"><div class="fee"></div><div class="font"></div></div></div>
+<div class="umessage"></div>
+<div class="hmessage"></div>
+</div>
+<div class="footer"><a class="button" href="{php echo $this->createmobileurl('coupon',array('actid'=>$biz['id']))}">查看优惠券详情</a></div>
+</div>
+<div id="unawardlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="body">
+<div class="img"><img src="{php echo $_W['attachurl'].$scandata['thumb']}" width=30% /></div>
+<div class="message">{if $act['titleshowtype']}{$scandata['title']}{else}谢谢参与{/if}</div>
+</div>
+</div>
+<style>
+.myawarded{position:fixed;bottom:55px;right:10px;width: 45px;height: 45px;border-radius: 50%; z-index:5; background:rgba(0,0,0,0.6);font-size: 8px;text-align:center;font-size: 10px;padding: 2px 0px 2px 0px;display: block; display: none;animation:flicker 4000ms ease-out infinite;}
+.myawarded a:link{color: #fff;text-decoration: none;}
+.myawarded a:hover{color: #fff;text-decoration: none;}
+.myawarded a:active{color: #fff;text-decoration: none;}
+.myawarded>a>.title_{line-height: 10px;font-size: 10px;text-align: center;background: none}
+</style>
+<div id="myawarded" class="myawarded" style=""><a href="javascript:;" style="color: #fff;"><div><img width="18" height="18" src="{MODULE_URL}images/award.png?{TIMESTAMP}"></div><div class="title_">奖品<br>详情</div></a></div>
+<style>
+.myaward{position:fixed;bottom:55px;right:10px;width: 45px;height:45px;border-radius: 50%; z-index:5; background:rgba(0,0,0,0.6);font-size: 8px;text-align:center;font-size: 10px;padding: 2px 0px 2px 0px;display: block; display: none;animation:flicker 4000ms ease-out infinite;}
+.myaward a:link{color: #fff;text-decoration: none;}
+.myaward a:hover{color: #fff;text-decoration: none;}
+.myaward a:active{color: #fff;text-decoration: none;}
+.myaward>a>.title_{line-height: 20px;font-size: 10px;text-align: center;background: none}
+@keyframes flicker {
+  50% {
+    box-shadow: 0rem 0 1rem 1rem rgba(225,69,56, 0.8);
+  }
+}
+</style>
+<div id="myaward" class="myaward" style=""><a href="javascript:;" style="color: #fff;"><div><img width="15" height="15" src="{MODULE_URL}images/award.png?{TIMESTAMP}"></div><div class="title_">领奖</div></a></div>
+<style>
+.ucenter{position:fixed;bottom:5px;right:10px;width:45px;height: 45px;border-radius: 50%; z-index:5; background:rgba(0,0,0,0.6);font-size: 8px;text-align:center;font-size: 10px;padding: 2px 0px 2px 0px;display: block;}
+.ucenter a:link{color: #fff;text-decoration: none;}
+.ucenter a:hover{color: #fff;text-decoration: none;}
+.ucenter a:active{color: #fff;text-decoration: none;}
+.ucenter>a>.title_{line-height: 10px;font-size: 10px;text-align: center;background: none}
+</style>
+<div id="ucenter" class="ucenter" style=""><a href="{php echo $this->createmobileurl('biz',array('cateid'=>$cate['id'],'op'=>'detail'))}" style="color: #fff;"><div><img width="15" height="15" src="{MODULE_URL}images/ucenter-1.png?{TIMESTAMP}"></div><div class="title_">个人<br>中心</div></a></div>
+<div id="sharelayer_">
+<div class="share_" style="position: absolute;top:5%;width: 90%;left:50%;margin-left:-45%;";><img src="{MODULE_URL}images/share_.png" width="100%">
+<div class="share_box" style="position:absolute;bottom:20%;height:50px;width:80%;left:50%;margin-left:-40%;font-size: 1.4rem"><div class="share_thumb" style="float:left;width:50px;height:50px;"><img src="" width="50" height="50"></div><div class="share_font" style="font-size:1.4rem;margin-left:60px;height:50px;line-height:25px;color:#7a7a7a;text-align:left;overflow:hidden"></div></div></div>
+<div class="task" style="position: absolute;top:43%;width: 90%;left:45%;margin-left:-40%;text-align:center;"><img src="{MODULE_URL}images/share_1.png" width=70% style="">
+<div class="taskdesc" style="margin:15px auto 0 auto;width:90%;font-size:1.4rem;text-align:left;line-height:24px;color:#7a7a7a;text-align:left">
+  1. 红包类奖品通过微信直接发放。<br>
+  2. 优惠券类奖品中奖后，携带中奖微信到商家处扫码即可兑换。您可在个人中心查看商家地图位置，拨打商家客服电话。
+</div>
+</div>
+</div>
+<div id="loadinglayer" class="layercontent"><div class="message"></div></div>
+<div id="timeoutlayer" class="layercontent"><div class="message"></div></div>
+{if $page['audio']}
+<div class="audio"><img src="{MODULE_URL}images/audio.png" width="100%" height="100%">
+<audio id="audio_" loop>
+<source src="{if strpos($page['audio'],'http')===false}{php echo $_W['attachurl'].$page['audio']}{else}{$page['audio']}{/if}" type="audio/mpeg" />
+</audio>
+</div>
+<script type="text/javascript">
+require(['jquery'],function(){
+    $.fn.extend({
+        rotate: function () {
+            ele = this ;
+            var audio_ = document.getElementById('audio_');
+            audio_.play();
+            if (!audio_.paused){
+            window.time1=window.setInterval('singleRotate()',20);
+            }
+        },
+        stoprotate:function(){
+          ele=this;
+          var audio_ = document.getElementById('audio_');
+          audio_.pause();
+          if (audio_.paused){
+          window.clearInterval(window.time1)
+        }
+        }
+    });
+    var u = navigator.userAgent;
+    var isiOS = u.indexOf('iPhone'); //ios终端>0
+    if (isiOS>0){
+      $('body').one('touchstart',function(e){
+              audio_ = document.getElementById('audio_');
+                                                      if (audio_.paused){
+                                                        $('.audio').rotate()
+                                                      }else{
+                                                        $('.audio').stoprotate()
+                                                      }
+      })
+      $('.audio').on('touchstart',function(e){          //alert(audio.paused)
+                                                e.stopPropagation()
+                                                $('body').off()
+                                                audio_ = document.getElementById('audio_');
+                                                if (audio_.paused){
+                                                  $(this).rotate()
+                                                }else{
+                                                  $(this).stoprotate()
+                                                }
+                                          })
+    }else{
+      $('.audio').rotate()
+      $('.audio').click(function(e){          //alert(audio.paused)
+          audio_ = document.getElementById('audio_');
+          if (audio_.paused){
+            $(this).rotate()
+          }else{
+            $(this).stoprotate()
+          }
+      })
+    }
+})
+</script>
+<style type="text/css">
+.audio{position: fixed;top: 15px;right: 10px;width: 30px;height: 30px;}
+</style>
+{/if}
+{if $_W['ishttps']}
+<script type="text/javascript" src="{$scheme}://api.map.baidu.com/api?v=3.0&ak=8qkuwVCdEna6zLwLdHWmgPAv&s=1"></script>
+{else}
+
+<script type="text/javascript" src="{$scheme}://api.map.baidu.com/api?v=3.0&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+{/if}
+<script>
+var accountlevel={$_W['account']['level']};
+var act={php echo json_encode($act)};
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+var mycoupons={if $mycoupons}{php echo json_encode($mycoupons)}{else}{}{/if};
+var coupons={if $coupons}{php echo json_encode($coupons)}{else}{}{/if};
+var pfission={php echo json_encode($pfission)};
+var fission={php echo json_encode($fission)};
+var cate={php echo json_encode($cate)};
+var gtotalgrant={php echo intval($ptotalgrant)};
+var areapassed;
+//自定义函数3.0
+//初始角度
+var degree = 0;
+//单次旋转
+function singleRotate() {
+    //一次增加50度
+    degree = degree + 50 * Math.PI / 180;
+    ele.css("transform","rotate("+degree+"deg)");
+}
+require(['jquery','main','clipboard','layer','weixin'],function($,main,Clipboard,layer,wx){
+      $('.newcoupon-row1-r-btn').on('click',function(){
+            if ($(this).hasClass('newcoupon-row1-r-btn_')){
+                return;
+            }
+            self=this
+             $.post("{php echo $this->createmobileurl('coupon',array('op'=>'get','cateid'=>$cate['id']))}",{id:$(this).data('id')},function(data){
+                if (data.errno==0){
+                  $('#couponlayer').find('.message_gift').hide();
+                  $('#couponlayer').find('.message>.message_>.fee').html(data.coupon.value);
+                  $('#couponlayer').find('.message>.message_>.font').html(coupontypes[data.coupon.type]);
+                  $('#couponlayer').find('.umessage').html(data.umessage);
+                  $('#couponlayer').find('.hmessage').html(data.hmessage);
+                  $('#couponlayer').find('.button').attr('href','{php echo $this->createmobileurl('coupon',array('cateid'=>$cate['id']))}&id='+data.id)
+                  $('#couponlayer').showlayer('','',10,true,'middle','')
+                  $(self).html('使用').attr('href','{php echo $this->createmobileurl('coupon',array('op'=>'displayverif','cateid'=>$cate['id']))}&id='+data.id).addClass('newcoupon-row1-r-btn_').off();
+                  $(self).next().html('已领取')
+                }else{
+                  $('#timeoutlayer').showlayer(data.message,'',3,false,'middle','','')
+                }
+             },'JSON')
+           })
+    
+    if (err.errno==0){
+        if (fission.type==100){
+          console.log(fission.awardid)
+          return false;
+        }
+        togglediv=function(){
+          if (layers['awardlayer']){
+              clearInterval(layers['awardlayer'].interval)
+              $('#layer_'+layers['awardlayer'].attr('id')).remove();
+              layers['awardlayer']=null
+              $('#myaward').show()
+          }else{
+            $('#myaward').hide()
+            $('#awardlayer').showlayer('','',10,true,'middle',togglediv);
+            bindclick()
+          }
+        }
+    $('#myaward').on('click',function(){
+      togglediv()
+    })
+
+    function bindclick(){
+      if ('{$act['titleshowtype']}'=='1'){
+        if (fission.type==1||fission.type==2){
+          layers['awardlayer'].find('.message_gift').hide();
+          layers['awardlayer'].find('.message>.message_>.fee').html(fission.title);
+        }else if (fission.type==3){
+          layers['awardlayer'].find('.message_gift').hide();
+          layers['awardlayer'].find('.message>.message_>.fee').html(fission.title);
+        }else if (fission.type==4){
+          layers['awardlayer'].find('.message').hide();
+          layers['awardlayer'].find('.title').css('top','15%');
+          layers['awardlayer'].find('.message_gift>.thumb>img').attr('src',fission.thumb);
+          layers['awardlayer'].repositionlayer();
+          layers['awardlayer'].find('.message_gift>.name').html(fission.title);
+        }else if (fission.type==5){
+          layers['awardlayer'].find('.message_gift').hide();
+          layers['awardlayer'].find('.message>.message_>.fee').html(fission.title);
+        }
+      }else{
+        if (fission.type==1||fission.type==2){
+          layers['awardlayer'].find('.message_gift').hide();
+          layers['awardlayer'].find('.message>.message_>.fee').html(fission.redpack);
+          layers['awardlayer'].find('.message>.message_>.font').html('现金');
+        }else if (fission.type==3){
+          layers['awardlayer'].find('.message_gift').hide();
+          layers['awardlayer'].find('.message>.message_>.fee').html(fission.credit1);
+          layers['awardlayer'].find('.message>.message_>.font').html('积分');
+        }else if (fission.type==4){
+          layers['awardlayer'].find('.message').hide();
+          layers['awardlayer'].find('.title').css('top','15%');
+          layers['awardlayer'].find('.message_gift>.thumb>img').attr('src',fission.thumb);
+          layers['awardlayer'].repositionlayer();
+          layers['awardlayer'].find('.message_gift>.name').html(fission.title);
+        }else if (fission.type==5){
+            layers['awardlayer'].find('.message_gift').hide();
+            layers['awardlayer'].find('.message>.message_>.fee').html(coupons[fission.couponid].value);
+            layers['awardlayer'].find('.message>.message_>.font').html(coupontypes[coupons[fission.couponid].type]);
+        }
+     }
+if (act.granttype==2){
+      sharedata={
+                                  title:'{$act['sharetitle']}',
+                                  imgUrl:'{php echo $_W['attachurl'].$act['sharethumb']}',
+                                  desc:'{$act['sharedesc']}',
+                                  link:'{if $jump['redirect']&&$jump['display']}{$jump['redirect']}{else}{$_W['siteroot']}{/if}{php echo 'app/'.$this->createmobileurl('index',array('cateid'=>$cate['id'],'fid'=>$fission['id'],'sharefrom'=>3))}',
+                                  success:function(){
+                                             $.ajax({
+                                                          type:'get',
+                                                          dataType:'json',
+                                                          url:'{php echo $this->createmobileurl('share',array('cateid'=>$cate['id'],'sharefrom'=>3))}',
+                                                          success:function(data){       
+                                                            //alert(data.message)       
+                                                            location.href='{php echo $this->createmobileurl('fissiongrant',array('fid'=>$fission['id'],'cateid'=>$cate['id'],'token'=>$_W['token']))}'
+                                                          },
+                                                          error:function(a,b,c){
+                                                            //alert(data.message)
+                                                          },
+                                                        })
+                                                        
+                                  },
+                                  fail:function(data){
+                                    alert(data)
+                                  }
+                                }
+        layers['awardlayer'].find('.button').one('click',function(){
+            if (act.focusfollow){
+              $.ajax({
+                                              type:'get',
+                                              dataType:'json',
+                                              url:'{php echo $this->createmobileurl('chkfisnfollow',array('cateid'=>$cate['id'],'fid'=>$fission['pid']))}',
+                                              success:function(data){               
+                                                    if (data.errno>0){
+                                                      if (accountlevel==4){
+                                                        $('#followlayer').find('#qrcode').attr('src',data.qrurl)
+                                                        $('#followlayer').find('.message').html(data.message)
+                                                        $('#followlayer').showlayer('','',0,true,'middle','')
+                                                        }else{
+                                                        $('#followlayer').find('#qrcode').attr('src',data.qrurl)
+                                                        $('#followlayer').find('.message').html(data.message)
+                                                        $('#followlayer').showlayer('','',0,true,'middle','')
+                                                      }
+                                                    }else{  
+                                                      require(['weixin'],function(wx){
+                                  $('#loadinglayer').showlayer('<img src="{MODULE_URL}images/loading.gif" width=40 height=40>','',0,false,'middle','')
+                                  wx.config({debug:jssdkconfig.debug,appId:jssdkconfig.appId,timestamp:jssdkconfig.timestamp,nonceStr:jssdkconfig.nonceStr,signature:jssdkconfig.signature,jsApiList:jssdkconfig.jsApiList});
+                                  wx.error(function(res){
+                                    layers['loadinglayer'].hidelayer();
+                                    $('#timeoutlayer').showlayer('系统繁忙:'+res.errMsg,'',3,false,'middle','')
+                                    $('#layer_'+layers['awardlayer'].attr('id')).remove()
+                                    throw 'end';
+                                  });
+                                  wx.ready(function (res) {
+                                   layers['loadinglayer'].hidelayer();
+                                   $('#sharelayer_').showlayer('','',false,false,'0','')
+                                   layers['sharelayer_'].find('.share_font').html(sharedata.desc)
+                                   layers['sharelayer_'].find('.share_thumb>img').attr('src',sharedata.imgUrl)
+                                    wx.onMenuShareAppMessage(sharedata);
+                                    wx.onMenuShareTimeline(sharedata); wx.hideMenuItems({
+                                          menuList: ["menuItem:share:appMessage","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone","menuItem:editTag","menuItem:delete","menuItem:copyUrl","menuItem:originPage","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:email","menuItem:share:brand"]
+                                        });
+                                  });
+                                })
+                                 
+                        }
+                  },
+                  error:function(a,b,c){
+                    alert(b)
+                  },
+                })
+            }else{    
+                  require(['weixin'],function(wx){
+                                  $('#loadinglayer').showlayer('<img src="{MODULE_URL}images/loading.gif" width=40 height=40>','','',false,'middle','')
+                                  wx.config({debug:jssdkconfig.debug,appId:jssdkconfig.appId,timestamp:jssdkconfig.timestamp,nonceStr:jssdkconfig.nonceStr,signature:jssdkconfig.signature,jsApiList:jssdkconfig.jsApiList});
+                                  wx.error(function(res){
+                                    layers['loadinglayer'].hidelayer();
+                                    $('#timeoutlayer').showlayer('系统繁忙，请关闭页面重新扫码','',3,false,'middle','')
+                                    $('#layer_'+layers['awardlayer'].attr('id')).remove()
+                                    throw 'end';
+                                  });
+                                  wx.ready(function (res) {
+                                   layers['loadinglayer'].hidelayer();
+                                   $('#sharelayer_').showlayer('','',false,false,'0','')
+                                   layers['sharelayer_'].find('.share_font').html(sharedata.desc)
+                                   layers['sharelayer_'].find('.share_thumb>img').attr('src',sharedata.imgUrl)
+                                    wx.onMenuShareAppMessage(sharedata);
+                                    wx.onMenuShareTimeline(sharedata); 
+                                    wx.hideMenuItems({
+                                          menuList: ["menuItem:share:appMessage","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone","menuItem:editTag","menuItem:delete","menuItem:copyUrl","menuItem:originPage","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:email","menuItem:share:brand"]
+                                        });
+                                  });
+                                })
+            }
+        })
+}else{
+
+         if (focusfollow){
+                layers['awardlayer'].find('.button').one('click',function(e){
+                $.ajax({
+                                                type:'get',
+                                                dataType:'json',
+                                                url:'{php echo $this->createmobileurl('chkfisnfollow',array('cateid'=>$cate['id'],'fid'=>$fission['pid']))}',
+                                               success:function(data){               
+                                                      if (data.errno>1){
+                                                          if (accountlevel==4){
+                                                          $('#followlayer').find('#qrcode').attr('src',data.qrurl)
+                                                          $('#followlayer').find('.message').html(data.message)
+                                                          $('#followlayer').showlayer('','',false,true,'middle','')
+                                                          }else{
+                                                          $('#followlayer').find('#qrcode').attr('src',data.qrurl)
+                                                          $('#followlayer').find('.message').html(data.message)
+                                                          $('#followlayer').showlayer('','',false,true,'middle','')
+                                                        }
+                                                      }else{
+                                                          location.href='{php echo $this->createmobileurl('grant',array('id'=>$scandata['id'],'token'=>$_W['token']))}'
+                                                      }
+                                                 },
+                                                error:function(){
+
+                                                 }
+                                               })
+              })
+        }else{
+          layers['awardlayer'].find('.button').attr('href','{php echo $this->createmobileurl('grant',array('id'=>$scandata['id'],'token'=>$_W['token']))}')
+        }
+    }
+    }
+    if (jsonlength(act.fisnarea)>0){
+                wx.ready(function(){
+                      wx.getLocation({
+                      success: function (res) {
+                        //alert(JSON.stringify(res))
+                        var latitude = res.latitude;//手机端坐标res.latitude， 开发者工具坐标res.res.latitude // 纬度，浮点数，范围为90 ~ -90
+                        var longitude = res.longitude;
+                        var point = new BMap.Point(longitude, latitude);    // 创建点坐标
+                        var gc = new BMap.Geocoder(); //地址匹配类   
+                                gc.getLocation(point, function(rs){
+                                             $.post('{php echo $this->createmobileurl('checkfisnarea',array('fid'=>$fission['id'],'cateid'=>$cate['id']))}',{address:rs.address},function(data){
+                                              //console.log(JSON.stringify(data))
+                                                  if (data.errno==0){
+                                                    $('#awardlayer').showlayer('','',10,true,'middle',togglediv);bindclick();
+                                                  }
+                                             },'json')
+                                           }
+                                    )
+                      },
+                      fail:function(res){
+                        $(window.currentlayer).hidelayer()
+                        $('#timeoutlayer').showlayer('获取位置信息失败:'+res.errMsg+',刷新页面重试！','',true,true,'middle')
+                        city={'status':'fail','city':''};
+                        },
+                      cancel:function(res){
+                        city={'status':'cancel','city':''};
+                      }
+                              })
+                })
+    }else{
+      //console.log(3)
+      $('#awardlayer').showlayer('','',10,true,'middle',togglediv);bindclick();
+    }
+}else if (err.errno>0){
+  //console.log(err.message);
+  if (err.errno==2){
+     if (err.redirect){
+     $('#errorlayer').showlayer(err.umessage,err.redirect,3,false,'middle',function(){window.location=err.redirect})
+     }else{
+     $('#errorlayer').showlayer(err.umessage,err.redirect,3,false,'middle','')
+     }
+  }
+}
+//alert(JSON.stringify(err))
+})
+</script>
+{if $_GPC['act']=='test'}
+{php echo $msg['message']}
+{/if}
+{template 'footer'}

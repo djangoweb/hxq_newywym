@@ -1,0 +1,190 @@
+{template 'header'}
+<style>
+body{background: #f5f5f5}
+.top{ text-align: center; padding-bottom:0.1px;padding-top:0.1px;background:-webkit-gradient(linear,center top,center bottom,from(#c54661),to(#c55f46)); background-size:100% 100%; }
+.top>.avatar{float:left;margin-top: 20px;margin-bottom: 20px;border-radius:50%;margin-left:20px;height: 50px ;border-radius: 50%;box-shadow:0px 0px 10px #f5f5f5}
+.top>.name{text-align:left;margin-left: 70px;margin-top: 20px;margin-bottom: 20px;color:#fff;line-height: 50px; font-size: 1.4rem;padding-left:20px; }
+.top>.info{margin:10px 0px; font-size: 1.2rem}
+.top>.info>.send{height: 20px;line-height: 20px;width: 50%;border-right:1px solid #ccc;float:left;text-align: center; }
+.top>.info>.unsend{height: 20px;line-height: 20px;width: 50%; float: left; text-align: center;}
+.mytop>.info>.unsend{height: 20px;line-height: 20px;width: 50%; float: left; text-align: center;}
+.btm{position: fixed; height: 45px;bottom:0px;width: 100% }
+.btm>div{display: inline-block; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 50px}
+.icon{  background:url({MODULE_URL}images/icon.png); width:16px; height: 16px; background-size: 100%;margin:5px auto 0 auto; display:block;}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+.iconhome{ background-position:0px 0px;}
+.iconmp{ background-position:0px -32px;}
+.iconawarded{ background-position:0px -64px;}
+.iconmy{ background-position:0px -96px;}
+.iconhome_{ background-position:0px -16px;}
+.iconmp_{ background-position:0px -48px;}
+.iconawarded_{ background-position:0px -80px;}
+.iconmy_{ background-position:0px -112px;}
+.gradbox{ width:95%;margin:10px auto 0px auto; padding: 0px; background: #f8f6ec }
+.gradbox>.grad{display: block;width: 50%;border-right:1px solid #efefef;border-bottom:1px solid #efefef;list-style: none;float: left; box-sizing: border-box; text-align: center; padding:0px;}
+.gradbox>.grad:nth-child(2n+0){border-right:none;}
+.gradbox>.grad:nth-child(n+3){border-bottom:none;}
+.gradbox>.grad>a{ display: block; padding: 5px 0; height: 52px; color:#000; text-decoration: none; font-size: 1.2rem}
+.gradbox>.grad>a>.data{line-height: 21px; display: block; width: 100%; text-align: center; font-size: 1.4rem;}
+.gradbox>.grad>a>.name{line-height: 21px;display: block;width: 100%; text-align: center;font-size: 1.2rem;}
+.gradbox>.grad>a>.single{line-height: 42px;display: block;width: 100%;text-align: center; font-size: 1.2rem;text-decoration: underline; color:#6e2020;}
+.gradbox>.grad>a.danger{ color:red; 
+}
+.awardbox{ width: 100% ;margin: 0 auto; padding: 0px; position: relative; list-style:none ;background:#fff;}
+.atop{ margin:0px; list-style: none; padding: 5px;  line-height: 50px ;min-height: 50px;font-size: 1.4rem;background:#f5f5f5; }
+.atop>img{ width: 30px; height: 30px;float: left; border-radius: 50%}
+.atop>.nickname{ margin-left:40px; line-height: 30px;  font-size: 1.4rem }
+.awardbox>.row{ position: relative; margin:10px auto;width: 95%;   list-style: none;  font-size: 1.2rem}
+.awardbox>.row:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 1px; background: #ebebeb }
+.awardbox>.row:last-child:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 0px; background: #ebebeb }
+.awardbox>.row>.date{float:right;height: 30px; line-height: 30px; width: 80px;}
+.awardbox>.row>.detail{ text-align: left;  line-height: 25px;height:50px;width: 80%;display: inline-block;float: left }
+
+.awardbox>.row>.detail>.detail_{ text-align: left;  line-height: 25px;font-size:1.4rem;}
+
+.awardbox>.row>.detail>.date{ text-align: left;  line-height: 25px;font-size:1.2rem;color:#cccccc; }
+.awardbox>.row>.price{ text-align:center;height:50px; padding-top:15px; width:20%;display: inline-block;float: left}
+i{ width: 2.2rem; height: 2.2rem; display: inline-block;  background-size: 30rem !important;}
+.grad1{background: url('{MODULE_URL}images/iconbg.png');  background-position:-0.2rem -0.4rem;    }
+.grad2{  background: url('{MODULE_URL}images/iconbg.png');  background-position:-2.4rem -0.4rem;   }
+.grad3{ background: url('{MODULE_URL}images/iconbg.png');  background-position:-4.8rem -0.4rem;   }
+.grad4{  background: url('{MODULE_URL}images/iconbg.png');  background-position:-7.2rem -0.4rem;   }input.button{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem;border:none;}
+input.disable{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+input.large{ width: 100%;font-size: 1.4rem }
+input.danger{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3);}
+input.success{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3);}
+a.button:link{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:hover{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:visited{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.large{ width: 100%;font-size: 1.4rem }
+a.danger:link{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:hover{ background: #f44040 ;color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:visited{ background: #f44040; color:#fff; box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:link{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:hover{ background: #5cb85c ;color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:visited{ background: #5cb85c;color:#fff; box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.disable:link{  background: #fcdea3; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.disable:visited{  background: #fcdea3; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+.large{ width: 100%;font-size: 1.4rem }
+.wxtips{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;  background: #f8f6ec; font-size: 1.2rem; }
+.box{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;   }
+.bottom { position: fixed; width: 100%;height: 35px;line-height:35px;bottom: 0px; text-align: center;background:rgba(197,95,70,0.8);}
+.bottom a{ width: 100%;height:100%;display: block; color: #fff;font-size: 1.4rem }
+a.smbtn{line-height:16px;display:inline-block; text-align: center;font-size: 1.2rem;min-width:60px; padding:2px;box-shadow:none !important;}
+a.smbtn.danger{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.disable{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.danger:link{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.danger:visited{ background:#f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.disable:link{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.disable:visited{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+a.tag:link{color:#899ef6; text-decoration:none;}
+a.tag:visited{color:#899ef6; text-decoration:none;}
+.div40{height: 40px;}
+
+.biz{position: relative;}
+.biz:before{position: absolute;height: 70%;top:15%;left:0px;width: 1px;background:rgba(255,255,255,0.4);content:"";}
+</style>
+<script type="text/javascript">
+var dscanwarning={$act['dscanwarning']};
+var tk='{$_GPC['tk']}';
+{if !empty($act['districtarr'])}
+var districtarr={php echo json_encode($act['districtarr'])};
+{/if}
+var strDistrict='{$act['strDistrict']}';
+var rptype={$act['rptype']};
+var granttype={$act['granttype']};
+var scanid={if $_M['scanid']}{$_M['scanid']}{else}0{/if};
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+</script>
+<div class="top">
+<img class="avatar" src="{$_W['fans']['avatar']}" width=50 height=50>
+<div class="name">{$_W['fans']['nickname']}</div>
+</div>
+<div class="atop">&nbsp;&nbsp;我的优惠券</div>
+{if !empty($mycoupons)}
+<ul class="awardbox">
+{loop $mycoupons $item}
+<div class="row">
+{if $item['type']==1||$item['type']==2}
+<div style="background:{$coupons[$item['cid']]['style']};float:left;background:url({MODULE_URL}/images/bl-1.png) {$coupons[$item['cid']]['style']} no-repeat;background-size:contain;width:3%;height:75px"></div><div style="float:left;height:75px;width:30%;padding:0 5px;background:{$coupons[$item['cid']]['style']}"><div style="line-height:45px;font-size:14px;color:#fff;text-align:left;overflow:hidden;padding:0 10px;font-size:24px;color:#fff;text-align:center;overflow:hidden;">{$coupons[$item['cid']]['name']}</div><div style="line-height:30px;font-size:14px;color:#fff;text-align:center;overflow:hidden;padding:0 5px;">{$coupons[$item['cid']]['requirement']}</div></div><div style="float:left;line-height:75px;font-size:24px;color:#fff;text-align:center;overflow:hidden;padding:0 5px;background:{$coupons[$item['cid']]['style']};width:50%;" class="biz">{$coupons[$item['cid']]['biz']}</div><div style="float:left;background: {$coupons[$item['cid']]['style']};width:17%;height:75px;line-height: 37.5px;color: #fff; border-top-right-radius: 5px;border-bottom-right-radius:5px;"><div style="margin:10px 5px;height:55px;padding:5px;background:#fff;line-height:22.5px;border-radius: 5px; text-align: center; {if $item['verifer']}color:#ccc;{else}color:{$coupons[$item['cid']]['style']}{/if}" data-id="{$item['id']}" data-couponid="{$item['couponid']}" data-type="{$item['type']}" data-code="{$item['code']}" {if $item['verifer']}{else}class="btn-coupon"{/if}>{if $item['verifer']}已使用{else}使用{/if}</div></div><div class="clearfix"></div><input type="hidden" name="value" value="{$item['cid']}"><input type="hidden" name="type" value="coupon"></div>
+{else}
+<div style="background:{$coupons_[$item['cid']]['style']};float:left;background:url({MODULE_URL}/images/bl-1.png) {$coupons_[$item['cid']]['style']} no-repeat;background-size:contain;width:3%;height:75px"></div><div style="float:left;height:75px;width:30%;padding:0 5px;background:{$coupons_[$item['cid']]['style']}"><div style="line-height:45px;font-size:14px;color:#fff;text-align:left;overflow:hidden;padding:0 10px;font-size:24px;color:#fff;text-align:center;overflow:hidden;">{$coupons_[$item['cid']]['title']}</div><div style="line-height:30px;font-size:14px;color:#fff;text-align:center;overflow:hidden;padding:0 5px;">{$coupons_[$item['cid']]['requirement']}</div></div><div style="float:left;line-height:75px;font-size:24px;color:#fff;text-align:center;overflow:hidden;padding:0 5px;background:{$coupons_[$item['cid']]['style']};width:50%;" class="biz">{$coupons_[$item['cid']]['biz']}</div><div style="float:left;background: {$coupons_[$item['cid']]['style']};width:17%;height:75px;line-height: 37.5px;color: #fff; border-top-right-radius: 5px;border-bottom-right-radius:5px;"><div style="margin:10px 5px;height:55px;padding:5px;background:#fff;line-height:22.5px;border-radius: 5px; text-align: center; {if $item['verifer']}color:#ccc;{else}color:{$coupons_[$item['cid']]['style']}{/if}" data-id="{$item['id']}" data-couponid="{$item['weixincouponid']}" data-type="{$item['type']}" data-code="{$item['code']}" {if $item['verifer']}{else}class="btn-coupon"{/if}>{if $item['verifer']}已使用{else}使用{/if}</div></div><div class="clearfix"></div><input type="hidden" name="value" value="{$item['cid']}"><input type="hidden" name="type" value="coupon"></div>
+{/if}
+{/loop}
+</ul>
+{else}
+<ul class="awardbox">
+<div class="atop"><img src="{php echo $_W['fans']['tag']['avatar']}" border-radius=50% align="middle" /><div class="nickname">您没有领取过优惠券</div></div>
+</ul>
+{/if}
+<div class="div40"></div>
+<div class="bottom"><a href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}">返回</a></div>
+<script type="text/javascript">
+	require(['jquery','main'],function($){
+              var callback;
+              callback=function(e){
+                data=window.currentlayer.find('form').serialize()
+                $.post('{php echo $this->createmobileurl('verif',array('actid'=>$act['id'],'op'=>'coupon'))}',data,function(data){
+                  if (data.errno==0){
+                    $('.btn-coupon[data-id='+window.currentlayer.find('input[name=id]').val()+']').off().html('已使用').css('background-color','#ccc').css('color','#fff')
+                    window.currentlayer.hidelayer()
+                    $('#timeoutlayer').showlayer(data.message,'',true,false,'middle')
+                  }else{
+                    window.currentlayer.find('.message').html(data.message)
+                  }
+                },'json')
+              }
+              $('.btn-coupon').on('click',function(){
+                            if ($(this).data('type')==2||$(this).data('type')==5){
+                                cardid=$(this).data('couponid')
+                                code=$(this).data('code')
+                                //alert(cardid+code)
+                                require(['weixin'],function(wx){
+                                wx.config({debug:jssdkconfig.debug,appId:jssdkconfig.appId,timestamp:jssdkconfig.timestamp,nonceStr:jssdkconfig.nonceStr,signature:jssdkconfig.signature,jsApiList:jssdkconfig.jsApiList});
+                                wx.ready(function(){
+                                  wx.openCard({
+                                    cardList:[{cardId:cardid,code:code}],
+                                    fail:function(res){
+                                    // alert(JSON.stringify(res))
+                                    }
+                                  })
+                                })})
+                            }else{
+
+                            $('#veriflayer').find('.header').html('核销优惠券')
+                            $('#veriflayer').find('input[name=id]').val($(this).data('id'))
+                            $('#veriflayer').showlayer('','',false,true,'middle',callback);
+                            }
+              })
+		 	})
+</script>
+<div id="veriflayer" class="layercontent">
+<span class="close_ close" data-target='fanallayer'>×</span>
+<div class="header"></div>
+<form class="form-horizontal">
+<div class="body">
+<div class="verifer">
+<select name="veriferid" class="form-control">
+{if empty($verifers)}
+<option value="0">请从后台添加核销员</option>
+{else}
+<option value="0">请选择核销员</option>
+{loop $verifers $row}<option value="{$row['id']}">{$row['name']}</option>{/loop}
+{/if}
+</select>
+</div>
+<div class="verifer"><input value="" type="password" name="password" class="form-control" placeholder="请填写核销密码"></div>
+<div class="message">请将二维码提供给核销员</div>
+<div class="footer"><input class="" value="" name="id" type="hidden"><input class="button submit" value="核销" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="button disable close_">取消</a></div>
+</div>
+</form>
+</div>
+
+<div id="timeoutlayer" class="layercontent"><div class="message"></div></div>
+
+{template 'footer'}

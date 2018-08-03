@@ -1,0 +1,64 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo $this->createWebUrl('notice')}">推送消息</a></li>
+</ul>
+<div class="clearfix"></div>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+</style>
+
+<div class="panel panel-default">
+<div class="panel-heading">消息记录共{$total}条
+    <div class="pull-right">
+<select onchange="location.href='{php echo $this->createWebUrl('notice')}&actid='+this.options[this.selectedIndex].value">
+    <option value="0">所有活动</option>
+    {loop $acts $row}
+    <option value="{$row['id']}" {if $act['id']==$row['id']}selected="selected"{/if} >{$row['name']}</option>
+    {/loop}
+</select></div>
+</div>
+<div class="clearfix"></div>
+<div class="panel-body">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="80" align="center">编号</th>
+    <th width="100" align="center">昵称</th>
+    <th width="60" align="center">内容</th>
+    <th width="80" align="center">活动</th>
+    <th width="80" align="center">点击</th>
+    </tr>
+    {loop $notices $row}
+    <tr>
+    <td valign="middle">{$row['id']}</td>
+    <td valign="middle">{if $row['nickname']}{$row['nickname']}{else}{$row['oauth_openid']}{/if}</td>
+    <td valign="middle">{$row['content']}</td>
+    <td valign="middle">{$acts[$row['actid']]['name']}</td>
+    <td valign="middle">{if $row['isread']}是{else}否{/if}</td>
+    </tr>
+    {/loop}
+    </table>
+  {$pager}
+ </div></div>
+</div>
+    <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+
+{template 'common/footer'}

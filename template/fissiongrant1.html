@@ -1,0 +1,376 @@
+{template 'header'}
+<style>
+body{background-repeat: no-repeat ; background-size:100% 100% ; {if $page['bg']}background-image: url({php echo $_W['attachurl'].$page['bg']}) ;{else}background: #fff {/if}}
+a.more:link{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+a.more:hover{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+.more{height: 18px ; display: inline-block;  line-height:14px; font-size:1.4rem;color: #000； padding:2 4px; }
+.btn{width: 80px; height: 80px; line-height: 80px; background: orange; color: #e60012;position: absolute;bottom: 15%;left: 0px;right: 0px;margin: auto;text-align: center;border-radius:50%;font-weight: bolder;font-size: 2.4rem;border:none;}
+.btn.disable{ background: #cccccc; color:#fff;}
+.award{ height:75%;width: 100%; position: relative;}
+.btm{position: fixed;display:flex; height: 45px;bottom:0px;width: 100% }
+.btm>div{flex:1; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 55px}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+input.button{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem;border:none;}
+input.large{ width: 100%;font-size: 1.4rem }
+input.danger{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3);}
+input.success{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3);}
+a.button:link{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:hover{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:visited{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.large{ width: 100%;font-size: 1.4rem }
+a.danger:link{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:hover{ background: #f44040 ;color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:visited{ background: #f44040; color:#fff; box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:link{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:hover{ background: #5cb85c ;color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:visited{ background: #5cb85c;color:#fff; box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.disable:link{ padding: 0px 10px;height:35px;line-height: 35px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+a.disable:visited{ padding: 0px 10px;height:35px;line-height: 35px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+.top{ height:25%; }
+.top img{ width:100%;height: 100%}
+</style>
+<style>
+.banner{position: relative;width: 100%;}
+.banner>.logo{ position: absolute;left: 40px;top:0px;width: 60px;height: 60px; }
+.banner>.logo>img{width: 100%;height: 100%}
+.desc{font-size: 14px;word-break: break-all;}
+.title{position: absolute;bottom:25px;line-height: 40px;font-size: 20px;font-weight: bolder;text-align: center;width: 100%;color: #fff}
+.subtitle{position: absolute;bottom:5px;line-height: 20px;font-size: 14px;text-align: center;width: 100%;color: #fff}
+
+.biz{position: relative;}
+.biz:before{position: absolute;height: 70%;top:15%;left:0px;width: 1px;background:rgba(255,255,255,0.4);content:"";}
+#layer_grantlayer>#grantlayer>.footer>.getcoupon{ display: none }
+</style>
+<div class="banner">{if $page['banner']}<img src="{php echo $_W['attachurl'].$page['banner']}" width="100%" height="100%">{/if}<div class="title" style="color:{$page['titlecolor']}">{$page['title']}</div><div class="subtitle" style="color:{$page['subtitlecolor']}">{$page['subtitle']}</div></div>
+{if $page['banner_']}
+<div style="margin:10px auto"><img src="{MODULE_URL}images/activity_v1_descbanner.png" width="100%"></div>
+{/if}
+{loop $page['desc'] $key $item}
+{if $item['type']=='image'}
+<div class="desc" style="font-size:0px;margin:{$item['upm']}px {$item['rightm']}px {$item['downm']}px {$item['leftm']}px;"><a href="{if $item['link']}{$item['link']}{else}javascript:;{/if}"><img src="{$_W['attachurl']}{$item['value']}" width="100%"></a></div>
+{elseif $item['type']=='text'}
+<div class="desc" style="margin:{$item['upm']}px {$item['rightm']}px {$item['downm']}px {$item['leftm']}px;">{$item['value']}</div>
+{elseif $item['type']=='video'}
+<div class="desc" style="text-align:center;font-size:0px;margin:{$item['upm']}px {$item['rightm']}px {$item['downm']}px {$item['leftm']}px;">
+<video id="video_" src="{if strpos($item['value'],'http')===false}{php echo $_W['attachurl'].$item['value']}{else}{$item['value']}{/if}" style="background:#000;border-radius:5px;" width="100%" height="215" autoplay="autoplay" loop="loop" controls="controls"></video>
+<!--
+<div id="jquery_jplayer_1" style="width:100%;height:300px"></div>
+<div id="jp_container_1">
+ <a href="#" class="jp-play">Play</a>
+ <a href="#" class="jp-pause">Pause</a>
+</div>
+<div id="jplayer_inspector"></div> -->
+</div>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $('#video_').height($('#video_').width()*3/4+'px');
+    var u = navigator.userAgent;
+    var isiOS = u.indexOf('iPhone'); //ios终端>0
+    if (isiOS>0){
+    $('body').one('touchstart',function(e){
+      video_=document.getElementById('video_')
+      video_.play()
+      })
+    }else{
+      video_.play()
+    }
+})
+/* require(['jquery.jplayer'],function($){
+  $("#jquery_jplayer_1").jPlayer({
+    ready: function () {
+      $(this).jPlayer("setMedia", {
+        title: "Big Buck Bunny",
+        m4v: "http://www.jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v",
+        ogv: "http://www.jplayer.org/video/ogv/Big_Buck_Bunny_Trailer.ogv",
+        webmv: "{$_W['attachurl']}{$item['value']}",
+        poster: "http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"
+      }).jPlayer('play');
+    },
+    swfPath: "{MODULE_URL}/js/dist/jplayer",
+    supplied: "webmv, ogv, m4v",
+    size: {
+      width: "100%",
+      height: "300px",
+      cssClass: "jp-video-360p"
+    },
+    useStateClassSkin: true,
+    autoBlur: false,
+    smoothPlayBar: true,
+    keyEnabled: true,
+    remainingDuration: true,
+    toggleDuration: true
+  });
+  //$("#jplayer_inspector").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});
+})*/
+</script>
+{elseif $item['type']=='coupon'}
+{if $coupons[$item['value']]}
+{php $coupon=$coupons[$item['value']]}
+<div class="desc" style="margin:{$item['upm']}px {$item['rightm']}px {$item['downm']}px {$item['leftm']}px;">
+<div class="newcoupon newcoupon{$coupon['style']}">
+  <div class="newcoupon-row1">
+    <div class="newcoupon-row1-l"><div class="newcoupon-row1-1-1">{$coupon['value']}</div><div class="newcoupon-row1-1-2">{$_M['coupontypes'][$coupon['type']]}</div></div><div class="newcoupon-row1-r">{if !$coupon['grant']}<a class="newcoupon-row1-r-btn" href="javascript:;"  data-id="{$coupon['id']}">领取</a><div class="newcoupon-row1-r-desc"></div>{else}{if $coupon['grant']['veriftime']}<a class="newcoupon-row1-r-btndisable" href="javascript:;"  data-id="{$coupon['id']}">已使用</a>{else}<a class="newcoupon-row1-r-btn newcoupon-row1-r-btn_"  href="{php echo $this->createmobileurl('coupon',array('op'=>'displayverif','id'=>$coupon['grant']['id'],'actid'=>$act['id']))}"  data-id="{$coupon['id']}">使用</a><div class="newcoupon-row1-r-desc">已领取</div>{/if}{/if}</div>
+    <div class="newcoupon-row1-c"><div class="newcoupon-row1-c-1">{$coupon['name']}</div><div class="newcoupon-row1-c-2">有效期{php echo date('Y-m-d',$coupon['starttime'])}至{php echo date('Y-m-d',$coupon['endtime'])}</div></div></div>
+    <div class="newcoupon-row2">
+    <div class="newcoupon-row2-l"><img src="{MODULE_URL}images/cl_{$coupon['style']}.png?{TIMESTAMP}" width="100%"></div><div class="newcoupon-row2-r"><img src="{MODULE_URL}images/cr_{$coupon['style']}.png?{TIMESTAMP}" width="100%"></div>
+    <div class="newcoupon-row2-c"><div class="newcoupon-row2-c-1"></div><div class="newcoupon-row2-c-2"></div></div></div>
+  <div class="newcoupon-row3">{$coupon['requirement']}</div>
+</div>
+<div class="clearfix"></div>
+</div>
+{/if}
+{/if}
+{/loop}
+<style>
+.myaward{position:fixed;bottom:55px;right:10px;width: 45px;height: 45px;border-radius: 50%; z-index:5; background:rgba(0,0,0,0.6);font-size: 8px;text-align:center;font-size: 10px;padding: 2px 0px 2px 0px;display: block; display: none}
+.myaward a:link{color: #fff;text-decoration: none;}
+.myaward a:hover{color: #fff;text-decoration: none;}
+.myaward a:active{color: #fff;text-decoration: none;}
+.myaward>a>.title_{line-height: 10px;font-size: 8px;background: none;text-align: center}
+</style>
+<div id="myaward" class="myaward" style=""><a href="javascript:;" style="color: #fff;"><div><img width="15" height="15" src="{MODULE_URL}images/award.png?{TIMESTAMP}"></div><div class="title_">奖品<br>详情</div></a></div>
+<style>
+.ucenter{position:fixed;bottom:5px;right:10px;width: 45px;height: 45px;border-radius: 50%; z-index:5; background:rgba(0,0,0,0.6);font-size: 8px;text-align:center;font-size: 10px;padding: 2px 0px 2px 0px;display: block;}
+.ucenter a:link{color: #fff;text-decoration: none;}
+.ucenter a:hover{color: #fff;text-decoration: none;}
+.ucenter a:active{color: #fff;text-decoration: none;}
+.ucenter>a>.title_{line-height: 10px;font-size: 8px;background: none;text-align: center}
+</style>
+<div id="ucenter" class="ucenter" style=""><a href="{php echo $this->createmobileurl('biz',array('actid'=>$act['id'],'op'=>'detail'))}" style="color: #fff;"><div><img width="15" height="15" src="{MODULE_URL}images/ucenter-1.png?{TIMESTAMP}"></div><div class="title_">个人<br>中心</div></a></div>
+<div id="errorlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="header">提醒</div>
+<div class="body">
+<div class="message"><div class="message_"><div class="fee"></div><div class="font"></div><div class="clearfix"></div></div></div>
+<div class="message_gift"><div class="thumb"><img src="" width="60" height="60" style="border-radius:50%"></div><div class="name"></div></div>
+<div class="umessage"></div>
+<div class="hmessage"></div>
+</div>
+</div>
+<div id="grantlayer" class="layercontent">
+<span class=" close submit" data-target=''>×</span>
+<div class="header">领取成功</div>
+<div class="body">
+<div class="message"><div class="message_"><div class="fee"></div><div class="font"></div><div class="clearfix"></div></div></div>
+<div class="message_gift"><div class="thumb"><img src="" width="60" height="60" style="border-radius:50%"></div><div class="name"></div></div>
+<div class="umessage"></div>
+<div class="hmessage"></div>
+</div>
+
+<div class="footer"><a class="button"  href="{php echo $this->createmobileurl('awardedrcd',array('type'=>($scandata['type']<5?$scandata['type']:'coupon'),'actid'=>$act['id']))}">查看详细</a></div>
+</div>
+<div id="unawardlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="body">
+<div class="img"><img src="{MODULE_URL}/images/hbxr2.png" width=30% /></div>
+<div class="message">很遗憾您未中奖</div>
+</div>
+</div>
+<div id="couponlayer" class="layercontent">
+<span class="close_ close submit" data-target=''>×</span>
+<div class="header">领取成功</div>
+<div class="body">
+<div class="message"><div class="message_"><div class="fee"></div><div class="font"></div></div></div>
+<div class="umessage"></div>
+<div class="hmessage"></div>
+</div>
+<div class="footer"><a class="button" href="{php echo $this->createmobileurl('coupon',array('actid'=>$act['id']))}"">查看优惠券详情</a></div>
+</div>
+<div id="timeoutlayer" class="layercontent"><div class="message"></div></div>
+{if $page['audio']}
+<div class="audio"><img src="{MODULE_URL}images/audio.png" width="100%" height="100%">
+<audio id="audio_" loop>
+<source src="{if strpos($page['audio'],'http')===false}{php echo $_W['attachurl'].$page['audio']}{else}{$page['audio']}{/if}" type="audio/mpeg" />
+</audio>
+</div>
+<script type="text/javascript">
+require(['jquery'],function(){
+    $.fn.extend({
+        rotate: function () {
+            ele = this ;
+            var audio_ = document.getElementById('audio_');
+            audio_.play();
+            if (!audio_.paused){
+            window.time1=window.setInterval('singleRotate()',20);
+            }
+        },
+        stoprotate:function(){
+          ele=this;
+          var audio_ = document.getElementById('audio_');
+          audio_.pause();
+          if (audio_.paused){
+          window.clearInterval(window.time1)
+        }
+        }
+    });
+    var u = navigator.userAgent;
+    var isiOS = u.indexOf('iPhone'); //ios终端>0
+    if (isiOS>0){
+      $('body').one('touchstart',function(e){
+              audio_ = document.getElementById('audio_');
+                                                      if (audio_.paused){
+                                                        $('.audio').rotate()
+                                                      }else{
+                                                        $('.audio').stoprotate()
+                                                      }
+      })
+      $('.audio').on('touchstart',function(e){          //alert(audio.paused)
+                                                e.stopPropagation()
+                                                $('body').off()
+                                                audio_ = document.getElementById('audio_');
+                                                if (audio_.paused){
+                                                  $(this).rotate()
+                                                }else{
+                                                  $(this).stoprotate()
+                                                }
+                                          })
+    }else{
+      $('.audio').rotate()
+      $('.audio').click(function(e){          //alert(audio.paused)
+          audio_ = document.getElementById('audio_');
+          if (audio_.paused){
+            $(this).rotate()
+          }else{
+            $(this).stoprotate()
+          }
+      })
+    }
+})
+</script>
+<style type="text/css">
+.audio{position: fixed;top: 15px;right: 10px;width: 30px;height: 30px;}
+</style>
+{/if}
+<script>
+var dscanwarning={$act['dscanwarning']};
+var tk='{$_GPC['tk']}';
+{if !empty($act['districtarr'])}
+var districtarr={php echo json_encode($act['districtarr'])};
+{/if}
+var strDistrict='{$act['strDistrict']}'
+var focusfollow={$act['focusfollow']};
+var rptype={$act['rptype']};
+var granttype={$act['granttype']};
+scanid={if $_M['scanid']}{$_M['scanid']}{else}0{/if};
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+var tokendata={if $tokendata}{php echo json_encode($tokendata)}{else}{}{/if};
+if (tokendata.type!=100) tokendata.thumb='{$_W['attachurl']}'+tokendata.thumb;
+var coupons={if $coupons}{php echo json_encode($coupons)}{else}{}{/if};
+var mycoupons={if $mycoupons}{php echo json_encode($mycoupons)}{else}{}{/if};
+var myawarded={if $mytokens}{php echo json_encode($mytokens)}{else}{}{/if};
+var coupons={if $coupons}{php echo json_encode($coupons)}{else}{}{/if};
+var ele,time1;
+//自定义函数
+//初始角度
+var degree = 0;
+//单次旋转
+function singleRotate() {
+    //一次增加50度
+    degree = degree + 50 * Math.PI / 180;
+    ele.css("transform","rotate("+degree+"deg)");
+}
+
+require(['jquery','main'],function($,main){
+      $('.newcoupon-row1-r-btn').on('click',function(){
+            if ($(this).hasClass('newcoupon-row1-r-btn_')){
+                return;
+            }
+            self=this
+             $.post("{php echo $this->createmobileurl('coupon',array('op'=>'get','actid'=>$act['id']))}",{id:$(this).data('id')},function(data){
+                if (data.errno==0){
+                  $('#couponlayer').find('.message_gift').hide();
+                  $('#couponlayer').find('.message>.message_>.fee').html(data.coupon.value);
+                  $('#couponlayer').find('.message>.message_>.font').html(coupontypes[data.coupon.type]);
+                  $('#couponlayer').find('.umessage').html(data.umessage);
+                  $('#couponlayer').find('.hmessage').html(data.hmessage);
+                  $('#couponlayer').find('.button').attr('href','{php echo $this->createmobileurl('coupon',array('actid'=>$act['id']))}&id='+data.id)
+                  $('#couponlayer').showlayer('','',10,true,'middle','')
+                  $(self).html('使用').attr('href','{php echo $this->createmobileurl('coupon',array('op'=>'displayverif','actid'=>$act['id']))}&id='+data.id).addClass('newcoupon-row1-r-btn_').off();
+                  $(self).next().html('已领取')
+                }else{
+                  $('#timeoutlayer').showlayer(data.message,'',3,false,'middle','','')
+                }
+             },'JSON')
+           })
+        togglediv=function(){
+            if (layers['grantlayer']){
+                clearInterval(layers['grantlayer'].interval)
+                $('#layer_'+layers['grantlayer'].attr('id')).remove()
+                layers['grantlayer']=null
+                $('#myaward').show()
+            }else{
+                 $('#myaward').hide()
+                 $('#grantlayer').showlayer('','',10,true,'middle',togglediv)
+                 binddiv()
+            }
+        }
+    $('#myaward').on('click',function(){
+      togglediv()
+    })
+  if (jsonlength(err)){
+  if (err.errno!=0){
+        $('#errorlayer').find('.message').html(err.message);
+        $('#errorlayer').find('.message_gift').hide();
+        $('#errorlayer').showlayer('','',5,true,'middle','')
+  }else{
+    $('#grantlayer').showlayer('','',10,true,'middle',togglediv)
+    binddiv()
+    function binddiv(){
+    layers['grantlayer'].find('.hmessage').html(err.hmessage);
+    if ('{$act['titleshowtype']}'=='1'){
+        if (tokendata.type==1||tokendata.type==2){
+          layers['grantlayer'].find('.message_gift').hide();
+          layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.title);
+        }else if (tokendata.type==3){
+          layers['grantlayer'].find('.message_gift').hide();
+          layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.title);
+        }else if (tokendata.type==4){
+          layers['grantlayer'].find('.message').hide();
+          layers['grantlayer'].find('.title').css('top','15%');
+          layers['grantlayer'].find('.message_gift>.thumb>img').attr('src',tokendata.thumb);
+          layers['grantlayer'].repositionlayer()
+          layers['grantlayer'].find('.message_gift>.name').html(tokendata.title);
+        }else if (tokendata.type==5){
+          layers['grantlayer'].find('.message_gift').hide();
+          layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.title);
+          layers['grantlayer'].find('.umessage').html(err.umessage);
+          layers['grantlayer'].find('.hmessage').html(err.hmessage);
+          
+          layers['grantlayer'].find('.button').attr('href','{php echo $this->createmobileurl('coupon',array('actid'=>$act['id'],'id'=>$coupongrantid))}');
+        }
+    }else{
+      if (tokendata.type==1||tokendata.type==2){
+        layers['grantlayer'].find('.message_gift').hide();
+        layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.redpack);
+        layers['grantlayer'].find('.message>.message_>.font').html('现金');
+      }else if (tokendata.type==3){
+        layers['grantlayer'].find('.message_gift').hide();
+        layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.credit1);
+        layers['grantlayer'].find('.message>.message_>.font').html('积分');
+      }else if (tokendata.type==4){
+        layers['grantlayer'].find('.message').hide();
+        layers['grantlayer'].find('.message_gift>.thumb>img').attr('src',tokendata.thumb);
+        layers['grantlayer'].repositionlayer()
+        layers['grantlayer'].find('.message_gift>.name').html(tokendata.title);
+      }else if (tokendata.type==5){
+        layers['grantlayer'].find('.message_gift').hide();
+        layers['grantlayer'].find('.message>.message_>.fee').html(coupons[tokendata.couponid].value);
+        layers['grantlayer'].find('.message>.message_>.font').html(coupontypes[coupons[tokendata.couponid].type]);
+
+          layers['grantlayer'].find('.umessage').html(err.umessage);
+          layers['grantlayer'].find('.hmessage').html(err.hmessage);
+
+          layers['grantlayer'].find('.button').attr('href','{php echo $this->createmobileurl('coupon',array('actid'=>$act['id'],'id'=>$coupongrantid))}');
+      }
+    }
+  }
+  }
+}
+})
+</script>
+{template 'footer'}

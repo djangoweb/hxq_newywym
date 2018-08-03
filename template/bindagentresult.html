@@ -1,0 +1,38 @@
+{template 'header'}
+<style>
+body{ background:-webkit-gradient(linear,center top,center bottom,from(#c54661),to(#c55f46));}
+.msg{width:60%;position: absolute;margin:auto;height: 100px;top:0px;bottom: 0px;left: 0px;right: 0px;}
+.msg div{line-height: 30px;color: #fff;}
+.corpright{text-align: center;line-height: 35px;height:35px;font-size: 16px;color: #949494;margin-bottom:10px;position: absolute;bottom: 10px;position: absolute;bottom:10px;left: 0px;right: 0px}
+.corpright a:link{line-height: 35px;height:35px;font-size: 16px;color: #6fb3f2;}
+.corpright a:visited{line-height: 35px;height:35px;font-size: 16px;color: #6fb3f2;}
+.msg_message{ line-height: 40px ;font-size: 18px; }
+
+.msg_footer{text-align: center}
+.msg>div{margin-top: 10px;}
+</style>
+<div class="msg">
+	{if $msg['errno']==1}
+	<div ><img src="{$msg['qrcode']}" width="200"></div>
+	<div class="msg_message">{$msg['message']}</div>
+	{elseif $msg['errno']==2}
+	<div class="msg_message">{$msg['message']}</div>
+	<div class="msg_footer"><a href="javascript:;" class="button" onclick="callback()">确定</a></div>
+	{elseif $msg['errno']==3}
+	<div class="msg_message">{$msg['message']}</div>
+	<div class="msg_footer"><a href="{php echo mobileurl('verif',array('op'=>'bindagent.unbind','agentid'=>$isbind['id']))}" class="button">解绑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="callback()" class="button disable">取消</a></div>
+	{else}
+	<div class="msg_message">{$msg['message']}</div>
+	<div  class="msg_footer"><a href="javascript:;" class="button" onclick="callback()">确定</a></div>
+	{/if}
+</div>
+
+<script>
+require(['jquery','main','weixin'],function($,main,wx){ 
+callback=function(){
+wx.config({debug:jssdkconfig.debug,appId:jssdkconfig.appId,timestamp:jssdkconfig.timestamp,nonceStr:jssdkconfig.nonceStr,signature:jssdkconfig.signature,jsApiList:jssdkconfig.jsApiList});
+wx.ready(function(){
+    wx.closeWindow()
+})
+}})</script>
+{template 'footer'}

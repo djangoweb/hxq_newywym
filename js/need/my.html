@@ -1,0 +1,144 @@
+{template 'header'}
+<style>
+.mytop{ ;text-align: center; padding-bottom:0.1px;background: url('{if $act['ucthumb']}{$act['ucthumb']}{else}{MODULE_URL}images/top.jpg{/if}'); background-size:100% 100%; }
+.mytop>.avatar{display:inline-block;margin-top: 10px;border-radius:50% }
+.mytop>.name{text-align: center;margin: 10px; font-size: 1.4rem}
+.mytop>.info{margin:10px 0px; font-size: 1.2rem}
+.mytop>.info>.send{height: 20px;line-height: 20px;width: 50%;border-right:1px solid #ccc;float:left;text-align: center; }
+.mytop>.info>.unsend{height: 20px;line-height: 20px;width: 50%; float: left; text-align: center;}
+
+.btm{position: fixed;display:flex; height: 45px;bottom:0px;width: 100% }
+.btm>div{flex:1; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 50px}
+.icon{  background:url({MODULE_URL}images/icon.png); width:16px; height: 16px; background-size: 100%;margin:5px auto 0 auto; display:block;}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+.iconhome{ background-position:0px 0px;}
+.iconmp{ background-position:0px -144px;}
+.iconawarded{ background-position:0px -64px;}
+.iconmy{ background-position:0px -96px;}
+.iconhome_{ background-position:0px -16px;}
+.iconmp_{ background-position:0px -48px;}
+.iconawarded_{ background-position:0px -80px;}
+.iconmy_{ background-position:0px -112px;}
+.iconscan{ background-position:0px -128px;}
+.gradbox{ width:100%;margin:10px auto 0px auto; padding: 0px; background: #f8f6ec }
+.gradbox>.grad{display: block;width: 50%;border-right:1px solid #efefef;border-bottom:1px solid #efefef;list-style: none;float: left; text-align: center;box-sizing: border-box; text-align: center; padding:0px;}
+.gradbox>.grad:nth-child(2n+0){border-right:none;}
+.gradbox>.grad:nth-child(n+3){border-bottom:none;}
+.gradbox>.grad>.inlinebox{display: inline-block;height: 100%;width: 60%;}
+.gradbox>.grad>.inlinebox>div{ display:block; margin: auto 0 auto 30px ; padding: 5px 0; height: 52px; color:#000; text-decoration: none; font-size: 1.2rem}
+.gradbox>.grad>.inlinebox>div>.data{line-height: 21px; display: block; width: 100%; text-align: center; font-size: 1.4rem;}
+.gradbox>.grad>.inlinebox>div>.name{line-height: 21px;display: block;width: 100%; text-align: center;font-size: 1.2rem;}
+.gradbox>.grad>.inlinebox>div>.gradbtn{line-height: 21px;display:inline-block; text-align: center;font-size: 1.2rem;}
+.gradbox>.grad>.inlinebox>div>.single{line-height: 42px;display: block;width: 100%;text-align: center; font-size: 1.2rem;text-decoration: underline; color:#6e2020;}
+.gradbox>.grad>.inlinebox>div.danger{ color:red; 
+
+}
+.gradbox>.grad>a.success{ color:green; 
+
+}
+
+.iconcash{ float: left;width:20px ; height:20px; margin:22px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -20px; }
+
+.iconrp{ float: left;width:20px ; height:20px; margin:22px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 0px; }
+
+.iconzp{ float: left;width:20px ; height:20px; margin:22px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -40px; }
+i{ width: 2.2rem; height: 2.2rem; display: inline-block;  background-size: 30rem !important;}
+.grad1{background: url('{MODULE_URL}images/iconbg.png');  background-position:-0.2rem -0.4rem;    }
+.grad2{  background: url('{MODULE_URL}images/iconbg.png');  background-position:-2.4rem -0.4rem;   }
+.grad3{ background: url('{MODULE_URL}images/iconbg.png');  background-position:-4.8rem -0.4rem;   }
+.grad4{  background: url('{MODULE_URL}images/iconbg.png');  background-position:-7.2rem -0.4rem;   }
+
+a.button:link{ padding: 0px 40px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+a.button:visited{ padding: 0px 40px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+.large{ width: 100%;font-size: 1.4rem }
+a.disable:link{ padding: 0px 40px;height:35px;line-height: 35px; background: #ccc; border-radius: 200px; color:#fff;box-shadow:0 4px 0 #bbb, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+a.disable:visited{ padding: 0px 40px;height:35px;line-height: 35px; background: #ccc; border-radius: 200px; color:#fff;box-shadow:0 4px 0 #bbb, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+.wxtips{ width: 100%;margin:10px auto;padding: 10px; color: #6e2020 ;  background: #f8f6ec; font-size: 1.2rem; }
+.box{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;   }
+.success{ color: green !important }
+</style>
+<script>
+wx.config({debug:jssdkconfig.debug,appId:jssdkconfig.appId,timestamp:jssdkconfig.timestamp,nonceStr:jssdkconfig.nonceStr,signature:jssdkconfig.signature,jsApiList:jssdkconfig.jsApiList});
+sharedata={
+	title:'{$act['sharetitle']}',
+	imgUrl:'{php echo $_W['attachurl'].$act['sharethumb']}',
+	desc:'{$act['sharedesc']}',
+	link:'{php echo $_W['siteroot'].'app/'.$this->createmobileurl('index',array('cate'=>$cate['id']))}',
+	success:function(){},
+	fail:function(data){
+		alert(data)
+	}
+	}
+wx.ready(function(){
+	wx.onMenuShareTimeline(sharedata)
+	wx.onMenuShareAppMessage(sharedata)
+})
+wx.error(function(){
+   // alert("jssdk失败")
+})
+$(function(){
+$('.mp').click(function(){
+$('#followlayer').showlayer('','',false,true,'middle');
+})
+checkLocation();
+})
+</script>
+<style>
+</style>
+<div class="mytop">
+<img class="avatar" src="{$_W['fans']['avatar']}" width=50 height=50>
+<div class="name">{$_W['fans']['nickname']}</div>
+</div>
+</div>
+<ul class=gradbox>
+<li class="grad"><div class="inlinebox"><span class="iconcash"></span><div href="javascript:;" class="success"><span class="data">{$sumsend}</span><span class="name">已提红包</span><a class="gradbtn">查看提现记录</a></div></div></li>
+<li class="grad"><div class="inlinebox"><span class="iconrp"></span><div href="javascript:;" class="danger"><span class="data">{$sumunsend}</span><span class="name">未提红包</span><a class="gradbtn">查看提现记录</a></div></div></li>
+<li class="grad"><div class="inlinebox"><span class="iconzp"></span><div href="javascript:;" ><span class="data">{$credit1}</span><span class="name">积分</span><a class="gradbtn">查看提现记录</a></div></div></li>
+<li class="grad"><div class="inlinebox"><div href="{php echo $this->createmobileurl('awardedrcd',array('cateid'=>$cateid))}" class="grad"><span class="data">抽奖{$totallottery}次</span><span class="name">点击查看中奖记录</span></div></div></li>
+<div class="clearfix"></div>
+</ul>
+<div class="wxtips" style="">
+由于微信支付对现金红包的限制，1元以下的红包将累计至1元以上提取。<br>
+*如您已关注{$_W['account']['name']}公众号在公众号窗口领取提现的红包，未关注则通过微信官方服务通知来领取提现的红包。<br>
+*微信红包规定，超过72小时未拆红包将收回，请及时拆红包。<br>
+</div>
+<div class="box">
+{if !empty($fan)&&$sumunsend>=1}
+<a href="{php echo $this->createmobileurl('cash',array('cateid'=>$cateid))}" class="button large cash">提现红包</a></div>
+{else}
+<a href="javascript:;" class="button large cash disable">提现红包（红包须大于一元）</a></div>
+{/if}
+<!-- 
+<ul class="awardbox">
+<div class="atop"><img src="{MODULE_URL}images/dh2.png" width=100%></div>
+{loop $myawardeds $row}
+<div class="row">
+<div class="thumb"><img src="{php echo $row['thumb']}" /></div>
+<div class="right"><div class="date">{php echo date('Y',$row['addtime'])}<br>{php echo date('m-d',$row['addtime'])}</div><div class="detail">微信红包{$row['redpack']}元 {if !$row['isgrant']}未发送，已保存到红包金{else}已发送{/if}</div>
+</div>
+<div class="clearfix"></div>
+</div>
+{/loop}
+</ul> -->
+<div class="h35"></div>
+<div class="btm">
+{loop $menus $m}
+<div class=""><a class=btmlink {if $m['type']=='url'}href="{php echo tag_replace($m['action'])}"{else}href='javascript:;' onclick="{$m['action']}"{/if}><div {if strpos($m['icon'],'icon')!==false}class="{$m['icon']}"{else}class="icon" style="background:url({php echo $_W['attachurl'].$m['icon']}) ; background-size: 100% 100%;" {/if}" ></div><div class="text">{$m['name']}</div></a></div>
+{/loop}
+</div>
+<div id="followlayer" class="layercontent">
+<div class="header">关注我们</div>
+<span class="close_ close" data-target='fanallayer'><img src="{MODULE_URL}images/close.png" width="30" height="30"/></span>
+<hr style="width:90%;  margin:0 auto"/> 
+<div class="body">
+<div><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div class="message" style="text-align: center;font-size: 1.4rem">{$_W['account']['name']}<br>长按识别二维码</div>
+</div>
+</div>
+</body>
+</html>

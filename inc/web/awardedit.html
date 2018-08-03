@@ -1,0 +1,245 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('awardmanage',array('cateid'=>$cate['id']))}">管理奖项</a></li>
+	<li {if empty($id)}class="active"{/if}><a href="{php echo $this->createWebUrl('awardmanage',array('op'=>'edit','cateid'=>$cate['id']))}" ><i class="fa fa-plus"></i>添加奖项</a></li>
+    {if !empty($id)}<li class="active"><a href="{php echo $this->createWebUrl('awardmanage',array('op'=>'edit','cateid'=>$cate['id'],'id'=>$award['id']))}" ><i class="fa fa-edit"></i>修改奖项</a></li>{/if}
+</ul>
+<div class="clearfix">
+
+</div>
+
+<script>
+
+var coupon;
+
+var currbox;
+
+var awardtype;
+
+require(["jquery"], function($){
+
+		$(function(){
+
+		   $.extend({getcoupon:function(object,assignid){
+																$('.group').hide();
+																$('.group').find('input,select,textarea').attr('disabled',true)
+
+																currbox=$('.type'+$(object).val())
+
+																currbox.find('input,select,textarea').attr('disabled',false)
+
+																$('.type'+$(object).val()).show();
+														
+																
+
+}})
+
+$("input[name='award[type]']").on('change',function(){
+
+											$.getcoupon(this);   
+
+											}) 
+
+$.getcoupon($("input[name='award[type]']:checked"),'')
+		   })
+}); 
+
+</script>
+
+<style>
+
+.group{display:none}
+
+.clear{ clear:both}
+
+</style>
+
+
+<div class="panel panel-default">
+
+<div class="panel-heading">{if !empty($id)}修改奖项{else}添加奖项{/if}</div>
+
+<div class="clearfix"></div>
+<div class="panel-body">
+
+<form id="form1" name="form1" method="post" class="form-horizontal" action="{php echo $this->createweburl('awardmanage',array('op'=>'save','cateid'=>$award['cateid']?$award['cateid']:$cate['id']))}">
+
+<div class="form-group">
+
+    <label for="type" class="col-md-1 control-label" style="text-align:right">码段</label>
+
+    <div class="col-md-8">{$acts[$cate['actid']]['name']} ID:{$cate['id']} ({$cate['mintk']}-{$cate['maxtk']})<!-- 
+    <select name="cateid" class="form-control">
+    <option value="0">请选择码段</option>
+    {loop $cates $row}<option value="{$row['id']}" {if $award['cateid']==$row['id']}selected="selected"{elseif $cate['id']==$row['id']}selected="selected"{/if} >{if $acts[$row['actid']]}[{$acts[$row['actid']]['name']}]{else}[未绑定活动]{/if} ID:{$row['id']} ({$row['mintk']}-{$row['maxtk']})</option>{/loop}
+    </select> -->
+    </div>
+    </div>
+
+<div class="form-group">
+
+    <label for="type" class="col-md-1 control-label" style="text-align:right">奖项类型</label>
+
+    <div class="col-md-8">
+    <label class="radio-inline"><input name="award[type]"  type="radio" value="1" {if $award['type']==1||empty($award['type'])}checked='checked'{/if}/>普通红包</label>
+    <label class="radio-inline"><input name="award[type]"  type="radio" value="2" {if $award['type']==2}checked='checked'{/if}/>裂变红包</label>
+    <label class="radio-inline"><input name="award[type]"  type="radio" value="3" {if $award['type']==3}checked='checked'{/if}/>积分</label> 
+    <label class="radio-inline"><input name="award[type]"  type="radio" value="4" {if $award['type']==4}checked='checked'{/if}/>实物奖品</label>
+    <label class="radio-inline"><input name="award[type]"  type="radio" value="5" {if $award['type']==5}checked='checked'{/if}/>模块优惠券</label> 
+    </div>
+
+    <div class="clear"></div>
+
+    </div>
+  <div class="type1 group">
+    <div class="form-group">
+        <label for="award[title]" class="col-md-1 control-label">奖品名称</label>
+        <div class="col-md-4"><input type="text" name="award[title]" value="{$award['title']}" class="form-control"   placeholder=""/>
+        <span class="help-block"><strong class="text-danger">微信红包请填写奖品金额、实物奖品填写实物名称，此处填写显示在中奖弹层中给粉丝看的，请准确填写</strong></span></div>
+        
+    </div>
+    <div class="form-group">
+         <label for="price" class="col-md-1 control-label">奖品金额</label>
+            <div class="col-md-2"><input type="text" name="award[redpack]" value="{$award['redpack']}" class="form-control"   placeholder=""/></div> 
+
+         <label for="sum" class=" col-md-1 control-label">奖品总数</label>
+
+         <div class=" col-md-2"><input type="text" name="award[total]" value="{$award['total']}" class="form-control"   placeholder=""/></div>
+
+        <div class="clear"></div>
+
+        <div class="col-md-2 col-md-offset-1"><span class="help-block">从大到小</span></div>
+        <div class="col-md-3"><span class="help-block">支持小数点后两位，精确到分</span></div>
+        <div class="col-md-2 col-md-offset-1"><span class="help-block">整数</span></div>
+
+    </div>
+  
+
+    </div>
+
+  <div class="type2 group" >
+    <div class="form-group">
+        <label for="award[title]" class="col-md-1 control-label">奖品名称</label>
+        <div class="col-md-4"><input type="text" name="award[title]" value="{$award['title']}" class="form-control"   placeholder=""/>
+        <span class="help-block"><strong class="text-danger">微信红包请填写奖品金额、实物奖品填写实物名称，此处填写显示在中奖弹层中给粉丝看的，请准确填写</strong></span></div>
+        </div>
+
+    <div class="form-group">
+
+    <label for="price" class="col-md-1 control-label">奖品金额</label>
+    <div class="col-md-2"><input type="text" name="award[redpack]" value="{$award['redpack']}" class="form-control"   placeholder=""/></div> 
+    <label for="price" class="col-md-1 control-label">裂变人数</label>
+    <div class="col-md-2"><input type="text" name="award[total_num]" value="{$award['total_num']}" class="form-control"   placeholder=""/></div> 
+         <label for="sum" class=" col-md-1 control-label">奖品总数</label>
+
+         <div class=" col-md-2"><input type="text" name="award[total]" value="{$award['total']}" class="form-control"   placeholder=""/></div>
+
+        <div class="clear"></div>
+
+        <div class="col-md-2 col-md-offset-1"><span class="help-block">从大到小</span></div>
+        <div class="col-md-3"><span class="help-block">支持小数点后两位，精确到分</span></div>
+        <div class="col-md-3"><span class="help-block">裂变红包金额除以列变人数必须大于1元才能正常发送</span></div><div class="col-md-offset-1 col-md-1"><span class="help-block">整数</span></div>
+    </div>
+
+
+    </div>
+
+
+<div class="type3 group" >
+    <div class="form-group">
+        <label for="award[title]" class="col-md-1 control-label">奖品名称</label>
+        <div class="col-md-4"><input type="text" name="award[title]" value="{$award['title']}" class="form-control"   placeholder=""/>
+        <span class="help-block"><strong class="text-danger">微信红包请填写奖品金额、实物奖品填写实物名称，此处填写显示在中奖弹层中给粉丝看的，请准确填写</strong></span></div>
+    </div>
+    <div class="form-group">
+
+          <label for="price" class="col-md-1 control-label">积分</label>
+            <div class="col-md-2"><input type="text" name="award[credit1]" value="{$award['credit1']}" class="form-control"   placeholder=""/></div> 
+         <label for="sum" class=" col-md-1 control-label">奖品总数</label>
+
+         <div class=" col-md-2"><input type="text" name="award[total]" value="{$award['total']}" class="form-control"   placeholder=""/></div>
+
+        <div class="clear"></div>
+
+        <div class="col-md-2 col-md-offset-1"><span class="help-block">从大到小</span></div>
+        <div class="col-md-3"><span class="help-block">支持小数点后两位，精确到分</span></div>
+        <div class="col-md-2 col-md-offset-1"><span class="help-block">整数</span></div>
+    </div>
+
+
+    </div>
+  
+       <div class="type4 group" >
+	<div class="form-group">
+    	<label for="award[title]" class="col-md-1 control-label">奖品名称</label>
+        <div class="col-md-4"><input type="text" name="award[title]" value="{$award['title']}" class="form-control"   placeholder=""/>
+        <span class="help-block"><strong class="text-danger">微信红包请填写奖品金额、实物奖品填写实物名称，此处填写显示在中奖弹层中给粉丝看的，请准确填写</strong></span></div>
+        </div>
+
+    <div class="form-group">
+
+         <label for="sum" class=" col-md-1 control-label">奖品总数</label>
+        <div class=" col-md-1"><input type="text" name="award[total]" value="{$award['total']}" class="form-control"   placeholder=""/></div>
+        <div class="clear"></div>
+        <div class="col-md-1 col-md-offset-1"><span class="help-block">从大到小</span></div><div class="col-md-1 col-md-offset-1"><span class="help-block">整数</span></div>
+    </div>
+        <div class="form-group">
+        <label for="award[thumb]" class="col-md-1 control-label">缩略图</label>
+        <div class="col-md-8">{php echo tpl_form_field_image('award[thumb]',$award['thumb'],'',array('global'=>false))}
+        <span class="help-block"><strong class="text-danger"></strong></span></div> 
+        </div>
+ <!--    <div class="form-group">
+     <label for="award[sort]" class="col-md-2 control-label">核销门店</label>
+     <div class="col-md-8 ">
+         {loop $verifers $verifer}
+         <label class="checkbox-inline"><input name="award[verifers][]"  type="checkbox" {if in_array($verifer['id'],$award['verifers'])} checked="checked"{/if} value="{$verifer['id']}"/>{$verifer['name']}</label>
+         {/loop}
+     </div>
+ </div> -->
+</div>
+<div class="type5 group">
+    <div class="form-group">
+        <label for="award[title]" class="col-md-1 control-label">优惠券</label>
+        <div class="col-md-4"><select name="award[couponid]" class="form-control">
+        <option value="0">请选择优惠券</option>
+       {loop $coupons $row}<option value="{$row['id']}"{if $row['id']==$award['couponid']}selected="selected"{/if}>{$row['name']}</option>{/loop}
+        </select>
+    </div>
+    </div>
+    <div class="form-group">
+
+         <label for="sum" class=" col-md-1 control-label">奖品总数</label>
+
+         <div class=" col-md-2"><input type="text" name="award[total]" value="{$award['total']}" class="form-control"   placeholder=""/></div>
+
+        <div class="clear"></div>
+
+        <div class="col-md-2 col-md-offset-1"><span class="help-block">小于10000</span></div>
+        <div class="col-md-2 col-md-offset-1"><span class="help-block">整数</span></div>
+    </div>
+</div>
+<div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-1 control-label">内定二维码编号</label>
+    <div class="col-sm-6 col-md-8 col-xs-12"><textarea name="award[tokenids]" class="form-control">{$award['tokenids']}</textarea>
+    <span class="help-block">填写了此项则如果奖品还没有抽完，那么用这个编号抽奖的用户必中此奖品，多个二维码编号请使用英文,分隔开,请不要将同一个二维码编号填入多个奖品，那样排序最高的奖品将会先被抽到。</span></div>
+</div>
+<div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-1 control-label">奖品说明</label>
+    <div class="col-sm-6 col-md-8 col-xs-12"><textarea name="award[description]" class="form-control">{$award['description']}</textarea>
+    <span class="help-block">微信卡券类需要填写引导客户如何使用，支持换行空格</span></div>
+</div>
+     <div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-1 control-label"></label>
+
+ 	  <div class="col-sm-6 col-md-8 col-xs-12">
+
+
+      <input name="award[id]" type="hidden" value="{$award['id']}" />
+
+      <input name="saveedit" type="submit" value="保存奖项" class="btn btn-primary"/></div>
+
+	  </div>
+
+    </form>
+</div>
+    </div>
+
+</div>
+{template 'common/footer'}

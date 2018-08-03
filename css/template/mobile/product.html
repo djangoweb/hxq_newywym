@@ -1,0 +1,56 @@
+{template 'header'}
+<style>
+body{ background: #fff; }
+.name{ width: 90% ;margin:45px auto 0 auto; padding: 0px;  list-style:none ; text-align: center;; font-size: 2rem;line-height: 60px}
+.read{ width: 90%; margin:10px auto; font-size: 1.4rem; color:#8c8c8c;}
+.company{ width: 90%; margin:10px auto; font-size: 1.4rem; color:#899ef6;}
+.company a:link{color:#899ef6; text-decoration:none;}
+.company a:hover{color:#899ef6; text-decoration:none;}
+.company a:visited{color:#899ef6; text-decoration:none;}
+.content{ width: 90%; margin:20px auto;font-size: 1.4rem }
+.nav{ width: 100%;height: 45px;  background: #f8f6ec; position: fixed;top:0px;}
+.nav>.left{ height: 45px; width: 45px; float:left; }
+.nav>.left>.back{ height: 14px; width: 14px;  margin: 13px; border-left: 1px solid #ccc; border-bottom: 1px solid #ccc; transform: rotate(45deg); display: block;  }
+.nav>.navtitle{ margin-left:45px; margin-right:45px; text-align: center;line-height: 45px ; font-size: 1.6rem }
+
+.bottom { position: fixed; width: 100%;height: 40px;bottom: 0px; text-align: center; background: #ebebeb}
+.bottom a{ width: 100%;height:100%;display: block; color: #000; }
+.bottom a .left{ width: 40px; height: 40px; float: left;  }
+.bottom a .title{ margin:0 40px;  height: 40px; line-height: 40px; text-align: center; font-size: 1.6rem;}
+.bottom a .left .back{ height: 14px; width: 14px;  margin: 13px; border-left: 1px solid #ccc; border-bottom: 1px solid #ccc; transform: rotate(45deg); display: block;  }
+.price{ width: 90%; margin:10px auto; font-size: 1.4rem;}
+.div50{ height: 50px;width: 100% }
+</style>
+<script type="text/javascript" src="{MODULE_URL}/js/main.js?{TIMESTAMP}"></script>
+<script>
+sharedata={
+	title:'{$act['sharetitle']}',
+	imgUrl:'{php echo $_W['attachurl'].$act['sharethumb']}',
+	desc:'{$act['sharedesc']}',
+	link:'{php echo $_W['siteroot'].'app/'.$this->createmobileurl('content',array('cateid'=>$cate['id']))}',
+	success:function(){},
+	fail:function(data){
+		alert(data)
+	}
+	}
+wx.ready(function(){
+	wx.onMenuShareTimeline(sharedata)
+	wx.onMenuShareAppMessage(sharedata)
+})
+wx.error(function(){
+   // alert("jssdk失败")
+})
+</script>
+<div class="nav"><div class="navtitle">产品介绍</div></div>
+<div class="name">{$pdt['name']}</div>
+{if $pdt['showprice']}
+<div class="price">建议零售价 {$pdt['price']}元</div>
+{/if}
+<div class="company"><a href="{php echo $this->createmobileurl('company',array('cateid'=>$cateid))}" >{php echo $this->module['config'][company]['name']}</a></div>
+<div class="content">{$pdt['description']}</div>
+<div class="read">阅读 {php echo $pdt['hits']}</div>
+</div>
+<div class="div50"></div>
+<div class="bottom"><a href="{php echo $this->createmobileurl('index',array('cateid'=>$cateid))}"><div class=left><span class=back ></span></div><div class=title>返回</div></a></div>
+</body>
+</html>

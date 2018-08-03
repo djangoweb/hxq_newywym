@@ -1,0 +1,85 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+
+<li class="active"><a href="{php echo $this->createWebUrl('fanmanage')}">粉丝管理</a></li>
+<div class=" form-inline pull-right">
+<label >切换活动</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('fanmanage')}&actid='+this.options[this.selectedIndex].value">
+<option value="0" {if empty($actid)}selected="selected"{/if}>所有活动</option>
+{loop $acts $row}<option value="{$row['id']}" {if $actid==$row['id']}selected="selected"{/if} >{$row['name']}</option>{/loop}
+</select> &nbsp;<a href="{php echo $this->createweburl('fanmanage',array('op'=>'export','actid'=>$_GPC['actid'],'cateid'=>$_GPC['cateid']))}" class="btn btn-primary pull-right">导出选中的粉丝信息到EXECEL</a>
+</div>
+
+</ul>
+
+<div class="clearfix"></div>
+<div class="panel panel-default">
+<div class="panel-heading">一共{$total}条记录</div>
+<div class="clearfix"></div>
+
+    <style>
+
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+
+</style>
+<div class="panel-body">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="60" align="center">id</th>
+    <th width="60" align="center">uid</th>
+    <th width="60" align="center">头像</th>
+    <th width="80" align="center">昵称</th>
+    <th width="120" align="center">粉丝编号</th>
+    <th width="50" align="center">性别</th>
+    <th width="80" align="center">会员分组</th>
+    <th width="50" align="center">中奖</th>
+    <th width="50" align="center">分享</th>
+    <th width="100" align="center">操作</th>
+    </tr>
+    {loop $fans $row}
+    <tr>
+    <td valign="middle">{$row['id']}</td>
+    <td valign="middle">{if $row['uid']}{$row['uid']}{/if}</td>
+    <td valign="middle">{if $row['avatar']}<img src="{php echo $row['avatar']}" width="40"/>{else}<img src="{php echo MODULE_URL.'/images/noavatar.png'}" width="40"/>{/if}</td>
+    <td valign="middle">{if $row['nickname']}{$row['nickname']}{else}匿名{/if}</td>
+    <td valign="middle">{$row['oauth_openid']}</td>
+    <td valign="middle">{if $row['sex']==1}男{elseif $row['sex']==2}女{/if}</td>
+    <td valign="middle">
+    {if !empty($row['uid'])}
+	<span class="label label-success" style="margin:5px;">{$groups[$row['groupid']]['title']}</span>
+    <div  style="height:5px;"></div>
+    <span class="label label-default"><a href="{php echo wurl('mc/member/',array('do'=>'base_information','uid'=>$row['uid']))}" target="_blank">点击分组</a></span>
+    {else}
+    非会员
+    {/if}</td>
+	<td valign="middle"><span class="label label-danger">{$row['totallottery']}</span></td>
+	<td valign="middle"><span class="label label-warning">{$row['totalshare']}</span></td>
+    <td  valign="middle">
+	<a data-original-title="查看中奖" itle="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('awardedmanage',array('op'=>'display','keyword'=>$row['oauth_openid']))}"><i class="fa fa-eye"></i></a>
+    <a data-original-title="删除" itle="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" onclick="return confirm('确认删除？')" href="{php echo $this->createWebUrl('fanmanage',array('op'=>'delete','id'=>$row['id'],'actid'=>$this->act['id']))}"><i class="fa fa-remove"></i></a></td>
+    </tr>
+    {/loop}
+    </table>
+    </div>
+        <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+</div>
+{$pager}
+</div>
+
+{template 'common/footer'}

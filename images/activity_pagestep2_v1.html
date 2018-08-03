@@ -1,0 +1,440 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+
+	<li><a href="{php echo $this->createWebUrl('activity')}">管理活动</a></li> 
+
+    <li class="active"><a href="{php echo $this->createWebUrl('activitypage',array('id'=>$act['id'],'op'=>'page'))}">修改页面</a></li> 
+
+</ul>
+
+<div class="clearfix">
+
+</div><style>
+
+.sharenum{ display:none}
+
+.clear{ clear:both}
+.fileup{width: 100px;height:100px;position:relative;display: inline-block;background: #ebebeb}
+.fileup a{padding:38px 0;line-height: 60px;font-size: 20px;line-height: 20px;text-align:center;color: #fff;background-position:center center; width:100% ;height:100%;background-repeat:no-repeat; display: block; }
+.fileup input[type=file]{position: absolute;top:0px;right:0px;width: 100%;height: 100%;cursor: pointer;opacity: 0;}
+.iconfont{font-size:64px;line-height:20px;color:#fff;}
+textarea.form-control{height:120px;}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">通用页面设置</div>
+<div class="panel-body">
+<div class="col-md-8">
+<form id="event_form" name="event_form" method="post" class="" action="{$_W['siteurl']}">
+    <div class="form-group form-required" >
+    <label for="do-submit">主题图</label>
+    <div style="margin-top:20px;">
+    <div class="fileup btn-fileup">
+          <a href="javascript:;" data-toggle="" class="iconfont icon-iconadd have-img" data-view="" style="background-size:100% 100%;background-image:url('{php echo $_W['attachurl'].$page['banner']}')" onclick="showImageDialog(this)"><i class="glyphicon glyphicon-plus"></i></a>
+          <input type="hidden" name="page[banner]" id="page_banner_image" value="{$page['banner']}">
+        </div>
+    </div>
+    </div>
+    <div class="form-group form-required">
+    <label for="do-submit">LOGO图</label>
+    <div style="margin-top:20px;">
+    <div class="fileup btn-fileup">
+          <a href="javascript:;" data-toggle="" class="iconfont icon-iconadd have-img" data-view="" style="background-size:100% 100%;background-image:url('{php echo $_W['attachurl'].$page['logo']}')"  onclick="showImageDialog(this)"><i class="glyphicon glyphicon-plus"></i></a>
+          <input type="hidden" name="page[logo]" id="page_logo_image" value="{$page['logo']}">
+        </div><div style="display:inline-block;vertical-align: bottom;margin-left: 20px; "><a href="javascript:;" onclick="deletelogo(this)"><i class="glyphicon glyphicon-remove"></i></a></div>
+    </div>
+    </div>
+    <div class="form-group form-required">
+    <label for="do-submit">主标题</label>
+    <input style="margin-top:20px;" class="form-control" type="text" value="{$page['title']}" name="page[title]">
+    </div>
+  <div class="form-group">
+      <label for="do-submit" >副标题</label>
+      <input style="margin-top:20px;" class="form-control" value="{$page['subtitle']}" name="page[subtitle]">
+      </div>
+    <div class="form-group"><label for="do-submit" >背景音乐</label>
+<script type="text/javascript">
+  function showAudioDialog(elm, base64options, options) {
+        if ($('input[type=hidden][value=video]').size()>0){
+            alert('音频与视频只能选择添加一个');
+            return
+        }
+    require(["util"], function(util){
+      var btn = $(elm);
+      var ipt = btn.parent().prev();
+      var val = ipt.val();
+      util.audio(val, function(url){
+        if(url && url.attachment && url.url){
+          btn.prev().show();
+          ipt.val(url.attachment);
+          ipt.attr("filename",url.filename);
+          ipt.attr("url",url.url);
+          $('.audio').show()
+          setAudioPlayer();
+        }
+        if(url && url.media_id){
+          ipt.val(url.media_id);
+        }
+      }, "" , {"global":true,"direct":true,"multiple":false,"fileSizeLimit":5120000});
+    });
+  }
+
+  function setAudioPlayer(){
+    require(["jquery.jplayer"], function(){
+      $(function(){
+        $(".audio-player").each(function(){
+          $(this).prev().find("button").eq(0).click(function(){
+            var src = $(this).parent().prev().val();
+            if($(this).find("i").hasClass("fa-stop")) {
+              $(this).parent().parent().next().jPlayer("stop");
+              $('.audio').html('停止')
+            } else {
+              if(src) {
+                $(this).parent().parent().next().jPlayer("setMedia", {mp3: util.tomedia(src)}).jPlayer("play");
+                $('.audio').html('播放')
+              }
+            }
+          });
+        });
+
+        $(".audio-player").jPlayer({
+          playing: function() {
+            $(this).prev().find("i").removeClass("fa-play").addClass("fa-stop");
+            $('.audio').html('播放')
+          },
+          pause: function (event) {
+            $(this).prev().find("i").removeClass("fa-stop").addClass("fa-play");
+            $('.audio').html('停止')
+          },
+          swfPath: "resource/components/jplayer",
+          supplied: "mp3"
+        });
+        $(".audio-player-media").each(function(){
+          $(this).next().find(".audio-player-play").css("display", $(this).val() == "" ? "none" : "");
+        });
+      });
+    });
+  }
+  setAudioPlayer();
+</script>
+  <div class="input-group">
+    <input type="text" value="{$page['audio']}" name="page[audio]" class="form-control audio-player-media" autocomplete="off" >
+    <span class="input-group-btn">
+      <button class="btn btn-default audio-player-play" type="button" style="display:none;"><i class="fa fa-play"></i></button>
+      <button class="btn btn-default" type="button" onclick="showAudioDialog(this, 'YTo0OntzOjY6Imdsb2JhbCI7YjoxO3M6NjoiZGlyZWN0IjtiOjE7czo4OiJtdWx0aXBsZSI7YjowO3M6MTM6ImZpbGVTaXplTGltaXQiO2k6NTEyMDAwMDt9',{'global':true,'direct':true,'multiple':false,'fileSizeLimit':5120000});">选择媒体文件</button>
+    </span>
+  </div>
+  <div class="input-group audio-player"></div>    <span class="help-block text-danger">背景音乐与视频只能选择其中一个添加</span>
+  </div>
+
+   <div class="panel panel-default form-group input-box form-required" >
+      <div class="panel-heading" >活动详情</div>
+      <div class="panel-body form-group J-box" >
+      {if empty($page['desc'])||!is_array($page['desc'])}
+          <div class="form-group S-box"><div class="col-md-10">
+          <input class="form-control" type=hidden value="text" name="page[desc][0][type]">
+          <textarea class="form-control" row=8 value="" name="page[desc][0][value]"></textarea>
+          </div>
+          <div class="col-md-2"><a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> <a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a></div>
+          </div>
+      {else}
+        {loop $page['desc'] $key $item}
+        {if $item['value']}
+          {if $item['type']=='text'}
+          <div class="form-group S-box"><div class="col-md-10">
+          <input class="form-control" type=hidden value="text" name="page[desc][{$key}][type]">
+          <textarea class="form-control" row=8 value="" name="page[desc][{$key}][value]">{$item['value']}</textarea>
+          </div>
+          <div class="col-md-2"><a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> <a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a></div>
+          </div>
+          {elseif $item['type']=='image'}
+          <div class="form-group S-box"><div class="col-md-4"><div class="fileup btn-fileup"><a href="javascript:;" data-toggle="bg" style="background-size:100% 100%;background-image:url('{php echo $_W['attachurl'].$item['value']}')" onclick="showImageDialog(this)"><i class="glyphicon glyphicon-plus"></i></a><input type="hidden" name="page[desc][{$key}][value]" value="{$item['value']}"><input type="hidden" name="page[desc][{$key}][type]" value="image"></div></div><div class="col-md-4" style="display:inline-block"><a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> <a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a></div></div>
+          {elseif $item['type']=='video'}
+          <div class="form-group S-box"><div class="col-md-4"><div class="fileup btn-fileup"><a href="javascript:;" data-toggle="bg" style="background-size:100% 100%;background-image:url('{MODULE_URL}images/video.png')" onclick="showVideoDialog(this)"><i class="glyphicon glyphicon-plus"></i></a><input type="hidden" name="page[desc][{$key}][value]" value="{$item['value']}"><input type="hidden" name="page[desc][{$key}][type]" value="video"></div></div><div class="col-md-4" style="display:inline-block"><a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> <a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a></div>
+          <div class="clear"></div><div class="col-md-4"><div class="help-block">背景音乐与视频只能选择其中一个添加</div></div></div>
+          {/if} 
+          {/if}
+        {/loop}
+      {/if}
+      </div>
+   </div>
+   <div class="form-group "></div>
+   {php krsort($page['desc'])}
+   {php reset($page['desc'])}
+   {php $k=key($page['desc']);$k++;}
+   <div class="form-group"><div class="col-md-3 J-add" id="add_text" data-type="text" data-index="{if $page&&is_array($page)}{$k}{else}1{/if}" style=" text-align:center;background:#EBEBEB;height:50px;line-height:50px;"><i class="glyphicon glyphicon-font"></i> 添加文字</div><div class="col-md-3 J-add" id="add_image" data-type="pic" data-index="{if $page&&is_array($page)}{$k}{else}1{/if}" style=" text-align:center;background:#EBEBEB;height:50px;line-height:50px;"><i class="glyphicon glyphicon-picture"></i> 添加图片</div><div class="col-md-3 J-add" id="add_video" data-type="video" data-index="{if $page&&is_array($page)}{$k}{else}1{/if}" style=" text-align:center;background:#EBEBEB;height:50px;line-height:50px;"><i class="glyphicon glyphicon-video"></i> 添加视频</div><div class="col-md-3 J-add" id="add_coupon" data-type="coupon" data-index="{if $page&&is_array($page)}{$k}{else}1{/if}" style=" text-align:center;background:#EBEBEB;height:50px;line-height:50px;"><i class="glyphicon glyphicon-video"></i> 添加优惠券</div></div>
+   <div class="form-group"><label for="do-submit" class="  col-md-2 control-label"></label>
+ 	  <div class="col-sm-6 col-md-9 col-xs-12 col-md=offset-4">
+      <input name="template" type="hidden" value="{$_GPC['template']}" />
+      <input name="token" value="{$_W['token']}" type="hidden" />
+      <input name="save" value="1" type="hidden" />
+      <a class="btn btn-primary" href="{php echo $this->createweburl('activity',array('op'=>'pagestep1','id'=>$_GPC['id']))}">上一步</a> 
+      <a class="btn btn-primary save-template" href="javascript:;" value="">保存</a> 
+      <a href="{php echo $this->createweburl('activity')}" value="取消" class="btn btn-default">取消</a>
+    </div>
+	 </div> 
+</form>
+</div><div class="col-md-4" style="position:relative;"><div class="audio" style="position:absolute;width:40px;height:20px;line-height:20px;font-size:1.4rem;text-align:center;background:#ebebeb;right:20px;top:5px;{if empty($page['audio'])}display:none{/if}">音乐</div><img width="100%" src="{php echo MODULE_URL.'images/'.$_GPC['template'].'.jpg'}"></div>
+</div>
+</div>
+<script type="text/javascript">
+      function showImageDialog(elm, opts, options) {
+        require(["util"], function(util){
+          var btn = $(elm);
+          var ipt = btn.next();
+          var val = ipt.val();
+          var img = ipt.parent().next().children();
+          options = {'global':false,'class_extra':'','direct':true,'multiple':false,'fileSizeLimit':5120000};
+          util.image(val, function(url){
+            if(url.url){
+              if(img.length > 0){
+                img.get(0).src = url.url;
+              }
+              ipt.val(url.attachment);
+              ipt.attr("filename",url.filename);
+              ipt.attr("url",url.url);
+              btn.css('background-image','url('+url.url+')')
+              btn.css('background-size','100% 100%')
+            }
+            if(url.media_id){
+              if(img.length > 0){
+                img.get(0).src = "";
+              }
+              ipt.val(url.media_id);
+            }
+          }, options);
+        });
+      }
+      function deleteImage(elm){
+        $(elm).prev().attr("src", "./resource/images/nopic.jpg");
+        $(elm).parent().prev().find("input").val("");
+      }
+  function deletelogo(elm){
+    $(elm).parent().prev().find("input").val("");
+    $(elm).parent().prev().find("a").css("background-image",'');
+  }
+  function showVideoDialog(elm, options) {
+    require(["util"], function(util){
+      var btn = $(elm);
+      var ipt = btn.next();
+      var val = ipt.val();
+      util.audio(val, function(url){
+        if(url && url.attachment && url.url){
+          ipt.val(url.attachment);
+          ipt.attr("filename",url.filename);
+          ipt.attr("url",url.url);
+          btn.css('background-image','url({MODULE_URL}/images/video.png) ')
+              btn.css('background-size','100% 100%')
+        }
+        if(url && url.media_id){
+          ipt.val(url.media_id);
+        }
+      }, {"direct":true,"multi":false,"type":"video","fileSizeLimit":5120000});
+    });
+  }
+require(['jquery','util'],function($,u){
+  //交互
+  $(".save-template").on("click",function(){
+      if(validateElements([".form-required input[type='text']",".form-required textarea",".form-required .btn-fileup input[type='hidden']"])){
+        //$(".save-template").attr("disabled", true);
+        save_form();
+      }
+    })
+  $('.form-required').bind('input onchange', function() {
+    $(this).next(".text-error").remove();
+    $(this).removeClass("error-tips");
+  });
+
+  function valiSingleEle(element){
+    var value = $(element).val().trim();
+    var $html = '<div class="text-error">不能为空</div>';
+    if(value ==''){  
+      var requiredEle = $(element).parents(".form-required");
+      var nextDiv = requiredEle.next();
+      var className = nextDiv.attr('class');
+      if(className !== "text-error"){
+        requiredEle.after($html);
+        requiredEle.addClass("error-tips");
+      }
+      return false;
+    }
+    return true;
+  }
+  function validateElements(arrayEle){
+    var isValidate = true;
+    arrayEle.forEach( function (obj, index, array){
+      if($(obj).length > 0 && !valiSingleEle(obj)){
+        isValidate = valiSingleEle(obj);
+      }
+    }
+    )
+      return isValidate;
+  }
+  function save_form() {
+    //document.getElementById('finish_btn').style.display='none';GSG
+    $.ajax({
+        async:true,
+        method:'post',
+        url:'{$_W['siteurl']}',
+        data:$("#event_form").serialize(),
+        dataType:'json',
+        success:function(data){
+              $.get('{php echo $this->createweburl('qrcode',array('id'=>$_GPC['id']))}&url='+'{php echo urlencode($_W['siteroot'].'/app/'.$this->createmobileurl('index',array('actid'=>$_GPC['id'])))}',function(data){
+                data=eval('('+data+')')
+                title='预览二维码';
+                content='<div class="col-md-12  e text-danger" style="text-align:center">'
+                content+='<img src="{$_W['attachurl']}'+data.url+'" width="200">'
+                content+='<div class="clearfix"></div>'
+                content+='</div>'
+                footer='<div class="modal-footer"><button type="button" class="btn btn-primary" onclick="location.href=\''+'{php echo  $this->createweburl('activity',array('id'=>$_GPC['actid']))}'+'\'">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                options={};
+                qrcodemodal=u.dialog(title,content,footer,options);
+                qrcodemodal.modal('show')
+              })/*
+              $("#completeModal").modal();
+              document.getElementById("preview_qrcode").innerHTML='';
+              // change new form to edit form
+              $("#event_form").attr("action", "/events/"+data["event_id"]);
+              $("#event_form").attr("method", "put");
+              // change previous step from new to edit
+              $("#previous_step").attr("href", "/events/"+data["event_id"]+"/edit");
+              new QRCode(document.getElementById("preview_qrcode"), {
+                text: "http://wp.vcooline.com/"+data["uid"],
+                width: 258,
+                height: 258,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.L
+              });
+              document.getElementById('finish_btn').style.display='';*/
+        },
+        error:function(a,b,c){
+          alert(b)
+        }
+    })
+/*    $("#event_form").trigger("submit");
+    $("#event_form").on("ajax:success", function(event, data, status, xhr){
+      
+    });*/
+/*    $("#event_form").on("ajax:complete", function(event, data, status, xhr){
+      $(".save-template").attr("disabled", false);
+    });
+    $("#event_form").on("ajax:error", function(event, xhr, status, error){
+      showTip("error", "保存异常");
+    });*/
+  }
+  //交互结束
+    function limit_num(element,ele_entered){
+      $(element).on('change', function() {
+        var $this = $(this);
+        var max = parseInt($this.attr("maxlength"), 10);
+        if (max > 0) {
+          if ($this.val().length > max) {
+            var num=$this.val().substring(0, max);
+            $this.val(num);
+          }
+          var entered = $this.val().length;
+          console.log(entered)
+          $(ele_entered).text(entered);
+        }
+      });
+
+      $(element).bind('input onchange', function() {
+        var $this = $(this);
+        var max = parseInt($this.attr("maxlength"), 10);
+        if (max > 0) {
+          var entered = $this.val().length;
+          $(ele_entered).text(entered);
+        }
+      });
+    }
+    limit_num('.main-title','.main-entered');
+    limit_num('.subtitle-title','.subtitle-entered');
+    limit_num('.goods-name','.goodsname-entered');
+
+    $('.input-box').on('click','.J-delete',function(){
+      var $this = $(this),
+        $item = $this.parents(".S-box");
+      $item.remove();
+    });
+    $('.input-box').on('click','.J-up',function(){
+      var $this = $(this),
+        $item = $this.parents(".S-box"),
+        $prev_item = $item.prev();
+      if ($prev_item.length > 0) $item.insertBefore($prev_item);
+    });
+    $('.input-box').on('click','.J-down',function(){
+      var $this = $(this),
+        $item = $this.parents(".S-box"),
+        $next_item = $item.next();
+      if ($next_item.length > 0) $item.insertAfter($next_item);
+    });
+    $('body').on('click','.J-add',function(){
+      var $this = $(this),
+      $type = $this.data('type');
+      $index = $this.attr('data-index');
+      if ($type=='video'){
+          if ($('input[type=hidden][value=video]').size()>0||$('input[name="page[audio]"]').val()!=''){
+          u.message('视频与音频只能添加一个')
+          return;
+          }
+          addTemplate($index, $type);
+      }else if ($type=='coupon') {
+          $.get("{php echo $this->createweburl('getcoupon',array('actid'=>$_GPC['id']))}",function(data){
+                title='选择优惠券';
+                content='<div class="material-body we7-form">';
+                for (a in data.coupons){
+                content+='<div class="col-md-4">'+data.coupons[a]['name']+' <a href="javascript:;" onclick="add_coupon_('+$index+',\''+$type+'\','+data.coupons[a]['id']+',\''+data.coupons[a]['name']+'\',\''+data.coupons[a]['style']+'\',\''+data.coupons[a]['coupontype']+'\',\''+data.coupons[a]['requirement']+'\',\''+data.coupons[a]['starttime']+'\',\''+data.coupons[a]['endtime']+'\')">选择</div>'
+                }
+                content+='<div class="col-md-4"></div><div class="col-md-8 message text-danger"></div>'
+                content+='</div>'
+                footer='<div class="modal-footer"></div>';
+                options={};
+                couponmodal=u.dialog(title,content,footer,options);
+                couponmodal.modal('show')
+                return;
+          },'json')
+          return;
+      }else{
+          addTemplate($index, $type);
+      }
+    });
+
+    $(".label-group .icon").append(delete_icon).append(sort_btns);
+  
+})
+
+    var delete_icon = '<a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> ';
+    var sort_btns = '<a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a>';
+  function addTemplate(index, type, url,coupon){
+    window.coupon=coupon;
+    require(['jquery'],function($){
+    var $template, $box = $('.J-box');
+    switch(type){
+      case 'text':
+        $template = '<div class="form-group S-box"><div class="col-md-9"><input class="form-control" type=hidden value="text" name="page[desc][' + index + '][type]"><textarea class="form-control" row=5 value="" name="page[desc][' + index + '][value]"></textarea></div><div class="col-md-3">' + delete_icon + sort_btns + '</div></div>';
+        break;
+      case 'pic':
+        $template = '<div class="form-group S-box"><div class="col-md-4"><div class="fileup btn-fileup"><a href="javascript:;" data-toggle="bg" style=" background-position: center center;" onclick="showImageDialog(this)"><i class="glyphicon glyphicon-plus"></i></a><input type="hidden" name="page[desc][' + index +'][value]" value="' + url + '"><input type="hidden" name="page[desc][' + index +'][type]" value="image"></div></div><div class="col-md-4" style="display:inline-block">' + delete_icon + sort_btns + '</div></div>';
+        break;
+      case 'video':
+        $template = '<div class="form-group S-box"><div class="col-md-4"><div class="fileup btn-fileup"><a href="javascript:;" data-toggle="bg" style=" background-position: center center;" onclick="showVideoDialog(this)"><i class="glyphicon glyphicon-plus"></i></a><input type="hidden" name="page[desc][' + index +'][value]" value="' + url + '"><input type="hidden" name="page[desc][' + index +'][type]" value="video"></div></div><div class="col-md-4" style="display:inline-block">' + delete_icon + sort_btns + '</div></div>';
+        break;
+      case 'coupon':
+        $template = '<div class="form-group S-box"><div style="float:left;padding:0px 15px;"><div style="background:'+coupon.style+';height:100px;"><div style="float:left;background:url({MODULE_URL}/images/bl-1.png) #'+coupon.style+';width:8px;height:100%"></div><div style="float:left;height:100%"><div style="float:left;height:100%">'+coupon.name+'</div><div style="float:left;height:100%">'+coupon.coupontype+'</div><div style="float:left;height:100%">'+coupon.requirement+'</div></div><div style="float:left;background:url({MODULE_URL}/images/bl-2.png) #'+coupon.style+';width:8px;height:100%"></div></div><input type="hidden" name="page[desc][' + index +'][value]" value="' + coupon.id + '"><input type="hidden" name="page[desc][' + index +'][type]" value="coupon"></div><div class="col-md-4" style="display:inline-block">' + delete_icon + sort_btns + '</div></div>';
+        break;
+    }  
+    $("#add_text").attr("data-index", parseInt(index)+1);
+    $("#add_image").attr("data-index", parseInt(index)+1);
+    $("#add_video").attr("data-index", parseInt(index)+1);
+    $("#add_coupon").attr("data-index", parseInt(index)+1);
+    $box.append($template);
+  })
+  }
+  function add_coupon_($index, $type, id,name,style,coupontype,requirement,starttime,endtime){
+      var coupon={'id':id,'name':name,'style':style,'coupontype':coupontype,'requirement':requirement,'starttime':starttime,'endtime':endtime}
+      couponmodal.modal('hide')
+      addTemplate($index, $type,'',coupon);
+  }
+</script>
+{template 'common/footer'}

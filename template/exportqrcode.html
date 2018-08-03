@@ -1,0 +1,68 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+  <li><a href="{php echo $this->createWebUrl('catemanage',array('pdtid'=>$pdtid))}">码段管理</a></li>
+  {if $_W['isfounder']}
+  <li><a href="{php echo $this->createWebUrl('catemanage',array('op'=>'edit'))}">为公众号分配码段(超管)</a></li>
+  <li class="active"><a href="{php echo $this->createWebUrl('catemanage',array('op'=>'export'))}">二维码印刷格式文件(超管)</a></li>
+  {/if}
+</ul>
+<style>
+.sharenum{ display:none}
+.clear{ clear:both}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">{$act['name']} 导出码段</div>
+<div class="panel panel-body">
+<ul class="list-group">
+<li class="list-group-item" style=""> 
+<form name="myform" class="form-horizontal" action="{php echo $this->createweburl('catemanage',array('op'=>'export'))}" method="post" target="_blank" onsubmit="return check()">
+<div class="form-group">
+<div class="alert alert-info">此处用于生成二维码打印格式文件提交给印刷厂，请根据您已经生成的实际情况填写起始码编号以及根据生成数量来填写数量，并选择相应的格式。</div></div>
+<div class="form-group" >
+<label class="col-md-2 control-label">起始码编号</label><div class="col-md-4"><input type="text" name="mintk" value="" class="form-control"   placeholder="请填写数字" /><span class="help-block">请填写起始码的数字编号最小值为1，如首次生成请填写1</span></div>
+</div>
+<div class="form-group" >
+<label class="col-md-2 control-label">生成数量</label><div class="col-md-4"><input type="text" name="total" value="" class="form-control"   placeholder="请填写数字"/><span class="help-block">请根据要打印的数量来生成</span></div>
+</div>
+<div class="form-group"><div id="message" class="col-md-4 col-md-offset-2 message text-danger"></div></div>
+<div class="form-group" ><div class="col-md-10 col-md-offset-2"><input name="token" type="hidden" class="btn btn-primary" value="{$_W['token']}"/><input name="excel" type="submit" class="btn btn-primary" value="excel格式"/> <input name="excelshort" type="submit" class="btn btn-default" value="excel格式短链接"/> <input name="txt" type="submit" class="btn btn-primary" value="txt格式"/> <input name="txtshort" type="submit" class="btn btn-default" value="txt格式短链接"/></div></div>
+</div>
+</form>
+</li>
+</ul>
+</div>
+</div>
+<script type="text/javascript">
+	function check(){
+		if (myform.mintk.value==''){
+			document.getElementById('message').innerHTML='请输入起始码编号'
+			return false
+		}
+
+		if (!isRealNum(myform.mintk.value)){
+			document.getElementById('message').innerHTML='码起始编号为数字'
+			return false
+		}
+		if (myform.total.value==''){
+			document.getElementById('message').innerHTML='请输入码总数'
+			return false
+		}
+		if (!isRealNum(myform.total.value)){
+			document.getElementById('message').innerHTML='请码总数为数字'
+			return false
+		}
+	}
+
+function isRealNum(val){
+    // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除
+    if(val === "" || val ==null ||val ==' '){
+        return false;
+    }
+    if(!isNaN(val)){
+        return true;
+    }else{
+        return false;
+    }
+}       
+</script>
+{template 'common/footer'}

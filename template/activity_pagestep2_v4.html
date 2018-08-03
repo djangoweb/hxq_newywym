@@ -1,0 +1,111 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+
+	<li><a href="{php echo $this->createWebUrl('activity')}">管理活动</a></li> 
+
+    <li class="active"><a href="#">修改页面</a></li> 
+
+</ul>
+
+<div class="clearfix">
+
+</div><style>
+
+.sharenum{ display:none}
+
+.clear{ clear:both}
+.fileup{width: 100px;height:100px;position:relative;display: inline-block;background: #ebebeb}
+.fileup a{padding:38px 0;line-height: 60px;font-size: 20px;line-height: 20px;text-align:center;color: #fff;background-position:center center; width:100% ;height:100%;background-repeat:no-repeat; display: block; }
+.fileup input[type=file]{position: absolute;top:0px;right:0px;width: 100%;height: 100%;cursor: pointer;opacity: 0;}
+.iconfont{font-size:64px;line-height:20px;color:#fff;}
+textarea.form-control{height:120px;}
+
+.biz{position: relative;}
+.biz:before{position: absolute;height: 70%;top:15%;left:0px;width: 1px;background:rgba(255,255,255,0.4);content:"";}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">通用页面设置</div>
+<div class="panel-body">
+<div class="col-md-8">
+<form id="event_form" name="event_form" method="post" class="" action="{$_W['siteurl']}">
+   <div class="form-group"><label for="do-submit" class="  col-md-2 control-label"></label>
+ 	  <div class="col-sm-6 col-md-9 col-xs-12 col-md=offset-4">
+      <input name="template" type="hidden" value="{$_GPC['template']}" />
+      <input name="token" value="{$_W['token']}" type="hidden" />
+      <input name="save" value="1" type="hidden" />
+      <a class="btn btn-primary" href="{php echo $this->createweburl('activity',array('op'=>'pagestep1','id'=>$_GPC['id']))}">上一步</a> 
+      <a class="btn btn-primary save-template" href="javascript:;" value="">保存</a> 
+      <a href="{php echo $this->createweburl('activity')}" value="取消" class="btn btn-default">取消</a>
+    </div>
+	 </div> 
+</form>
+</div><div class="col-md-4" style="position:relative;"><div class="audio" style="position:absolute;width:40px;height:20px;line-height:20px;font-size:1.4rem;text-align:center;background:#ebebeb;right:20px;top:5px;{if empty($page['audio'])}display:none{/if}">音乐</div><img width="100%" src="{php echo MODULE_URL.'images/'.$_GPC['template'].'.jpg'}"></div>
+</div>
+</div>
+<script type="text/javascript">
+require(['jquery','util'],function($,u){
+  $(".save-template").on("click",function(){
+       //$(".save-template").attr("disabled", true);
+        save_form();
+    })
+
+  function save_form() {
+    //document.getElementById('finish_btn').style.display='none';GSG
+    $.ajax({
+        async:true,
+        method:'post',
+        url:'{$_W['siteurl']}',
+        data:$("#event_form").serialize(),
+        dataType:'json',
+        success:function(data){
+              $.get('{php echo $this->createweburl('qrcode',array('actid'=>$_GPC['id']))}&url='+'{php echo urlencode($_W['siteroot'].'/app/'.$this->createmobileurl('index',array('actid'=>$_GPC['id'])))}',function(data){
+                data=eval('('+data+')')
+                title='预览二维码';
+                content='<div class="col-md-12  e text-danger" style="text-align:center">'
+                content+='<img src="{$_W['attachurl_local']}'+data.url+'" width="200">'
+                content+='<div class="clearfix"></div>'
+                content+='</div>'
+                footer='<div class="modal-footer"><button type="button" class="btn btn-primary" onclick="location.href=\''+'{php echo  $this->createweburl('activity',array('id'=>$_GPC['actid']))}'+'\'">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                options={};
+                qrcodemodal=u.dialog(title,content,footer,options);
+                qrcodemodal.modal('show')
+              })/*
+              $("#completeModal").modal();
+              document.getElementById("preview_qrcode").innerHTML='';
+              // change new form to edit form
+              $("#event_form").attr("action", "/events/"+data["event_id"]);
+              $("#event_form").attr("method", "put");
+              // change previous step from new to edit
+              $("#previous_step").attr("href", "/events/"+data["event_id"]+"/edit");
+              new QRCode(document.getElementById("preview_qrcode"), {
+                text: "http://wp.vcooline.com/"+data["uid"],
+                width: 258,
+                height: 258,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.L
+              });
+              document.getElementById('finish_btn').style.display='';*/
+        },
+        error:function(a,b,c){
+          alert(b)
+        }
+    })
+/*    $("#event_form").trigger("submit");
+    $("#event_form").on("ajax:success", function(event, data, status, xhr){
+      
+    });*/
+/*    $("#event_form").on("ajax:complete", function(event, data, status, xhr){
+      $(".save-template").attr("disabled", false);
+    });
+    $("#event_form").on("ajax:error", function(event, xhr, status, error){
+      showTip("error", "保存异常");
+    });*/
+  }
+  //交互结束
+})
+  var delete_icon = '<a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> ';
+  var sort_btns = '<a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a>';
+</script>
+{template 'common/footer'}

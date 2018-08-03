@@ -1,0 +1,110 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+	<li class="active" ><a href="{php echo $this->createWebUrl('activity')}">管理活动</a></li>
+  <li class=""><a href="{php echo $this->createWebUrl('activity',array('op'=>'edit'))}">添加活动</a></li>
+</ul>
+<div class="clearfix">
+<div>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-break:break-all; white-space:normal !important}
+.divh5{ height: 5px; display:block;}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">{if $_GPC['bizid']}商家 <span class="label label-success">{$biz['name']}</span>{/if} 共{$total}条记录</div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" action="{php echo $this->createWebUrl('actmanage')}">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="50" align="center">ID</th>
+  <th width="140" align="center">活动标题</th>
+  <th width="80" align="center">起止时间</th>
+  <th width="80" align="center">参与条件<br>增强功能</th>
+  <th width="120" align="center">使用/总数</th>
+  <th width="140" align="center">每日最多扫码<br>每粉日最多扫<br>每粉活动最多扫</th>
+  <th width="120" align="center">入口</th>
+  <th width="190">操作</th>
+    </tr>
+    {php $i}
+    {loop $activitys $row}
+    <tr>
+	  <td align="left">{$row['id']}</td>
+    <td valign="middle"><a href="{php echo $this->createweburl('activity',array('bizid'=>$row['bizid']))}">[{$row['bizname']}]</a>{$row['name']}</td>
+    <td align="left"><span class="label label-success">{$row['starttime']}</span><br /><span class="label label-danger">{$row['endtime']}</span></td>
+    <td valign="middle">{if $row['focusfollow']}<span class="label label-danger">关注</span>{/if}{if $row['granttype']==2}<span class="label label-danger">分享</span>{/if}<div class="divh5"></div><span class="label-danger label">{if $row['plusability']==1}点击红包{elseif $row['plusability']==2}裂变红包{else}无{/if}</span></td>
+    <td valign="middle"><span class="label label-danger">{$row['totalused']}</span>/<span class="label label-success">{$row['total']}</span></td>
+   <td  valign="middle">{if $row['num']}<span class="label label-danger">{$row['lnum']}</span>{else}<span class="label label-success">不限</span>{/if}<br><span class="label label-danger">{$row['daymaxawarded']}</span><br><span class="label label-danger">{$row['maxawarded']}</span></td>
+   <td class="opreater">
+   <span style="position:relative;" class="label label-success"><a  href="javascript:;" title="点击复制，可做自定义菜单链接" data-url="{php echo $_W['siteroot'].'app/'.$this->createmobileurl('index',array('cateid'=>$row['dftcateid'],'actid'=>$row['id']))}"  class="">首页</a></span><br>
+   <span style="position:relative;" class="label label-success"><a  href="javascript:;" title="点击复制，可做自定义菜单链接" data-url="{php echo $_W['siteroot'].'app/'.$this->createmobileurl('biz',array('cateid'=>$row['dftcateid'],'op'=>'detail'))}"  class="">个人中心</a></span><br>
+   <span style="position:relative;" class="label label-success"><a  href="javascript:;" title="点击复制，可做自定义菜单链接" data-url="{php echo $_W['siteroot'].'app/'.$this->createmobileurl('awardedrcd',array('cateid'=>$row['dftcateid'],'type'=>'coupon'))}"  class="">优惠券核销</a></span>&nbsp;<span style="position:relative;" class="label label-success" data-title="优惠券核销" data-id="{$row['id']}" data-url="{php echo urlencode($_W['siteroot'].'app/'.$this->createmobileurl('awardedrcd',array('cateid'=>$row['dftcateid'],'type'=>'coupon')))}" data-do="couponverif" data-id="{$row['id']}" onclick="showqrcode(this)"><i class="fa fa-qrcode"></i></span><br>
+   <span style="position:relative;" class="label label-success"><a  href="javascript:;" title="点击复制，可做自定义菜单链接" data-url="{php echo $_W['siteroot'].'app/'.$this->createmobileurl('census',array('actid'=>$row['id']))}" >数据统计</a></span>&nbsp;<span style="position:relative;" class="label label-success" data-title="活动数据统计" data-url="{php echo urlencode($_W['siteroot'].'app/'.$this->createmobileurl('census',array('actid'=>$row['id'])))}" data-do="census" data-id="{$row['id']}"  onclick="showqrcode(this)"><i class="fa fa-qrcode"></i></span>
+   </td>
+  <td valign="middle" class="opreater ng-scope">
+	<a data-original-title="修改" href="{php echo $this->createWebUrl('activity',array('op'=>'edit','id'=>$row['id']))}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>&nbsp;<a data-original-title="页面管理" href="{php echo $this->createWebUrl('activity',array('id'=>$row['id'],'op'=>'pagestep1'))}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-files-o"></i></a>&nbsp;<a data-original-title="奖品管理" href="{php echo $this->createWebUrl('awardmanage',array('actid'=>$row['id']))}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-gift"></i></a>&nbsp;<a data-original-title="码段管理" href="{if $_W['isfounder']}{php echo $this->createWebUrl('catemanage',array('actid'=>$row['id'],'uniacid_'=>$_W['uniacid']))}{else}{php echo $this->createWebUrl('catemanage',array('actid'=>$row['id']))}{/if}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-align-justify"></i></a><div class="divh5"></div><a data-original-title="粉丝管理" href="{php echo $this->createWebUrl('fanmanage',array('actid'=>$row['id']))}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-user"></i></a>&nbsp;<a data-original-title="中奖管理" href="{php echo $this->createWebUrl('awardedmanage',array('actid'=>$row['id']))}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-star"></i></a> <a data-original-title="导出已使用二维码" href="{php echo $this->createWebUrl('tokenmanage',array('actid'=>$row['id'],'op'=>'exportused'))}"  target="_blank" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm">导出已使用</a><div class="divh5"></div><div class="divh5"></div><a data-original-title="裂变奖品管理" href="{php echo $this->createWebUrl('fisnaward',array('actid'=>$row['id']))}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-gift"></i></a> <a data-original-title="裂变中奖管理" href="{php echo $this->createWebUrl('fisnawarded',array('actid'=>$row['id']))}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-star"></i></a> <a data-original-title="图表" href="{php echo $this->createWebUrl('census',array('actid'=>$row['id']))}" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm">图表</a> <a data-original-title="删除活动" href="{php echo $this->createWebUrl('activity',array('actid'=>$row['id'],'op'=>'delete'))}" onclick="return confirm('删除活动将会清空活动以及活动的所有数据，确定要删除吗？')" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-remove"></i></a>
+	</td>
+
+    </tr>
+
+    {php $i++}
+
+    {/loop}
+
+    </table>
+
+</form>
+
+<script>
+function showqrcode(elm){
+  require(['jquery', 'util'], function($, u){
+          $.get('{php echo $this->createweburl('qrcode')}&filename='+$(elm).data('do')+'_'+$(elm).data('id')+'&url='+$(elm).data('url'),function(data){
+            title=$(elm).data('title')+'二维码';
+                    content='<form name="formcoupon"><div class="material-body we7-form">';
+                    content+='<div class="col-md-12 message text-danger" style="margin-top:20px;"><img src="'+data.qrurl+'" width=200 height=200></div>'
+                    content+='</div></form>'
+                    footer='<div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">确定</button></div>';
+                    options={};
+                    qrcodemodal=u.dialog(title,content,footer,options);
+                    qrcodemodal.modal('show')
+          },'json')
+  });
+}
+require(['jquery', 'util'], function($, u){
+
+    $('.opreater span a').each(function(){
+
+      u.clip(this, $(this).attr('data-url'));
+
+    });
+
+  });
+
+</script>
+
+</div>
+
+</div>
+
+    <script type="text/javascript">
+
+  var category = [];
+
+  require(['bootstrap'],function($){
+
+    $('.btn,.qrlink').hover(function(){
+
+      $(this).tooltip('show');
+
+    },function(){
+
+      $(this).tooltip('hide');
+
+    });
+
+  });
+
+</script>
+
+</div>
+
+{template 'common/footer'}

@@ -1,0 +1,127 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+    <li ><a href="{php echo $this->createWebUrl('coupon',array('actid'=>$act['id']))}">管理</a></li>
+    <li class="active" ><a href="{php echo $this->createWebUrl('coupon',array('op'=>'edit'))}" >{if $_GPC['id']}<i class="fa fa-edit"></i>修改</a>{else}<i class="fa fa-plus"></i>添加</a>{/if}</li>
+  <li ><a href="{php echo $this->createWebUrl('coupon',array('op'=>'coupongrant','actid'=>$act['id']))}">发放</a></li>
+  <li><a href="{php echo $this->createWebUrl('coupon',array('op'=>'couponverif','actid'=>$act['id']))}" >核销</a></li>
+</ul>
+<div class="clearfix">
+
+</div>
+
+
+<style>
+
+.group{display:none}
+
+.clear{ clear:both}
+
+</style>
+
+
+<div class="panel panel-default">
+
+<div class="panel-heading">{if !empty($id)}修改优惠券{else}添加优惠券{/if}</div>
+
+<div class="clearfix"></div>
+<div class="panel-body">
+
+<form id="form1" name="form1" method="post" class="form-horizontal" action="{php echo $this->createweburl('coupon',array('op'=>'save'))}">
+
+<div class="form-group">
+
+    <label for="type" class="col-md-1 control-label" style="text-align:right">商家名称</label>
+
+    <div class="col-md-8"><select name="coupon[bizid]" class="form-control" onchange="">
+
+<option value="0">请选择商家</option>
+{loop $bizs $row}
+<option value="{$row['id']}" {if $coupon['bizid']==$row['id']}selected="selected"{/if} >{$row['name']}</option>
+{/loop}
+</select>
+    </div>
+    </div>
+    <div class="form-group">
+        <label for="sum" class="col-md-1 control-label">logo</label>
+        <div class=" col-md-11">{php echo tpl_form_field_image('coupon[logo]',$coupon['logo'],'',array('global'=>false))}</div>
+    </div>
+    <div class="form-group">
+        <label for="coupon[title]" class="col-md-1 control-label">优惠内容</label>
+        <div class="col-md-3"><input type="text" name="coupon[name]" value="{$coupon['name']}" class="form-control"   placeholder=""/>
+        <span class="help-block">如：5元、10元、8折</span></div>
+        <label for="coupon[title]" class="col-md-1 control-label">优惠券名称</label>
+        <div class="col-md-3"><input type="text" name="coupon[coupontype]" value="{$coupon['coupontype']}" class="form-control"   placeholder=""/>
+        <span class="help-block">如：代金券、兑换券</span></div>
+        <label for="coupon[title]" class="col-md-1 control-label">优惠条件</label>
+        <div class="col-md-3"><input type="text" name="coupon[requirement]" value="{$coupon['requirement']}" class="form-control"   placeholder=""/>
+        <span class="help-block">如：消费满200</span></div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-1 control-label">卡券颜色</label>
+        <script type="text/javascript">
+            function showCouponColor(eml) {
+                var dropdown = $(eml).parent().parent().next();
+                dropdown.show();
+                $(document).click(function(){
+                    dropdown.hide();
+                });
+                $(".coupon-color").click(function(e){
+                    e.stopPropagation();
+                });
+                $(".dropdown-menu li").click(function(){
+                    $(eml).parent().prev().css("background", $(this).attr("data-color"));
+                    $(eml).parent().prev().css("border-color", $(this).attr("data-color"));
+                    $(eml).parent().prev().prev().prev().val($(this).attr("data-color"));
+                    $(eml).parent().prev().prev().val($(this).attr("data-color"));
+                    dropdown.hide();
+                    $(document).unbind("click");
+                    $(".dropdown-menu li, .coupon-color").unbind("click");
+                });
+            }
+        </script>
+        <div class="col-md-3 coupon-color" style="position: relative;">
+            <div class="input-group" style="width:200px;">
+                <input type="text" class="form-control" name="color" value="{$coupon['style']}">
+                <input type="hidden" name="coupon[style]" class="form-control" value="{$coupon['style']}">
+                <span class="input-group-addon" style="width: 35px; background:{$coupon['style']}; border-color:{$coupon['style']};"></span>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="showCouponColor(this);">选择颜色</button>
+                </span>
+            </div>
+            <div class="dropdown-menu" style="padding: 6px 0px 0px 6px; width: 185px; position: absolute; top: 35px; left: 15px; display: none;">
+                <ul style="padding:0">
+            <li data-name="Color010" data-color="#55bd47" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#55bd47;float:left;list-style: none;"></li><li data-name="Color020" data-color="#10ad61" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#10ad61;float:left;list-style: none;"></li><li data-name="Color030" data-color="#35a4de" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#35a4de;float:left;list-style: none;"></li><li data-name="Color040" data-color="#3d78da" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#3d78da;float:left;list-style: none;"></li><li data-name="Color050" data-color="#9058cb" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#9058cb;float:left;list-style: none;"></li><li data-name="Color060" data-color="#de9c33" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#de9c33;float:left;list-style: none;"></li><li data-name="Color070" data-color="#ebac16" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#ebac16;float:left;list-style: none;"></li><li data-name="Color080" data-color="#f9861f" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#f9861f;float:left;list-style: none;"></li><li data-name="Color081" data-color="#f08500" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#f08500;float:left;list-style: none;"></li><li data-name="Color082" data-color="#a9d92d" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#a9d92d;float:left;list-style: none;"></li><li data-name="Color090" data-color="#e75735" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#e75735;float:left;list-style: none;"></li><li data-name="Color100" data-color="#d54036" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#d54036;float:left;list-style: none;"></li><li data-name="Color101" data-color="#cf3e36" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#cf3e36;float:left;list-style: none;"></li><li data-name="Color102" data-color="#5e6671" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#5e6671;float:left;list-style: none;"></li>
+                </ul>
+            </div>
+            <span class="help-block">必选</span>
+</div>
+</div>
+        <div class="form-group">
+        <label for="coupon[title]" class="col-md-1 control-label">联系电话</label>
+        <div class="col-md-11"><input type="text" name="coupon[phone]" value="{$coupon['phone']}" class="form-control"   placeholder=""/>
+        <span class="help-block">如：5元、10元、8折</span></div>
+        </div>
+    <div class="form-group">
+        <label for="sum" class="col-md-1 control-label">消费地址</label>
+        <div class=" col-md-11"><input type="text" name="coupon[address]" value="{$coupon['address']}" class="form-control"   placeholder=""/><span class="help-block">必填</span></div>
+    </div>
+    <div class="form-group"><label for="coupon[rate]" class="col-md-1 control-label">使用说明</label>
+        <div class="col-md-11" id=app3><textarea name="coupon[description]" rows="8" class="form-control" placeholder=""/>{$coupon['description']}</textarea>
+    <span class="help-block">支持空格换行</span></div>
+    </div>
+    <div class="form-group">
+        <label for="imgurl" class="col-md-1 control-label">使用时间</label>
+        <div class="col-md-11">{if !empty($coupon['start'])&&!empty($coupon['end'])}{php echo tpl_form_field_daterange('coupon[daterange]',array('start'=>date('Y-m-d H:i:s',$coupon['start']),'end'=>date('Y-m-d H:i:s',$coupon['end'])),array('global'=>false))}{else}{php echo tpl_form_field_daterange('coupon[daterange]',array('start'=>date('Y-m-d H:i:s'),'end'=>date('Y-m-d H:i:s')),array('global'=>false))}{/if}
+        <span class="help-block"><strong class="text-danger"></strong></span></div> 
+    </div>
+    <div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-1 control-label"></label>
+ 	  <div class="col-sm-6 col-md-8 col-xs-12">
+      <input name="coupon[id]" type="hidden" value="{$coupon['id']}" />
+      <input name="saveedit" type="submit" value="保存奖项" class="btn btn-primary"/></div>
+	</div>
+    </form>
+</div>
+    </div>
+
+</div>
+{template 'common/footer'}

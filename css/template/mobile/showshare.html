@@ -1,0 +1,88 @@
+{template 'header'}
+<style>
+body{ background:{$act['pagesetting']['bgcolor']};width:100%; height:100%}
+.container{ width:100%; height:100%;margin:auto; padding:0px;{if !$_GPC['preview']}display:none{/if}}
+.div{ font-size:20px; color:#F00; line-height:22px; margin:5px 5px; color:#000}
+.div1{ font-size:20px; color:#F00; line-height:20px; margin:5px 5px; text-align: center}
+.divthumb{font-size:20px; color:#F00; line-height:20px; margin:5px auto; width:90%; text-align: center}
+</style>
+<script>
+var starttime={$act['starttime']};
+var endtime={$act['endtime']};
+var pageurl='{$_W['siteurl']}';
+var cards={php echo json_encode($cards)};
+var attachurl='{$_W['attachurl']}'
+var area='{$act['area']}'
+var sharetype={$act['sharetype']};
+var granturl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('grant',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var helpurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('help',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var indexurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('index',array('actid'=>$act['id']))}';
+var sharedata_={php echo json_encode($act['sharedata'])};
+var checklocation_url='{php echo $this->createMobileUrl('checkposition',array('actid'=>$act['id']))}'
+var checkiplocation_url='{php echo $this->createMobileUrl('checkipposition',array('actid'=>$act['id']))}'
+
+var area='{$act['area']}'
+var iparea='{$act['iparea']}'
+var cardname='{$act['cardname']}';
+var getlocation=function (){
+	return undefined;
+};
+var getiplocation=function (){
+	return undefined;
+};
+{if !empty($initdata)}
+var accessdata={$initdata};
+{/if}
+</script>
+<script src="{MODULE_URL}/resources/js/module.js?{TIMESTAMP}"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+<script>
+		     wx.ready(function (){
+		     if (sharetype){
+		 		wx.hideAllNonBaseMenuItem();
+			 }else{
+				{if !empty($fan)}
+				var sharedata={
+					title:sharedata_.sharetitle,
+					imgUrl:sharedata_.sharethumb,
+					desc:sharedata_.sharedesc,
+					link:helpurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{else}
+				var sharedata={
+					title:sharedata_.defaultsharetitle,
+					imgUrl:sharedata_.defaultsharethumb,
+					desc:sharedata_.defaultsharedesc,
+					link:indexurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{/if}
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+			 }
+	   	    })
+$(function(){
+		   //alert($(window).width()+'|'+$(window).height());
+		   {if !$_GPC['preview']}initpage();{/if}
+		   })
+</script>
+</head>
+<body >
+<div class="container container-fill">
+<div class="div">长按此图片<span style="color:red; font-weight:bolder">保存到手机(发送给好友)</span>,让大家一起来帮忙收集{$act['cardname']}吧！</div>
+<div class="div1">↓↓↓↓↓</div>
+<div class="divthumb" style="text-align:center"><img src="{php echo $_W['attachurl'].$sharethumb.'?'.TIMESTAMP}" width="100%"/></div>
+<div id="timeoutlayer" class="layercontent"></div>
+<div id="ajaxloading" class="layercontent"><img src="{MODULE_URL}/resources/images/loading.gif"  height="30"/></div>
+{template 'footer'}

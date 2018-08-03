@@ -1,0 +1,58 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+    <li ><a href="{php echo $this->createWebUrl('product',array('bizid'=>$biz['id']))}">管理</a></li>
+    <li {if !$_GPC['id']}class="active"{/if}><a href="{php echo $this->createWebUrl('product',array('op'=>'edit','bizid'=>$biz['id']))}" ><i class="fa fa-add"></i>添加</a></li>
+    {if $_GPC['id']}<li class="active" ><a href="{php echo $this->createWebUrl('product',array('op'=>'edit','bizid'=>$biz['id'],'id'=>$product['id']))}" ><i class="fa fa-edit"></i>修改</a></li>{/if}
+</ul>
+<div class="clearfix">
+
+</div>
+
+
+<style>
+
+.group{display:none}
+.clear{ clear:both}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">商家 <span class="label label-success">{$biz['name']}</span></div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" class="form-horizontal" action="{php echo $this->createweburl('product',array('op'=>'save'))}">
+    <div class="form-group">
+        <label for="sum" class="col-md-1 control-label">名称</label>
+        <div class=" col-md-11"><input type="text" name="product[name]" value="{$product['name']}" class="form-control"   placeholder=""/><span class="help-block">必填</span></div>
+    </div>
+    <div class="form-group">
+        <label for="sum" class="col-md-1 control-label">缩略图</label>
+        <div class=" col-md-11">{php echo tpl_form_field_image('product[thumb]',$product['thumb'],'',array('global'=>false))}</div>
+    </div>
+    <div class="form-group"><!-- 
+        <label for="sum" class="col-md-1 control-label">点击量</label>
+        <div class=" col-md-2"><input type="text" name="product[click]" value="{$product['click']}" class="form-control"   placeholder=""/><span class="help-block">必填</span></div> -->
+        <label for="sum" class="col-md-1 control-label">售价</label>
+        <div class=" col-md-2"><input type="text" name="product[price]" value="{$product['price']}" class="form-control"   placeholder=""/><span class="help-block">必填</span></div>
+        <label for="sum" class="col-md-1 control-label">门市价</label>
+        <div class=" col-md-2"><input type="text" name="product[goodsprice]" value="{$product['goodsprice']}" class="form-control"   placeholder=""/><span class="help-block">必填</span></div>
+    </div>
+
+    <div class="form-group">
+      <label for="card[sort]" class="col-md-1 control-label">产品描述</label><div class="col-md-10">{php echo tpl_ueditor('product[description]',$product['description'])}<div class="help-block"></div></div>
+    </div>
+  <div class="form-group">
+        <label for="coupon[title]" class="col-md-1 control-label">可用</label>
+        <div class="col-md-11"><label class="checkbox-inline"><input type="radio" name="product[disabled]" value="0" {if !$product['disabled']}checked=checked{/if} class="form-control"   placeholder=""/>可用</label><label class="checkbox-inline"><input type="radio" name="product[disabled]" value="1" {if $product['disabled']}checked=checked{/if} class="form-control"   placeholder=""/>禁用</label>
+        <span class="help-block">如：不可用于特价商品</span></div>
+    </div>
+    <div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-1 control-label"></label>
+ 	  <div class="col-sm-6 col-md-8 col-xs-12">
+      <input name="product[bizid]" type="hidden" value="{if $product['id']>0}{$product['bizid']}{else}{$biz['id']}{/if}" />
+      <input name="product[id]" type="hidden" value="{$product['id']}" />
+      <input name="saveedit" type="submit" value="保存产品" class="btn btn-primary"/></div>
+	</div>
+    </form>
+</div>
+    </div>
+
+</div>
+{template 'common/footer'}

@@ -1,0 +1,13 @@
+<div class="corpright">{if $this->cfg['corpright']}{php echo $this->cfg['corpright']}{else}{php echo $this->globalcfg['corpright']}{/if}</div>
+	<script type="text/javascript">
+	require(['jquery','weixin'],function($,wx){
+		$.get('{php echo $this->createmobileurl('ch',array('cateid'=>$cate['id'],'guesturl'=>urlencode($_W['siteurl'])))}')
+        wx.config({debug:jssdkconfig.debug,appId:jssdkconfig.appId,timestamp:jssdkconfig.timestamp,nonceStr:jssdkconfig.nonceStr,signature:jssdkconfig.signature,jsApiList:jssdkconfig.jsApiList});
+                      wx.ready(function () {
+                        wx.onMenuShareAppMessage(sharedata);
+                        wx.onMenuShareTimeline(sharedata); 
+        });
+	})
+	</script>
+</body>
+</html>

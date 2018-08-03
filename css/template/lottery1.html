@@ -1,0 +1,548 @@
+{template 'header'}
+<style>
+body{ background-size:100% 100% ;background: #f3f3f3;}
+a.more:link{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+a.more:hover{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+.more{height: 18px ; display: inline-block;  line-height:14px; font-size:1.4rem;color: #000； padding:2 4px; }
+.btn{width: 80px; height: 80px; line-height: 80px; background: orange; color: #e60012;position: absolute;bottom: 15%;left: 0px;right: 0px;margin: auto;text-align: center;border-radius:50%;font-weight: bolder;font-size: 2.4rem;border:none;}
+.btn.disable{ background: #cccccc; color:#fff;}
+.award{ height:75%;width: 100%; position: relative;}
+
+.btm{position: fixed;display:flex; height: 45px;bottom:0px;width: 100% }
+.btm>div{flex:1; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 55px}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+input.button{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem;border:none;}
+input.large{ width: 100%;font-size: 1.4rem }
+input.danger{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3);}
+input.success{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3);}
+a.button:link{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:hover{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:visited{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.large{ width: 100%;font-size: 1.4rem }
+a.danger:link{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:hover{ background: #f44040 ;color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:visited{ background: #f44040; color:#fff; box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:link{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:hover{ background: #5cb85c ;color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:visited{ background: #5cb85c;color:#fff; box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.disable:link{ padding: 0px 10px;height:35px;line-height: 35px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+a.disable:visited{ padding: 0px 10px;height:35px;line-height: 35px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+.top{ height:25%; }
+.top img{ width:100%;height: 100%}
+.corpright{text-align: center;line-height: 35px;height:35px;font-size: 16px;color: #cccccc;background-color: #fff;margin-bottom:10px; }
+</style>
+<script>
+var dscanwarning={$act['dscanwarning']};
+var tk='{$_GPC['tk']}';
+var vtk='{$_GPC['vtk']}';
+{if !empty($act['districtarr'])}
+var districtarr={php echo json_encode($act['districtarr'])};
+{/if}
+var strDistrict='{$act['strDistrict']}';
+var rptype={$act['rptype']};
+var granttype={$act['granttype']};
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+</script>
+<style>
+.banner{position: relative;width: 100%;height: 35%;}
+.banner>.logo{ position: absolute;left: 40px;top:0px;width: 50px;height: 50px; }
+.desc{margin:10px auto;width: 100%;font-size: 14px;line-height: 20px; word-break: break-all;}
+.title_{line-height: 60px;font-size: 1.8rem;line-height:60px;font-weight: bolder;text-align:left;width: 100%;background: #fff;word-break: break-all;white-space: pre-wrap;padding: 0 10px}
+.desc_{ width: 100%;background: #fff;padding: 0 10px 1px 10px;}
+
+.biz{position: relative;}
+.biz:before{position: absolute;height: 70%;top:15%;left:0px;width: 1px;background:rgba(255,255,255,0.4);content:"";}
+</style>
+<div class="banner"><img src="{php echo $_W['attachurl'].$page['banner']}" width="100%" height="100%"></div>
+<div class="title_">{$page['title']}</div>
+<div class="desc_">
+<div style="margin:10px auto 0px auto;line-height: 35px;height: 35px; background: #fff"><div style="float: left;margin-left:10px;height: 20px;width: 5px;background:#f76651 ;margin-top:7px; "></div><div style="margin-left:25px;line-height: 35px; font-size: 20px;">商品详情</div></div>
+{loop $page['desc'] $key $item}
+{if $item['type']=='image'}
+<div class="desc"><img src="{$_W['attachurl']}{$item['value']}" width="100%"></div>
+{elseif $item['type']=='text'}
+<div class="desc">{$item['value']}</div>
+{elseif $item['type']=='video'}
+<div class="desc" style="text-align:center">
+<video id="video_" src="{$_W['attachurl']}{$item['value']}" style="background:#000;border-radius:5px;" width="100%" height="215" autoplay="autoplay" loop="loop" controls="controls"></video>
+<!--
+<div id="jquery_jplayer_1" style="width:100%;height:300px"></div>
+<div id="jp_container_1">
+ <a href="#" class="jp-play">Play</a>
+ <a href="#" class="jp-pause">Pause</a>
+</div>
+<div id="jplayer_inspector"></div> -->
+</div>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $('#video_').height($('#video_').width()*3/4+'px');
+    var u = navigator.userAgent;
+    var isiOS = u.indexOf('iPhone'); //ios终端>0
+    if (isiOS>0){
+    $('body').one('touchstart',function(e){
+      video_=document.getElementById('video_')
+      video_.play()
+      })
+    }else{
+      video_.play()
+    }
+})
+/* require(['jquery.jplayer'],function($){
+  $("#jquery_jplayer_1").jPlayer({
+    ready: function () {
+      $(this).jPlayer("setMedia", {
+        title: "Big Buck Bunny",
+        m4v: "http://www.jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v",
+        ogv: "http://www.jplayer.org/video/ogv/Big_Buck_Bunny_Trailer.ogv",
+        webmv: "{$_W['attachurl']}{$item['value']}",
+        poster: "http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"
+      }).jPlayer('play');
+    },
+    swfPath: "{MODULE_URL}/js/dist/jplayer",
+    supplied: "webmv, ogv, m4v",
+    size: {
+      width: "100%",
+      height: "300px",
+      cssClass: "jp-video-360p"
+    },
+    useStateClassSkin: true,
+    autoBlur: false,
+    smoothPlayBar: true,
+    keyEnabled: true,
+    remainingDuration: true,
+    toggleDuration: true
+  });
+  //$("#jplayer_inspector").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});
+})*/
+</script> 
+{elseif $item['type']=='coupon'}
+<div class="desc" style="text-align:center;height:75px;">
+<div style="background:{$coupons[$item['value']]['style']};float:left;background:url({MODULE_URL}/images/bl-1.png) {$coupons[$item['value']]['style']} no-repeat;background-size:contain;width:3%;height:75px"></div><div style="float:left;height:75px;width:30%;padding:0 5px;background:{$coupons[$item['value']]['style']}"><div style="line-height:45px;font-size:14px;color:#fff;text-align:left;overflow:hidden;padding:0 10px;font-size:24px;color:#fff;text-align:center;overflow:hidden;">{$coupons[$item['value']]['name']}</div><div style="line-height:30px;font-size:14px;color:#fff;text-align:center;overflow:hidden;padding:0 5px;">{$coupons[$item['value']]['requirement']}</div></div><div style="float:left;line-height:75px;font-size:24px;color:#fff;text-align:center;overflow:hidden;padding:0 5px;background:{$coupons[$item['value']]['style']};width:50%;" class="biz">{$coupons[$item['value']]['biz']}</div><div style="float:left;background: {$coupons[$item['value']]['style']};width:17%;height:75px;line-height: 37.5px;color: #fff; border-top-right-radius: 5px;border-bottom-right-radius:5px;"><div style="margin:10px 5px;height:55px;padding:5px;background:#fff;line-height:22.5px;border-radius: 5px;{if $coupons[$item['value']]['grantfantotal']>=$coupons[$item['value']]['perfan']||$coupons[$item['value']]['granttotal']>=$coupons[$item['value']]['total']}color:#ccc;{else}color:{$coupons[$item['value']]['style']}{/if}" {if $coupons[$item['value']]['grantfantotal']>=$coupons[$item['value']]['perfan']||$coupons[$item['value']]['granttotal']>=$coupons[$item['value']]['total']}{else} class="btn-coupon"{/if} data-id="{$item['value']}">{if $coupons[$item['value']]['grantfantotal']>=$coupons[$item['value']]['perfan']}已领取{elseif $coupons[$item['value']]['granttotal']>=$coupons[$item['value']]['total']}已领完{else}立即<br>领取{/if}</div></div><div class="clearfix"></div>
+</div>
+{/if}
+{/loop}
+</div>
+<div class="corpright">{php echo $this->module['config']['corpright']}</div>
+<div id="followlayer" class="layercontent">
+<div class="body">
+<div class="img"><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div id="bar"></div>
+<div class="message"></div>
+</div>
+<div class="footer" style="display:none"><a id=button href="javascript:;" class="button">复制口令</a></div>
+</div>
+<div id="errorlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="body">
+<div class="img"><img src="{MODULE_URL}/images/hbxr2.png" width=30% /></div>
+<div class="message"></div>
+</div>
+</div>
+<div id="myerrorlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="body">
+<div class="img"><img src="{MODULE_URL}/images/hbxr1.png" width=30% /></div>
+<div class="message"></div>
+</div>
+<div class="footer"><a class="button" href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}">个人中心</a></div>
+</div>
+<div id="awardlayer" class="layercontent">
+<div class="body">
+<img width="100%" src="{MODULE_URL}images/khb.png">
+<div class="title">恭喜您获得</div>
+<div class="message"></div>
+<div class="layerbtn"><a class="button" href="javascript:;">点击领取</a></div>
+</div>
+</div>
+
+<div id="couponlayer" class="layercontent">
+<span class="close_ close submit" data-target=''>×</span>
+<div class="header">领取成功</div>
+<div class="body">
+<div class="description"></div>
+<div class="message">已保存到我的优惠券</div>
+</div>
+<div class="footer"><a class="button" href="{php echo $this->createmobileurl('my',array('actid'=>$act['id'],'type'=>'coupon'))}">查看</a></div>
+</div>
+<div id="unawardlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="body">
+<div class="img"><img src="{MODULE_URL}/images/hbxr2.png" width=30% /></div>
+<div class="message">很遗憾您未中奖</div>
+</div>
+</div>
+<div id="ucenter" style="position:fixed;bottom:20px;right:10px; display:none;z-index:5"><a href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}"><img width="60"  src="{MODULE_URL}images/ucenter.png?{TIMESTAMP}"></a></div>
+<div id="sharelayer_">
+<div class="share_" style="position: absolute;top:5%;width: 80%;left:50%;margin-left:-40%;";><img src="{MODULE_URL}images/share_.png" width="100%">
+<div class="share_box" style="position:absolute;bottom:10%;height:50px;width:80%;left:50%;margin-left:-40%;"><div class="share_thumb" style="float:left;width:50px;height:50px;"><img src="" width="50" height="50"></div><div class="share_font" style="margin-left:60px;height:50px;line-height:25px;color:#7a7a7a;text-align:left;overflow:hidden"></div></div></div>
+<div class="task" style="position: absolute;top:60%;width: 80%;left:50%;margin-left:-40%;text-align:center;"><img src="{MODULE_URL}images/share_1.png" width=60%>
+<div class="taskdesc" style="margin-top:20px;font-size:1.2rem;padding:10px;text-align:left;line-height:24px;color:#7a7a7a;text-align:left">
+  1. 分享成功即可获得奖品。<br>
+  2. 点击个人中心查看中奖记录(实物奖品点击个人中心礼品栏目查看中奖记录并到店核销)。<br>
+</div>
+</div>
+</div>
+<div id="timeoutlayer" class="layercontent"></div>
+{if $page['audio']}
+<div class="audio"><img src="{MODULE_URL}images/audio.png" width="100%" height="100%">
+<audio id="audio_" loop>
+<source src="{php echo $_W['attachurl'].$page['audio']}" type="audio/mpeg" />
+</audio>
+</div>
+<script type="text/javascript">
+var hasaudio=true
+require(['jquery'],function(){
+    $.fn.extend({
+        rotate: function () {
+            ele = this ;
+            var audio_ = document.getElementById('audio_');
+            audio_.play();
+            if (!audio_.paused){
+            window.time1=window.setInterval('singleRotate()',20);
+            }
+        },
+        stoprotate:function(){
+          ele=this;
+          var audio_ = document.getElementById('audio_');
+          audio_.pause();
+          if (audio_.paused){
+          window.clearInterval(window.time1)
+        }
+        }
+    });
+    var u = navigator.userAgent;
+    var isiOS = u.indexOf('iPhone'); //ios终端>0
+    if (isiOS>0){
+      $('body').one('touchstart',function(e){
+              audio_ = document.getElementById('audio_');
+                                                      if (audio_.paused){
+                                                        $('.audio').rotate()
+                                                      }else{
+                                                        $('.audio').stoprotate()
+                                                      }
+      })
+      $('.audio').on('touchstart',function(e){          //alert(audio.paused)
+                                                e.stopPropagation()
+                                                $('body').off()
+                                                audio_ = document.getElementById('audio_');
+                                                if (audio_.paused){
+                                                  $(this).rotate()
+                                                }else{
+                                                  $(this).stoprotate()
+                                                }
+                                          })
+    }else{
+      $('.audio').rotate()
+      $('.audio').click(function(e){          //alert(audio.paused)
+          audio_ = document.getElementById('audio_');
+          if (audio_.paused){
+            $(this).rotate()
+          }else{
+            $(this).stoprotate()
+          }
+      })}
+})
+</script>
+<style type="text/css">
+.audio{position: fixed;top: 15px;right: 10px;width: 30px;height: 30px;}
+</style>
+{/if}
+<script>
+var accountlevel={$_W['account']['level']};
+var tk='{$_GPC['tk']}';
+var vtk='{$_GPC['vtk']}';
+{if !empty($act['districtarr'])}
+var districtarr={php echo json_encode($act['districtarr'])};
+{/if}
+var strDistrict='{$act['strDistrict']}'
+var focusfollow={$act['focusfollow']};
+var rptype={$act['rptype']};
+var granttype={$act['granttype']};
+scanid={if $_M['scanid']}{$_M['scanid']}{else}0{/if};
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+var tokendata={if $tokendata}{php echo json_encode($tokendata)}{else}{}{/if};
+
+var ele,time1;
+//自定义函数
+//初始角度
+var degree = 0;
+//单次旋转
+function singleRotate() {
+    //一次增加50度
+    degree = degree + 50 * Math.PI / 180;
+    ele.css("transform","rotate("+degree+"deg)");
+}
+require(['jquery','main','clipboard'],function($,main,Clipboard){
+      if (jsonlength(mycoupons)||jsonlength(myawarded.length)){
+        $('#ucenter').show();
+      }
+      $('.btn-coupon').on('click',function(){
+            self=this
+             $.post("{php echo $this->createmobileurl('coupon',array('op'=>'get','actid'=>$act['id'],'cateid'=>$cate['id']))}",{id:$(this).data('id')},function(data){
+                if (data.errno==0){
+                  $('#couponlayer').find('.description').html(data.description)
+                  $('#couponlayer').showlayer('','',false,true,'middle',function(){$('#ucenter').show()})
+                }else if (data.errno==1){
+                  $(self).html('已领取').css('background-color','#cccccc').css('color','#fff').off()
+                  $('#timeoutlayer').showlayer(data.message,'',3,false,'middle','','')
+                }else if (data.errno==2){
+                  $(self).html('已领完').css('background-color','#cccccc').css('color','#fff').off()
+                  $('#timeoutlayer').showlayer(data.message,'',3,false,'middle','','')
+                }
+             },'JSON')
+   })
+  if (jsonlength(err)){
+  if (err.errno!=0&&err.errno!=8){
+      if(err.errno==6){
+        $('#errorlayer').showlayer(err.message,'',5,true,'middle','')
+      }else if (err.errno==7){
+        $('#myerrorlayer').showlayer(err.message,'',5,true,'middle','')
+      }else{
+      $('#errorlayer').showlayer(err.message,'',5,true,'middle','');
+      }
+  }else{
+
+    if (tokendata.type==100){
+        $('#unawardlayer').showlayer('','',5,true,'middle')
+        return;
+    }
+    $('#awardlayer').find('.message').html(tokendata.title);
+    $('#awardlayer').showlayer('','',false,true,'middle','');
+    if (granttype==2){
+        window.currentlayer.find('.button').attr('href','javascript:;')
+        window.currentlayer.find('.button').on('click',function(){
+            if (focusfollow){
+              $.ajax({
+                                              type:'get',
+                                              dataType:'json',
+                                              url:'{php echo $this->createmobileurl('chkfollow',array('actid'=>$act['id'],'tk'=>$tk,'vtk'=>$vtk))}',
+                                              success:function(data){               
+                                                    if (data.errno>0){if (accountlevel==4){
+                                                        $('#followlayer').find('#qrcode').attr('src',data.qrurl)
+                                                        $('#followlayer').find('.message').html(data.message)
+                                                        $('#followlayer').showlayer('','',false,true,'middle','')
+                                                        }else{
+                                                        $('#followlayer').find('#qrcode').attr('src',data.qrurl)
+                                                        $('#followlayer').find('#bar').html(tk+'_'+vtk)
+                                                        $('#followlayer').find('.message').html(data.message)
+                                                        $('#followlayer').find('.footer').show()
+                                                        $('#followlayer').showlayer('','',false,true,'middle','')
+                                                        var clipboard = new Clipboard('#button',{
+                                                        text:function () {
+                                                                return $("#bar").html();
+                                                          }
+                                                       });  
+                                                       clipboard.on('success', function(e) {
+                                                        layer.open({
+                                                                      content: '复制成功！'
+                                                                      ,skin: 'msg'
+                                                                      ,time: 2 //2秒后自动关闭
+                                                                    });
+                                                          e.clearSelection();
+                                                      });
+                                                      clipboard.on('error', function(e) {
+                                                        layer.open({
+                                                                      content: '复制失败，请长按口令手动复制！'
+                                                                      ,skin: 'msg'
+                                                                      ,time: 2 //2秒后自动关闭
+                                                                    });
+                                                      });
+                                                      }
+                                                    }else{
+                                                       sharedata.success=function(){
+                                                                 require(['jquery'],function($){
+                                                                          $.ajax({
+                                                                                      type:'get',
+                                                                                      dataType:'json',
+                                                                                      url:'{php echo $this->createmobileurl('share',array('actid'=>$act['id'],'cateid'=>$cate['id']))}',
+                                                                                      success:function(data){               
+                                                                                            if (typeof granttype!='undefined'&&granttype==2){
+                                                                                               location.href='{php echo $this->createmobileurl('grant',array('id'=>$tokendata['id'],'token'=>$_W['token']))}'
+                                                                                            }
+                                                                                      },
+                                                                                      error:function(a,b,c){
+                                                                                        alert(b)
+                                                                                      },
+                                                                                    })
+                                                                          })
+                                                              }
+                                                              wx.ready(function(){
+                                                                  wx.hideMenuItems({
+                                                                      menuList: ["menuItem:share:appMessage","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone","menuItem:editTag","menuItem:delete","menuItem:copyUrl","menuItem:originPage","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:email","menuItem:share:brand"]
+                                                                    });
+                                                                  wx.onMenuShareAppMessage(sharedata);
+                                                                  wx.onMenuShareTimeline(sharedata);
+                                                              })
+                                                             $('#sharelayer_').showlayer('','',false,true,'0','')
+                                                             window.currentlayer.find('.share_font').html(sharedata.desc)
+                                                             window.currentlayer.find('.share_thumb>img').attr('src',sharedata.imgUrl)
+                                                    }
+                                              },
+                                              error:function(a,b,c){
+                                                alert(b)
+                                              },
+                                            })
+            }else{
+                    sharedata.success=function(){
+                                                                                     require(['jquery'],function($){
+                                                                                              $.ajax({
+                                                                                                          type:'get',
+                                                                                                          dataType:'json',
+                                                                                                          url:'{php echo $this->createmobileurl('share',array('actid'=>$act['id'],'cateid'=>$cate['id']))}',
+                                                                                                          success:function(data){               
+                                                                                                                if (typeof granttype!='undefined'&&granttype==2){
+                                                                                                                   location.href='{php echo $this->createmobileurl('grant',array('id'=>$tokendata['id'],'token'=>$_W['token']))}'
+                                                                                                                }
+                                                                                                          },
+                                                                                                          error:function(a,b,c){
+                                                                                                            alert(b)
+                                                                                                          },
+                                                                                                        })
+                                                                                              })
+                                                                                  }
+                                                                                  wx.ready(function(){
+                                                                                      wx.hideMenuItems({
+                                                                                          menuList: ["menuItem:share:appMessage","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone","menuItem:editTag","menuItem:delete","menuItem:copyUrl","menuItem:originPage","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:email","menuItem:share:brand"]
+                                                                                        });
+                                                                                      wx.onMenuShareAppMessage(sharedata);
+                                                                                      wx.onMenuShareTimeline(sharedata);
+                                                                                  })
+                                                                                 $('#sharelayer_').showlayer('','',false,true,'0','')
+                                                                                 window.currentlayer.find('.share_font').html(sharedata.desc)
+                                                                                 window.currentlayer.find('.share_thumb>img').attr('src',sharedata.imgUrl)
+            }
+        })
+    }else{
+        window.currentlayer.find('.button').data('href','{php echo $this->createmobileurl('grant',array('id'=>$tokendata['id'],'token'=>$_W['token']))}')
+        window.currentlayer.find('.button').on('click',function(){
+         if (focusfollow){
+              $.ajax({
+                                              type:'get',
+                                              dataType:'json',
+                                              url:'{php echo $this->createmobileurl('chkfollow',array('actid'=>$act['id'],'tk'=>$tk,'vtk'=>$vtk))}',
+                                             success:function(data){               
+                                                    if (data.errno>1){
+                                                        if (accountlevel==4){
+                                                        $('#followlayer').find('#qrcode').attr('src',data.qrurl)
+                                                        $('#followlayer').find('.message').html(data.message)
+                                                        $('#followlayer').showlayer('','',false,true,'middle','')
+                                                        }else{
+                                                        $('#followlayer').find('#qrcode').attr('src',data.qrurl)
+                                                        $('#followlayer').find('#bar').html(tk+'_'+vtk)
+                                                        $('#followlayer').find('.message').html(data.message)
+                                                        $('#followlayer').showlayer('','',false,true,'middle','')
+                                                        var clipboard = new Clipboard('#button',{
+                                                        text:function () {
+                                                                return $("#bar").html();
+                                                          }
+                                                       });  
+                                                       clipboard.on('success', function(e) {
+                                                        layer.open({
+                                                                      content: '复制成功！'
+                                                                      ,skin: 'msg'
+                                                                      ,time: 2 //2秒后自动关闭
+                                                                    });
+                                                          e.clearSelection();
+                                                      });
+                                                      clipboard.on('error', function(e) {
+                                                        layer.open({
+                                                                      content: '复制失败，请长按口令手动复制！'
+                                                                      ,skin: 'msg'
+                                                                      ,time: 2 //2秒后自动关闭
+                                                                    });
+                                                      });
+                                                      }
+                                                    }else{
+                                                        location.href=window.currentlayer.find('.button').data('href')
+                                                    }
+                                               },
+                                              error:function(){
+
+                                               }
+                                             })
+            }else{
+              location.href=window.currentlayer.find('.button').data('href')
+            }
+        })
+    }
+  }
+}/*
+  if (jsonlength(err)>0){
+  wx.ready(function(){
+  wx.getLocation({
+      success: function (res) {
+        //alert(JSON.stringify(res))
+        var latitude = res.latitude;//手机端坐标res.latitude， 开发者工具坐标res.res.latitude // 纬度，浮点数，范围为90 ~ -90
+        var longitude = res.longitude;
+        window.longitude=longitude
+          window.latitude=latitude
+        script=document.createElement('script')
+        script.src='http://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv&callback=mapCallback'
+        head=document.head||document.getElementsByTagName('head')[0]
+        document.body.appendChild(script)
+          script.onload = script.onreadystatechange=function(){
+          if(!this.readyState || this.readyState=='loaded' || this.readyState=='complete'){
+        }
+    　　　　}
+        script.onload = script.onreadystatechange = null;
+      },
+      fail:function(){
+         location.href='{php echo $this->createmobileurl('lottery',array('tk'=>$tk,'vtk'=>$vtk))}'
+      }
+      })
+  })
+  }*/
+})
+/*
+  function mapCallback(){
+        var longitude,latitude,vdistrict;
+        longitude=window.longitude,latitude=window.latitude;
+        var point = new BMap.Point(longitude, latitude);    // 创建点坐标
+          var gc = new BMap.Geocoder(); //地址匹配类   
+          gc.getLocation(point, function(rs){
+                city=rs.addressComponents.city;
+                district=rs.addressComponents.district;
+                province=rs.addressComponents.province;
+                street=rs.addressComponents.street;
+                streetNumber=rs.addressComponents.streetNumber;
+              setCookie('city',city);  
+              setCookie('district',district);  
+              setCookie('province',province);
+              setCookie('street',street);
+              setCookie('streetnum',streetNumber);
+              setCookie('address',rs.address);
+              if (typeof districtarr!='undefined'&&(dscanwarning)){
+                vdistrict=false
+                for(a in districtarr){
+                if (rs.address.indexOf(districtarr[a])!=-1){
+                  vdistrict=true
+                  break;
+                }
+                }
+              }
+                if (scanid){
+                url='{php echo $this->createmobileurl('location',array('actid'=>$act['id'],'scanid'=>$_M['scanid']))}'
+                if (typeof vdistrict!='undefined'){
+                  url=url+'&vdistrict='+vdistrict.toString()
+                }
+                //alert(url)
+                $.ajax({
+                  type:'get',
+                  dataType:'json',
+                  url:url,
+                  success:function(data){
+                    },
+                  error:function(a,b,c){
+                    alert(b)
+                  },
+                })
+                }
+           })
+  }*/
+</script>
+{template 'footer'}

@@ -1,0 +1,90 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs" >
+  <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('ch',array('actid'=>$actid,'cateid'=>$cateid))}">串货记录</a></li>
+<div class="form-inline pull-right">
+ <label >切换活动</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('ch')}&actid='+this.options[this.selectedIndex].value">
+<option value="0">所有活动</option>
+{loop $acts $row}
+<option value="{$row['id']}" {if $actid==$row['id']}selected="selected"{/if} >{$row['name']}</option>{/loop}
+</select>
+<label >切换码段</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('ch',array('actid'=>$act['id']))}&cateid='+this.options[this.selectedIndex].value">
+<option value="0">所有批次</option>
+{loop $cates $row}
+<option value="{$row['id']}" {if $cate['id']==$row['id']}selected="selected"{/if} >[{$acts[$row['actid']]['name']}] ID:{$row['id']} ({$row['mintk']}-{$row['maxtk']})</option>{/loop}
+</select> &nbsp;
+</div>
+</ul>
+<div>
+</ul>
+<div class="clearfix"></div>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+.awardbt{ margin:10px auto;}
+</style>
+
+
+<div class="panel panel-default">
+<div class="panel-heading">共{$total}条串货记录</div>
+<div class="panel-body">
+
+{if empty($activitys)}
+
+暂无记录，请先生成！
+
+{else}
+
+<table border="0" cellpadding="0" width="100%" cellspacing="0" class="table">
+    <tr>
+  <th width="100" align="center">ID</th>
+      <th width="100" align="center">活动名称</th>
+      <th width="80" align="center">编号</th>
+      <th width="180" align="center">销售地</th>
+      <th width="180" align="center">扫码地</th>
+      <th width="130" align="center">扫码openid</th>
+      <th width="80" align="center">扫码人</th>
+      <th width="120" align="center">扫码时间</th>
+      </tr>
+   {loop $activitys $row}
+    <tr>
+      <td valign="middle">{$row['id']}</td>
+      <td valign="middle">{$row['actname']}</td>
+      <td valign="middle">{$row['tk']}</td>
+      <td valign="middle">{$row['district']}</td>
+      <td valign="middle"><span style="color:red">{$row['scandistrict']}</span></td>
+      <td valign="middle">{$row['oauth_openid']}</td>
+      <td valign="middle">{$row['nickname']}</td>
+      <td valign="middle">{php echo date('Y-m-d h:i:s',$row['addtime'])}</td>
+    </tr>
+   {/loop}
+</table>
+
+{/if}
+
+{$pager}
+
+</div>
+
+</div>
+   <script type="text/javascript">
+
+/*  require(['bootstrap'],function($){
+
+    $('.btn').hover(function(){
+
+      $(this).tooltip('show');
+
+    },function(){
+
+      $(this).tooltip('hide');
+
+    });
+
+  });*/
+</script>
+
+</div>
+
+{template 'common/footer'}

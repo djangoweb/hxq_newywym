@@ -1,0 +1,238 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+	<li class="active" ><a href="#">数据图表</a></li>
+<div class="form-inline pull-right">
+<label>切换活动</label>
+<select name="actid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('census')}&actid='+this.options[this.selectedIndex].value">
+<option value="0" {if empty($act)}selected="selected"{/if}>所有活动</option>
+{loop $acts $row}
+<option value="{$row['id']}" {if $act['id']==$row['id']}selected="selected"{/if}>{$row['name']}</option>
+{/loop}
+</select>
+</div>
+</ul>
+<div>
+
+<div class="panel panel-info"><div class="panel-body"><span class="label label-success">传播量:{$cb}</span> <span class="label label-success">朋友圈点击人次:{$timeline}</span> <span class="label label-success">朋友圈点击总数:{$timelineclick}</span> <span class="label label-success">总点击人次:{$fans}</span> <span class="label label-success">总点击数:{$fansclick}</span></div></div>
+<div class="panel panel-default">
+<div class="panel-heading">总抽奖图</div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<div class="col-md-12">
+<div id="smt" style="width:100%;height:400px;"></div>
+<div class="clearfix"></div>
+</div>
+</div>
+</div>
+<script type="text/javascript">    // 基于准备好的dom，初始化echarts实例
+require.config({paths:{echarts:'../../../../addons/hxq_newywym/js/lib/echarts.all',echartsconfig:'../../../../addons/hxq_newywym/js/lib/echartsconfig'}});
+require(['echarts','echartsconfig','jquery'],function(echarts_,echartsconfig,$){
+    // 指定图表的配置项和数据
+    var smtoption =  {
+    title: {
+        text: '扫码统计',
+        subtext: '真实数据'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['扫码数','朋友圈点击量','总点击量']
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
+            dataView: {readOnly: false},
+            magicType: {type: ['line', 'bar']},
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    xAxis:  {
+        type: 'category',
+        boundaryGap: false,
+        data: {if !empty($awardeddates)}{php echo json_encode($awardeddates)}{else}[]{/if},
+    },
+    yAxis: {
+        type: 'value',
+        axisLabel: {
+            formatter: '{value}次'
+        }
+    },
+    series: [
+        {
+            name:'扫码数',
+            type:'line',
+            data:{if !empty($awardedcensuss)}{php echo json_encode($awardedcensuss)}{else}[]{/if},
+            markPoint: {
+                data: [
+                    {type: 'max', name: '最大值'},
+                    {type: 'min', name: '最小值'}
+                ]
+            },
+            markLine: {
+                data: [
+                    {type: 'average', name: '平均值'}
+                ]
+            }
+        },
+         {
+            name:'朋友圈点击量',
+            type:'line',
+            data:{if !empty($timelinecensuss)}{php echo json_encode($timelinecensuss)}{else}[]{/if},
+            markPoint: {
+                data: [
+                    {type: 'max', name: '最大值'},
+                    {type: 'min', name: '最小值'}
+                ]
+            },
+            markLine: {
+                data: [
+                    {type: 'average', name: '平均值'}
+                ]
+            }
+        }, {
+            name:'总点击量',
+            type:'line',
+            data:{if !empty($fansclickcensuss)}{php echo json_encode($fansclickcensuss)}{else}[]{/if},
+            markPoint: {
+                data: [
+                    {type: 'max', name: '最大值'},
+                    {type: 'min', name: '最小值'}
+                ]
+            },
+            markLine: {
+                data: [
+                    {type: 'average', name: '平均值'}
+                ]
+            }
+        }
+    ]
+    };
+        // 使用刚指定的配置项和数据显示图表。
+        // 
+myChart=echarts.init(document.getElementById('smt'));
+        myChart.setOption(smtoption);
+          })
+        
+  var category = [];
+
+  require(['bootstrap'],function($){
+
+    $('.btn,.qrlink').hover(function(){
+
+      $(this).tooltip('show');
+
+    },function(){
+
+      $(this).tooltip('hide');
+
+    });
+
+  });
+
+</script>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-break:break-all; white-space:normal !important}
+.divh5{ height: 5px; display:block;}
+.table-bordered .th-td{padding:0px;border: none; background: #ebebeb}
+.table-bordered td,th{padding: 5px}
+
+</style>
+
+<div class="panel panel-default" >
+<div class="panel-heading">奖品发放统计</div>
+<div class="panel-body">
+<table border="0" cellpadding="0" cellspacing="0" class="table" width="100%" >
+    <tr>
+    <th valign="middle" width="100">类型</th>
+    <th valign="middle" width="120">名称</th>
+    <th valign="middle" width="80">发放总量</th>
+    <th valign="middle" width="80">总金额</th>
+    <th valign="middle" width="80">总积分</th>
+    <th valign="middle" width="80">总核销</th>
+    </tr>
+{loop $tokens $row}
+    <tr>
+    <td valign="middle" >{if $row['type']==1}红包{elseif $row['type']==2}裂变红包{elseif $row['type']==3}积分{elseif $row['type']==4}实物{elseif $row['type']==5}微信卡券{/if}</td>
+    <td valign="middle" width="">{$row['title']}</td>
+    <td valign="middle" width="" class="totalawarded">{$row['totalawarded']}</td>
+    <td valign="middle" width="" class="redpack">{$row['redpack']}</td>
+    <td valign="middle" width="" class="credit1">{$row['credit1']}</td>
+    <td valign="middle" width="" class="totalverif">{$row['totalverif']}</td>
+    </tr>
+{/loop}
+   <tr>
+    <td valign="middle" width=""></td>
+    <td valign="middle" width=""></td>
+    <td valign="middle" width="" class="totalawarded_">0</td>
+    <td valign="middle" width="" class="redpack_">0</td>
+    <td valign="middle" width="" class="credit1_">0</td>
+    <td valign="middle" width="" class="totalverif_">0</td>
+    </tr>
+</table>
+</div>
+</div>
+<script>
+require(['jquery'],function($){
+    $('.totalawarded').each(function(){
+        $('.totalawarded_').html(parseFloat($('.totalawarded_').html())+parseFloat($(this).html()))
+    })
+     $('.redpack').each(function(){
+        $('.redpack_').html(parseFloat($('.redpack_').html())+parseFloat($(this).html()))
+    })
+
+      $('.credit1').each(function(){
+        $('.credit1_').html(parseFloat($('.credit1_').html())+parseFloat($(this).html()))
+    })
+       $('.totalverif').each(function(){
+        $('.totalverif_').html(parseFloat($('.totalverif_').html())+parseFloat($(this).html()))
+    })
+
+})
+</script>
+<div class="panel panel-default">
+<div class="panel-heading">优惠券发放统计</div>
+<div class="panel-body">
+<table border="0" cellpadding="0" cellspacing="0" class="table" width="100%">
+    <tr>
+    <th valign="middle" width="100">类型</th>
+    <th valign="middle" width="120">名称</th>
+    <th valign="middle" width="80">领取总量</th>
+    <th valign="middle" width="80">核销总量</th>
+    </tr>
+{loop $grants $row_}
+    <tr>
+    <td valign="middle">{if $row_['type']==1}优惠券{else}微信卡券{/if}</td>
+    <td valign="middle" >{$coupons[$row_['cid']]['name']}</td>
+    <td valign="middle"  class="totalgrant">{$row_['totalgrant']}</td>
+    <td valign="middle"  class="totalcouponverif">{$row_['totalverif']}</td>
+    </tr>
+{/loop}
+    <tr>
+    <td valign="middle" ></td>
+    <td valign="middle" ></td>
+    <td valign="middle"  class="totalgrant_">0</td>
+    <td valign="middle"  class="totalcouponverif_">0</td>
+    </tr>
+</table>
+</div>
+</div>
+<script>
+require(['jquery'],function($){
+    $('.totalgrant').each(function(){
+        $('.totalgrant_').html(parseFloat($('.totalgrant_').html())+parseFloat($(this).html()))
+    })
+     $('.totalcouponverif').each(function(){
+        $('.totalcouponverif_').html(parseFloat($('.totalcouponverif_').html())+parseFloat($(this).html()))
+    })
+})
+</script>
+
+</div>
+
+{template 'common/footer'}

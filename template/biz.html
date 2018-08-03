@@ -1,0 +1,182 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+  <li class="active"><a href="{php echo $this->createWebUrl('biz')}">商家管理</a></li>
+  <li><a href="{php echo $this->createWebUrl('biz',array('op'=>'edit'))}" ><i class="fa fa-plus"></i>商家添加</a></li>
+</ul>
+
+<div class="clearfix"></div>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+.wrap{word-wrap: break-word; 
+word-break: normal}
+.nowrap{white-space: nowrap;}
+.divh5{height: 5px}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">商家管理</div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" action="{php echo $this->createWebUrl('coupon')}">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="100" align="center">类型</th>
+    <th width="60" align="center">缩略图</th>
+    <th width="100" align="center">店名</th>
+    <th width="100" align="center">联系电话</th>
+    <th width="120" align="center">商品</th>
+    <th width="120" align="center">优惠券<br>显示/上架</th>
+    <th width="80" align="center">核销员</th>
+    <th width="100" align="center">添加时间</th>
+    <th width="160" align="center">操作</th>
+    </tr>
+    {loop $bizs $row}
+    <tr>
+      <td valign="middle">{$_M['indstc'][$row['indstp']][$row['indstc']]}</td>
+      <td valign="middle"><img src={php echo $_W['attachurl'].$row['thumb']} width="40" height="40" /></td>
+      <td valign="middle">{$row['name']}</td>
+      <td valign="middle">{$row['phone']}</td>
+      <td valign="middle" class="wrap"><a class="label-danger label" href="{php echo $this->createweburl('product',array('bizid'=>$row['id']))}">{$row['totalpdt']}</a></td>
+      <td valign="middle" class="wrap"><a href="{php echo $this->createweburl('coupon',array('bizid'=>$row['id'],'disabled'=>'1'))}" class="label-success label">{$row['totalcouponon']}</a>/<a class="label-danger label" href="{php echo $this->createweburl('coupon',array('bizid'=>$row['id']))}">{$row['totalcoupon']}</a></td>
+    <td align="center"><a class="label label-success" data-id="{$row['id']}" data-url="{php echo urlencode($_W['siteroot'].'app/'.$this->createmobileurl('coupon',array('op'=>'bindverifer','bizid'=>$row['id'])))}" onclick="showbindverifer(this)"><i class="fa fa-qrcode"></i></a></td>
+    <td valign="middle" class="wrap">{php echo date('Y-m-d h:i',$row['addtime'])}</td>
+    <td valign="middle">
+    <a data-original-title="优惠券管理" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('coupon',array('bizid'=>$row['id']))}">券</a>
+    <a data-original-title="商品管理" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('product',array('bizid'=>$row['id']))}">商品</a><div class="divh5"></div>
+    <a data-original-title="核销员" title=""  data-toggle="tooltip" data-id="{$row['id']}" data-placement="top"  class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('biz',array('op'=>'verifer','bizid'=>$row['id']))}">核销员</a>
+    
+    <a data-original-title="修改" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('biz',array('op'=>'edit','id'=>$row['id']))}"><i class="fa fa-edit"></i></a>
+    <a data-original-title="删除" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('biz',array('op'=>'delete','id'=>$row['id']))}" onclick="return confirm('商户门店后就无法按商户来查看优惠券数据统计，确定删除？')"><i class="fa fa-remove"></i></a>
+    </td>
+    </tr>
+    {/loop}
+    </table>
+  {$pager}
+  </form>
+
+ </div></div>
+</div>
+    <script type="text/javascript">
+ function showbindverifer(elm){
+    require(['jquery','util'],function($,u){
+      $.get('{php echo $this->createweburl('qrcode')}&bizid='+$(elm).data('id')+'&filename=bindverifer_'+$(elm).data('id')+'&url='+$(elm).data('url'),function(data){
+        if (data.errno==0){
+            title='扫码绑定核销员';
+                    content='<form name="formcoupon"><div class="material-body we7-form">';
+                    content+='<div class="col-md-12 message text-danger" style="margin-top:20px;"><img src="'+data.qrurl+'" width=200 height=200></div>'
+                    content+='</div></form>'
+                    footer='<div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">确定</button></div>';
+                    options={};
+                    qrcodemodal=u.dialog(title,content,footer,options);
+                    qrcodemodal.modal('show')
+        }else{
+            u.message(data.message)
+        }
+      },'json')
+    })
+ }
+function op(type){
+    e=event||window.event
+    self=e.target
+    switch(type){
+      case 'coupon':
+      //console.log($(self).data('id'))
+      require(['jquery','util'],function($,u){
+              $.get("{php echo $this->createweburl('biz',array('op'=>'getcoupon'))}",{bizid:$(self).data('id')},function(data){
+                    if (data.errno==1){
+                      u.message('找不到优惠券')
+                    }else{
+                    title='请选择要展示在商家首页的优惠券';
+                    content='<form name="formcoupon"><div class="material-body we7-form">';
+                    for (a in data.coupons){
+                     coupon=data.coupons[a]
+                     content+='<div style="float:left;padding:0px 15px;width:50%;"><label class="radio-inline"><input style="display:inline-block" type="checkbox" name="coupon[]" value="'+coupon.id+'" '+(coupon.isshow==1?'checked="checked"':'')+'> '+coupon.name +' '+ coupon.value+'</label></div>';
+                    }
+                    content+='<div class="clearfix"></div><div class="col-md-12 message text-danger" style="margin-top:20px;"></div><input type=hidden value="'+$(self).data('id')+'" name="bizid">'
+                    content+='</div></form>'
+                    footer='<div class="modal-footer"><button type="button" class="btn btn-primary" data-id="'+$(self).data('id')+'" onclick="savecoupon()">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                    options={};
+                    couponmodal=u.dialog(title,content,footer,options);
+                    couponmodal.modal('show')
+                    return;}
+              },'json')
+              return;
+          });
+      break;
+      case 'product':
+      require(['jquery','util'],function($,u){
+            $.get("{php echo $this->createweburl('biz',array('op'=>'getproduct'))}",{bizid:$(self).data('id')},function(data){
+                    if (data.errno==1){
+                      u.message('找不到产品')
+                    }else{
+                    title='请选择要展示在商家首页的产品';
+                    content='<form name="formproduct"><div class="material-body we7-form">';
+                    for (a in data.products){
+                     product=data.products[a]
+                     content+='<div style="float:left;padding:0px 15px;width:50%;"><label class="radio-inline"><input style="display:inline-block" type="checkbox" name="product[]" value="'+product.id+'" '+(product.isshow==1?'checked="checked"':'')+'> '+product.name +'</label></div>';
+                    }
+                    content+='<div class="clearfix"></div><div class="col-md-12 message text-danger" style="margin-top:20px;"></div><input type=hidden value="'+$(self).data('id')+'" name="bizid">'
+                    content+='</div></form>'
+                    footer='<div class="modal-footer"><button type="button" class="btn btn-primary" data-id="'+$(self).data('id')+'" onclick="saveproduct()">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                    options={};
+                    couponmodal=u.dialog(title,content,footer,options);
+                    couponmodal.modal('show')
+                    return;}
+              },'json')
+              return;
+          });
+      break;
+    }
+  }
+
+  function savecoupon(){
+      e=event||window.event
+      e.preventDefault()
+      self=e.target;
+      data=$('form[name=formcoupon]').serialize()
+      require(['jquery','util'],function($,u){
+          $.post('{php echo $this->createweburl('biz',array('op'=>'savecoupons'))}',data,function(data){
+            if (data.errno==1){
+               couponmodal.find('.message').html(data.message);
+            }else{
+               couponmodal.modal('hide');
+            }
+          },'json')
+      })
+  }
+
+  function saveproduct(){
+      e=event||window.event
+      e.preventDefault()
+      self=e.target;
+      data=$('form[name=formproduct]').serialize()
+      require(['jquery','util'],function($,u){
+          $.post('{php echo $this->createweburl('biz',array('op'=>'saveproducts'))}',data,function(data){
+            if (data.errno==1){
+               couponmodal.find('.message').html(data.message);
+            }else{
+               couponmodal.modal('hide');
+            }
+          },'json')
+      })
+  }
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+
+{template 'common/footer'}

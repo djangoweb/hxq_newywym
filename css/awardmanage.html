@@ -1,0 +1,143 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+
+	<li class="active" ><a href="{php echo $this->createWebUrl('awardmanage',array('actid'=>$actid))}">奖品管理</a></li>
+
+	<li><a href="{php echo $this->createWebUrl('awardmanage',array('op'=>'edit','actid'=>$actid))}" ><i class="fa fa-plus"></i>奖品添加</a></li>
+    <div class="form-inline pull-right">
+<label>切换活动</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('awardmanage')}&actid='+this.options[this.selectedIndex].value">
+{loop $acts $row}<option value="{$row['id']}" {if $actid==$row['id']}selected="selected"{/if} >{$row['name']}</option>{/loop}
+</select>
+</div>
+</ul>
+
+<div class="panel panel-info">
+
+<div class="panel-body">奖品实际中奖率等于<strong class=text-success>中奖率</strong><strong class="text-danger">除以</strong><strong class=text-success>所有未禁用奖品中奖率之和</strong>,当前中奖率之和<strong class="text-danger">{$totalrate}</strong>，中奖率之和不能超过<strong class="text-danger">10000</strong>。
+
+</div></div>
+
+
+
+<div class="clearfix"></div>
+
+<style>
+
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+
+</style>
+
+<div class="panel panel-default">
+<div class="panel-heading">{$act['title']} 奖品</div>
+<div class="clearfix"></div>
+
+<div class="panel-body">
+
+<form id="form1" name="form1" method="post" action="{php echo $this->createWebUrl('awardmanage')}">
+
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+
+    <tr>
+
+      <th width="50" align="center">排序</th>
+
+      <th width="60" align="center">图片</th>
+
+      <th width="120" align="center">奖品名称</th>
+    <th width="80" align="center">类型</th>
+    <th width="280" align="center">中奖率</th>
+    <th width="100" align="center">抽奖条件<br>(扫码次数)</th>
+    <th width="70" align="center">今日抽</th>
+
+    <th width="60" align="center">已抽</th>
+
+    <th width="80" align="center">奖品总数</th>
+    <th width="100" align="center">操作</th>
+
+    </tr>
+
+    {loop $awards $row}
+
+    <tr {if $row['disable']==1}class="active"{/if}>
+
+      <td valign="middle"><input type="text" name="sortid[{$row['id']}]" class="form-control"   placeholder="排序" value="{$row['sort']}"/></td>
+
+      <td valign="middle"><img src="{php echo $_W['attachurl'].$row['thumb']}" width="50"/></td>
+
+      <td valign="middle">{if $row['type']==1}普通红包<br>{$row['redpack']}元{elseif $row['type']==2}裂变红包<br>{$row['redpack']}元裂变{$row['total_num']}人{elseif $row['type']==3}积分{$row['credit1']}{elseif $row['type']=4}{$row['title']}{else}空奖{/if}</td>
+    <td valign="middle">
+    {if $row['type']==1}
+    普通红包
+    {elseif $row['type']==2}
+    裂变红包
+    {elseif $row['type']==3}
+    积分
+    {elseif $row['type']==4}
+    实物奖品
+    {elseif $row['type']==5}
+    微信卡券
+    {else}
+    空奖
+    {/if}</td>
+
+    <td valign="middle">{if $row['disable']=='0'}
+{loop $totalrates $k $v}
+<span class="label label-danger" style="width:60px;display:inline-block;{if empty($row['ratepercent'][$k])}visibility:hidden{/if}">{$row['ratepercent'][$k]}</span>
+{/loop}
+    {/if}</td>
+    <td valign="middle">{if !empty($row['scantimes'])}{$row['scantimes']}{else}不限{/if}</td>
+    <td valign="middle"><span class="label label-danger">{$row['dayawarded']}</span></td>
+
+    <td valign="middle"><span class="label label-danger">{$row['awarded']}</span></td>
+    <td valign="middle"><span class="label label-success">{$row['total']}</span></td>
+    <td valign="middle"><a data-original-title="修改" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('awardmanage',array('op'=>'edit','id'=>$row['id'],'actid'=>$actid))}"><i class="fa fa-edit"></i></a>
+
+    {if empty($row['disable'])}<a data-original-title="禁用" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('awardmanage',array('op'=>'disable','id'=>$row['id'],'actid'=>$actid))}"><i class="glyphicon glyphicon-ban-circle"></i></a>
+    {else}
+    <a data-original-title="启用" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('awardmanage',array('op'=>'disable','id'=>$row['id'],'actid'=>$actid))}"><i class="glyphicon glyphicon-ok-circle"></i></a>
+    {/if}
+    </td>
+
+    </tr>
+
+    {/loop}
+
+    </table>
+
+    
+
+ <div class="form-group">
+
+    <input name="token" type="hidden" value="{$_W['token']}"/>
+
+    <input name="dosort" type="submit" value="更新排序" class="btn btn-primary"/>
+
+  </div>
+  </form>
+
+ </div></div>
+</div>
+    <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+
+{template 'common/footer'}

@@ -1,0 +1,120 @@
+{template 'header'}
+<style>
+body{ background:{$act['pagesetting']['bgcolor']};width:100%; height:100%}
+.container{ width:100%; height:100%;margin:auto; padding:0px;{if !$_GPC['preview']}display:none{/if}}
+.actinterval{ margin:7px auto; width:290px; line-height:20px; font-size:14px; text-align:center;color:#F00}
+#rule{ width:96%; margin:10px auto; background-color:#f8f6ec; margin:10px auto; border-radius:2px; box-shadow:0px 2px 2px 0px rgba(0,0,0,.3)}
+#rulecontent{ padding:10px;font-size:14px}
+#rule_header{ text-align:center; border-bottom:3px solid #ee6a04;}
+.section_header{ height:41px; background-color:#FFF ; font-size:14px; position:relative;  font-family:'微软雅黑'; width:100%; vertical-align:middle; }
+.section_body{ border-radius:0px 0px 2px 2px;padding:5px; }
+.section_footer{ border-radius:0px 0px 2px 2px;padding:5px; background-color:#999; background-color:#FFF; text-align:center}
+#rule_header{ border-bottom:3px solid #ee6a04; background:#ed6603}
+#rule_header a:link{     color:#ed6603;   font-size:14px; text-decoration:none; width:100%; height:100%;  display:block}
+#rule_header a:hover{  color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+#rule_header a:active{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+#rule_header a:visited{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab_c{ width:50%; position:relative; height:100%; display:block; background-color:#ed6603; color:#fff;float:left;font-size:14px; line-height:41px; text-align:center; font-weight:bolder;}
+.headertab_c .baseline{ position: absolute; bottom:-8px;width:100%; height:5px;}
+.headertab_c .baseline img{ vertical-align:top}
+.headertab_c a:link{     color:#FFF;   font-size:14px; text-decoration:none; width:100%; height:100%;  display:block}
+.headertab_c a:hover{  color:#FFF;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab_c a:active{    color:#FFF;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab_c a:visited{    color:#FFF;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+
+.headertab{ width:50%; position:relative; height:100%; display:block; background-color:#fff; color:#ed6603;float:left; font-weight: bolder;font-size:14px; line-height:41px; text-align:center}
+.headertab a:link{     color:#ed6603;   font-size:14px; text-decoration:none; width:100%; height:100%;  display:block}
+.headertab a:hover{  color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab a:active{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab a:visited{    color:#ed6603;   font-size:14px;  text-decoration:none;width:100%; height:100%;  display:block}
+.headertab .baseline{ position: absolute; bottom:-5px;width:100%; height:5px; display:none}
+#btn-btm-back{position: fixed; bottom:0px; width:100%}
+.btnasrow-back{  text-align:center;  width:100%}
+.btnasrow-back a{ color:#FFF; text-decoration:none; display:inline-block; font-size:14px; margin:auto; width:100%}
+.btnasrow-back img{ width:100%}
+.btnasrow-back:before{font:12px FontAwesome ;font-size:12px;content:'\f053' ;position:absolute; left:5px;inherit; color:#FFF; top:50%; margin-top:-6px; height:12px; line-height:12px}
+.h35{ height:35px}
+</style>
+<script>
+var starttime={$act['starttime']};
+var endtime={$act['endtime']};
+var pageurl='{$_W['siteurl']}';
+var area='{$act['area']}'
+var sharetype={$act['sharetype']};
+var granturl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('grant',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var helpurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('help',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var indexurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('index',array('actid'=>$act['id']))}';
+var checklocation_url='{php echo $this->createMobileUrl('checkposition',array('actid'=>$act['id']))}'
+var checkiplocation_url='{php echo $this->createMobileUrl('checkipposition',array('actid'=>$act['id']))}'
+var sharedata_={php echo json_encode($act['sharedata'])};
+var area='{$act['area']}'
+var iparea='{$act['iparea']}'
+var cardname='{$act['cardname']}';
+var getlocation=function (){
+	return undefined;
+};
+var getiplocation=function (){
+	return undefined;
+};
+{if !empty($initdata)}
+var accessdata={$initdata};
+{/if}
+$(function(){
+		   {if !$_GPC['preview']}initpage();{/if}
+
+			 setinterval() 
+		   })
+		     	wx.ready(function (){
+		     if (sharetype){
+		 		wx.hideAllNonBaseMenuItem();
+			 }else{
+				{if !empty($fan)}
+				var sharedata={
+					title:sharedata_.sharetitle,
+					imgUrl:sharedata_.sharethumb,
+					desc:sharedata_.sharedesc,
+					link:helpurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{else}
+				var sharedata={
+					title:sharedata_.defaultsharetitle,
+					imgUrl:sharedata_.defaultsharethumb,
+					desc:sharedata_.defaultsharedesc,
+					link:indexurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{/if}
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+			 }
+	   	    })
+</script>
+<script src="{MODULE_URL}/resources/js/module.js?{TIMESTAMP}"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+</head>
+<body>
+<div class="container container-fill">
+<div id="top"><img src="{php echo $_W['attachurl'].$act['pagesetting']['topimg']}" width="100%" /></div>
+<div class="actinterval timeout"><span class="totaltip">{$totalfan}人参与 已发放{$totalgrantcard}张{$act['cardname']} </span><br/><span class="totaltip">共{$totalaward}份奖品 先兑先得，兑完即止 </span><br /><span class="tipname"></span><span class="day"></span><span class="hour"></span><span class="minute"></span><span class="second"></span></div>
+<div id="rule">
+<div id="rule_header" class="section_header">
+<div class="headertab_c">活动规则<div class="baseline"><img src="{MODULE_URL}/resources/images/square.png" height="5" /></div></div>
+<div class="headertab"><a class="" href="{php echo $this->createmobileurl('award',array('actid'=>$act['id']))}">兑换奖品</a><div class="baseline"><img src="{MODULE_URL}/resources/images/square.png" height="5" /></div></div>
+</div>
+<div id="rule_body" class="section_body"><div id="rulecontent">{$act['rule']}</div></div>
+
+</div>
+<div class="h35" style="margin-bottom:3px"></div>
+<div id="btn-btm-back" class="btnasrow-back"><a href="{php echo $this->createmobileurl('index',array('actid'=>$act['id'],'j'=>$acid),false)}" ><img src="{MODULE_URL}/resources/images/btn-back.png" /></a></div>
+{template 'footer'}

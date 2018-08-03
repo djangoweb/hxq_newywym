@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://bbs.bcb5.com" versionCode="0.8,1.0">
+	<application setting="true">
+		<name><![CDATA[营销码]]></name>
+		<identifie><![CDATA[hxq_newywym]]></identifie>
+		<version><![CDATA[10.0.8]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[红包墙二维码，一个二维码一个红包。线下商家引流、提升转化率神奇，商家微信端必备商品营销应用。]]></ability>
+		<description><![CDATA[红包墙二维码，一个二维码一个红包。线下商家引流、提升转化率神奇，商家微信端必备商品营销应用。]]></description>
+		<author><![CDATA[不错吧]]></author>
+		<url><![CDATA[http://bbs.bcb5.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+		
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="营销码入口" do="index" state="" direct="true" />
+		</cover>
+		<rule>
+			<entry title="营销码规则" do="rule" state="" direct="true" />
+		</rule>
+		<menu>
+			<entry title="码段管理" do="catemanage" state="" direct="false" />
+			<entry title="活动管理" do="activity" state="" direct="false" />
+			<entry title="奖项管理" do="awardmanage" state="" direct="false" />
+			<entry title="粉丝管理" do="fanmanage" state="" direct="false" />
+			<entry title="中奖管理" do="awardedmanage" state="" direct="false" />
+			<entry title="数据图表" do="census" state="" direct="false" />
+			<entry title="商家管理" do="biz" state="" direct="false" />
+			<entry title="消息推送" do="notice" state="" direct="false" />
+			<entry title="裂变奖项管理" do="fisnaward" state="" direct="false" />
+			<entry title="裂变中奖管理" do="fisnawarded" state="" direct="false" />
+			<entry title="点击红包管理" do="keepawarded" state="" direct="false" />
+		</menu>
+		<profile>
+			<entry title="营销码" do="index" state="" direct="true" />
+		</profile>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_activity` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `starttime` int(10) NOT NULL DEFAULT '0',
+  `endtime` int(10) NOT NULL DEFAULT '0',
+  `daymaxawarded` int(10) unsigned NOT NULL DEFAULT '0',
+  `maxawarded` int(10) unsigned NOT NULL DEFAULT '0',
+  `jj` varchar(500) NOT NULL DEFAULT '',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `thumbs` varchar(2000) NOT NULL DEFAULT '',
+  `sharethumb` varchar(200) NOT NULL DEFAULT '',
+  `sharetitle` varchar(200) NOT NULL DEFAULT '',
+  `sharedesc` varchar(200) NOT NULL DEFAULT '',
+  `focusfollow` tinyint(1) NOT NULL DEFAULT '0',
+  `getfaninfo` tinyint(1) NOT NULL DEFAULT '0',
+  `faninfoarr` varchar(500) NOT NULL DEFAULT '',
+  `thumb` varchar(200) NOT NULL DEFAULT '',
+  `ucthumb` varchar(200) NOT NULL DEFAULT '',
+  `rptype` tinyint(1) NOT NULL DEFAULT '0',
+  `gcredit1` tinyint(1) NOT NULL DEFAULT '0',
+  `credit1` int(10) NOT NULL DEFAULT '0',
+  `description` text NOT NULL,
+  `dthumb` varchar(200) NOT NULL DEFAULT '',
+  `faq` text NOT NULL,
+  `fthumb` varchar(200) NOT NULL DEFAULT '',
+  `hpctnt` text NOT NULL,
+  `hpthumb` varchar(200) NOT NULL DEFAULT '',
+  `maxtoken` int(10) NOT NULL DEFAULT '0',
+  `granttype` tinyint(1) NOT NULL DEFAULT '0',
+  `ltype` tinyint(1) NOT NULL DEFAULT '0',
+  `lnum` int(10) NOT NULL DEFAULT '0',
+  `shareoutlink` varchar(500) NOT NULL DEFAULT '',
+  `blacklist` tinyint(1) NOT NULL DEFAULT '0',
+  `blacklistgroups` varchar(500) NOT NULL DEFAULT '',
+  `mycloselinks` varchar(500) NOT NULL DEFAULT '',
+  `cashtip` varchar(500) NOT NULL DEFAULT '',
+  `page` varchar(8000) NOT NULL DEFAULT '',
+  `qdid` int(10) NOT NULL DEFAULT '0',
+  `district` varchar(500) NOT NULL DEFAULT '',
+  `createtime` int(10) NOT NULL DEFAULT '0',
+  `dscanwarning` tinyint(1) NOT NULL DEFAULT '0',
+  `getcashleast` int(10) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `maxperfanscan` int(10) NOT NULL DEFAULT '0',
+  `titleshowtype` tinyint(1) NOT NULL DEFAULT '0',
+  `fission` tinyint(1) NOT NULL DEFAULT '0',
+  `fisnawardtype` tinyint(1) NOT NULL DEFAULT '0',
+  `fissionnum` int(10) NOT NULL DEFAULT '0',
+  `fisnarea` varchar(200) NOT NULL DEFAULT '',
+  `keeptimeline` tinyint(1) NOT NULL DEFAULT '0',
+  `keepprice` varchar(20) NOT NULL DEFAULT '',
+  `keepclicktimes` int(10) NOT NULL DEFAULT '0',
+  `plusability` tinyint(1) NOT NULL DEFAULT '0',
+  `keeparea` varchar(50) NOT NULL DEFAULT '',
+  `fisniparea` varchar(500) NOT NULL DEFAULT '',
+  `keepiparea` varchar(500) NOT NULL DEFAULT '',
+  `fissiontype` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_award` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(5) unsigned NOT NULL,
+  `actid` int(10) unsigned NOT NULL,
+  `sort` tinyint(1) unsigned NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `type` int(5) unsigned NOT NULL,
+  `thumb` varchar(200) DEFAULT NULL,
+  `redpack` decimal(10,2) NOT NULL,
+  `credit1` int(5) unsigned NOT NULL DEFAULT '0',
+  `credit2` int(5) unsigned NOT NULL DEFAULT '0',
+  `rate` int(5) unsigned NOT NULL DEFAULT '0',
+  `total` int(5) unsigned NOT NULL DEFAULT '0',
+  `daytotal` int(5) unsigned NOT NULL DEFAULT '0',
+  `dayawarded` varchar(1000) NOT NULL DEFAULT '',
+  `awarded` int(10) unsigned NOT NULL DEFAULT '0',
+  `verifway` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `disable` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `showtitle` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL,
+  `description` varchar(2000) NOT NULL DEFAULT '',
+  `verifers` varchar(500) NOT NULL DEFAULT '',
+  `couponstarttime` int(10) NOT NULL DEFAULT '0',
+  `couponendtime` int(10) NOT NULL DEFAULT '0',
+  `couponcardid` varchar(50) NOT NULL DEFAULT '',
+  `pdtid` int(10) NOT NULL DEFAULT '0',
+  `total_num` tinyint(1) NOT NULL DEFAULT '0',
+  `starttime` int(10) unsigned NOT NULL DEFAULT '0',
+  `endtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `scantimes` int(50) NOT NULL DEFAULT '0',
+  `weixincouponid` varchar(50) NOT NULL DEFAULT '',
+  `swprice` int(10) NOT NULL DEFAULT '0',
+  `tokenids` varchar(500) NOT NULL DEFAULT '',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `requirement` varchar(50) NOT NULL DEFAULT '',
+  `biz` varchar(50) NOT NULL DEFAULT '',
+  `style` varchar(10) NOT NULL DEFAULT '',
+  `couponid` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=365 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_biz` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `type` varchar(200) NOT NULL DEFAULT '',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `thumb` varchar(200) NOT NULL DEFAULT '',
+  `logo` varchar(200) NOT NULL DEFAULT '',
+  `address` varchar(200) NOT NULL DEFAULT '',
+  `phone` varchar(20) NOT NULL DEFAULT '',
+  `special_service` varchar(200) NOT NULL DEFAULT '',
+  `biz_hours` varchar(20) NOT NULL DEFAULT '',
+  `description` varchar(200) NOT NULL DEFAULT '',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(200) NOT NULL DEFAULT '',
+  `verifpwd` varchar(20) NOT NULL DEFAULT '',
+  `indstp` int(10) NOT NULL DEFAULT '0',
+  `indstc` int(10) NOT NULL DEFAULT '0',
+  `veriftype` tinyint(1) NOT NULL DEFAULT '0',
+  `thumbs` varchar(2000) NOT NULL DEFAULT '',
+  `lng` varchar(20) NOT NULL DEFAULT '',
+  `lat` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_cash` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) unsigned NOT NULL DEFAULT '0',
+  `cateid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(50) NOT NULL,
+  `oauth_openid` varchar(50) NOT NULL,
+  `nickname` varchar(50) NOT NULL,
+  `avatar` varchar(500) NOT NULL,
+  `awardedids` tinyint(1) NOT NULL DEFAULT '0',
+  `totalredpack` varchar(50) NOT NULL,
+  `addtime` varchar(10) NOT NULL,
+  `addip` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_cate` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `pdtid` int(10) NOT NULL DEFAULT '0',
+  `name` varchar(200) NOT NULL DEFAULT '0',
+  `qdid` int(10) unsigned NOT NULL DEFAULT '0',
+  `total` int(10) unsigned NOT NULL DEFAULT '0',
+  `mintk` int(10) unsigned NOT NULL DEFAULT '0',
+  `maxtk` int(10) unsigned NOT NULL DEFAULT '0',
+  `slat` varchar(50) NOT NULL DEFAULT '',
+  `status` tinyint(10) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `starttime` varchar(500) NOT NULL DEFAULT '',
+  `endtime` varchar(500) NOT NULL DEFAULT '',
+  `totalused` int(10) NOT NULL DEFAULT '0',
+  `district` varchar(50) NOT NULL DEFAULT '',
+  `createtime` int(10) NOT NULL DEFAULT '0',
+  `dscan` tinyint(1) NOT NULL DEFAULT '0',
+  `dscanwarning` tinyint(1) NOT NULL DEFAULT '0',
+  `forcegetlocation` tinyint(1) NOT NULL DEFAULT '0',
+  `fission` tinyint(1) NOT NULL DEFAULT '0',
+  `fissionnum` int(10) NOT NULL DEFAULT '0',
+  `area` varchar(500) NOT NULL DEFAULT '',
+  `iparea` varchar(500) NOT NULL DEFAULT '',
+  `abstract` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_ch` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `actname` varchar(200) NOT NULL DEFAULT '',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `catename` varchar(200) NOT NULL DEFAULT '',
+  `district` varchar(200) NOT NULL DEFAULT '',
+  `scandistrict` varchar(200) NOT NULL DEFAULT '',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `oauth_openid` varchar(50) NOT NULL DEFAULT '',
+  `nickname` varchar(500) NOT NULL DEFAULT '',
+  `tk` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_click` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `oauth_openid` varchar(200) NOT NULL DEFAULT '',
+  `total` int(10) NOT NULL DEFAULT '0',
+  `nickname` varchar(200) NOT NULL DEFAULT '',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(200) NOT NULL DEFAULT '0',
+  `type` tinyint(1) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `sharefrom` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47740 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_coupon` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `type` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `style` varchar(50) NOT NULL DEFAULT '',
+  `total` int(10) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(200) NOT NULL DEFAULT '0',
+  `coupontype` varchar(200) NOT NULL DEFAULT '',
+  `requirement` varchar(200) NOT NULL DEFAULT '',
+  `starttime` int(10) NOT NULL DEFAULT '0',
+  `endtime` int(10) NOT NULL DEFAULT '0',
+  `couponid` varchar(500) NOT NULL DEFAULT '',
+  `thumb` varchar(200) NOT NULL DEFAULT '',
+  `perfan` int(10) NOT NULL DEFAULT '0',
+  `disabled` tinyint(1) NOT NULL DEFAULT '0',
+  `biz` varchar(50) NOT NULL DEFAULT '',
+  `description` varchar(200) NOT NULL DEFAULT '',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `address` varchar(200) NOT NULL DEFAULT '',
+  `logo` varchar(200) NOT NULL DEFAULT '',
+  `phone` varchar(50) NOT NULL DEFAULT '',
+  `isshow` tinyint(1) NOT NULL DEFAULT '0',
+  `value` varchar(50) NOT NULL DEFAULT '',
+  `enable` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_coupongrant` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `cid` varchar(200) NOT NULL DEFAULT '',
+  `oauth_openid` varchar(50) NOT NULL DEFAULT '',
+  `nickname` varchar(200) NOT NULL DEFAULT '',
+  `verifid` int(10) NOT NULL DEFAULT '0',
+  `veriftime` int(10) NOT NULL DEFAULT '0',
+  `verifer` varchar(50) NOT NULL DEFAULT '',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(200) NOT NULL DEFAULT '0',
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  `cateid` int(50) NOT NULL DEFAULT '0',
+  `couponid` varchar(50) NOT NULL DEFAULT '',
+  `code` varchar(50) NOT NULL DEFAULT '',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `type` tinyint(1) NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `come` tinyint(1) NOT NULL DEFAULT '1',
+  `weixincouponid` varchar(50) NOT NULL DEFAULT '',
+  `tokenid` int(10) NOT NULL DEFAULT '0',
+  `veriferid` int(10) NOT NULL DEFAULT '0',
+  `fid` int(10) NOT NULL DEFAULT '0',
+  `scanid` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6844 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_fan` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(50) NOT NULL,
+  `oauth_openid` varchar(50) NOT NULL,
+  `nickname` varchar(50) NOT NULL,
+  `avatar` varchar(500) NOT NULL,
+  `sex` tinyint(1) NOT NULL DEFAULT '0',
+  `province` varchar(50) NOT NULL,
+  `country` varchar(10) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `faninfoarr` varchar(500) NOT NULL DEFAULT '',
+  `daylottery` varchar(1000) NOT NULL DEFAULT '',
+  `lottery` int(10) NOT NULL DEFAULT '0',
+  `dayawarded` varchar(1000) NOT NULL DEFAULT '',
+  `awarded` int(10) NOT NULL DEFAULT '0',
+  `daycredit` varchar(1000) NOT NULL DEFAULT '',
+  `credit` varchar(1000) NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `productid` int(10) NOT NULL DEFAULT '0',
+  `scan` int(10) NOT NULL DEFAULT '0',
+  `pdtid` int(10) NOT NULL DEFAULT '0',
+  `batid` int(10) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `uniacid_actid_oauth_openid` (`uniacid`,`actid`,`oauth_openid`)
+) ENGINE=InnoDB AUTO_INCREMENT=19201 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_fisnaward` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(5) unsigned NOT NULL,
+  `cateid` int(10) unsigned NOT NULL,
+  `actid` int(10) unsigned NOT NULL,
+  `bizid` int(10) unsigned NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `type` int(5) unsigned NOT NULL,
+  `thumb` varchar(200) DEFAULT NULL,
+  `redpack` decimal(10,2) NOT NULL,
+  `credit1` int(5) unsigned NOT NULL DEFAULT '0',
+  `credit2` int(5) unsigned NOT NULL DEFAULT '0',
+  `total` int(5) unsigned NOT NULL DEFAULT '0',
+  `couponid` int(10) unsigned NOT NULL DEFAULT '0',
+  `disable` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL,
+  `tokenids` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_fission` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `oauth_openid` varchar(200) NOT NULL DEFAULT '',
+  `nickname` varchar(200) NOT NULL DEFAULT '',
+  `total` int(10) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(200) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `token` int(10) NOT NULL DEFAULT '0',
+  `enable` tinyint(1) NOT NULL DEFAULT '0',
+  `isgrant` tinyint(1) NOT NULL DEFAULT '0',
+  `pid` int(10) NOT NULL DEFAULT '0',
+  `depth` int(10) NOT NULL DEFAULT '0',
+  `awardid` int(10) NOT NULL DEFAULT '0',
+  `couponid` int(10) NOT NULL DEFAULT '0',
+  `redpack` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `credit1` int(10) NOT NULL DEFAULT '0',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `idstr` varchar(50) NOT NULL DEFAULT '',
+  `scanid` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `title` varchar(20) NOT NULL DEFAULT '',
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  `err_code` varchar(50) NOT NULL DEFAULT '',
+  `err_code_des` varchar(50) NOT NULL DEFAULT '',
+  `checkarea` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_give` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `pdtid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `redpack` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `credit1` int(10) NOT NULL DEFAULT '0',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `oauth_openid` varchar(50) NOT NULL DEFAULT '',
+  `nickname` varchar(50) NOT NULL DEFAULT '',
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  `tk` varchar(50) NOT NULL DEFAULT '',
+  `isgrant` tinyint(1) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `type` int(10) NOT NULL DEFAULT '0',
+  `cashtime` int(10) NOT NULL DEFAULT '0',
+  `sex` tinyint(1) NOT NULL DEFAULT '0',
+  `province` varchar(50) NOT NULL DEFAULT '',
+  `city` varchar(50) NOT NULL DEFAULT '',
+  `district` varchar(50) NOT NULL DEFAULT '',
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `street` varchar(200) NOT NULL DEFAULT '',
+  `streetnum` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_lock` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tk` int(10) unsigned NOT NULL DEFAULT '0',
+  `islock` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18008 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_noticelog` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) unsigned NOT NULL DEFAULT '0',
+  `bizid` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `oauth_openid` varchar(50) NOT NULL DEFAULT '',
+  `nickname` varchar(20) NOT NULL DEFAULT '',
+  `content` varchar(200) NOT NULL DEFAULT '',
+  `isread` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `gid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3705 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_product` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(5) unsigned NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `bzlx` varchar(50) NOT NULL DEFAULT '',
+  `thumbs` varchar(500) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `addtime` int(10) unsigned NOT NULL,
+  `thumb` varchar(200) NOT NULL DEFAULT '',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `price` int(10) NOT NULL DEFAULT '0',
+  `showprice` tinyint(10) unsigned NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `bizname` varchar(50) NOT NULL DEFAULT '',
+  `isshow` tinyint(1) NOT NULL DEFAULT '0',
+  `goodsprice` decimal(7,2) NOT NULL DEFAULT '0.00',
+  `contents` text NOT NULL,
+  `click` int(10) NOT NULL DEFAULT '0',
+  `disabled` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) unsigned NOT NULL DEFAULT '0',
+  `addtime` int(10) DEFAULT '0',
+  `keyword` varchar(20) NOT NULL DEFAULT '',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_scan` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `pdtid` int(10) NOT NULL DEFAULT '0',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `oauth_openid` varchar(50) NOT NULL DEFAULT '',
+  `nickname` varchar(50) NOT NULL DEFAULT '',
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  `tk` varchar(50) NOT NULL DEFAULT '',
+  `sex` varchar(50) NOT NULL DEFAULT '',
+  `province` varchar(50) NOT NULL DEFAULT '',
+  `city` varchar(50) NOT NULL DEFAULT '',
+  `district` varchar(50) NOT NULL DEFAULT '',
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `lotterytime` int(10) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `street` varchar(200) NOT NULL DEFAULT '',
+  `streetnum` varchar(20) NOT NULL DEFAULT '',
+  `type` tinyint(1) NOT NULL DEFAULT '0',
+  `awardid` int(10) NOT NULL DEFAULT '0',
+  `title` varchar(50) NOT NULL DEFAULT '',
+  `couponid` int(10) NOT NULL DEFAULT '0',
+  `thumb` varchar(200) NOT NULL DEFAULT '',
+  `err_code` varchar(50) NOT NULL DEFAULT '',
+  `err_code_des` varchar(200) NOT NULL DEFAULT '',
+  `send_listid` varchar(50) NOT NULL DEFAULT '',
+  `redpack` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `credit1` int(10) NOT NULL DEFAULT '0',
+  `total_num` int(10) NOT NULL DEFAULT '0',
+  `isgrant` tinyint(1) NOT NULL DEFAULT '0',
+  `addip` varchar(50) NOT NULL DEFAULT '',
+  `updatetime` int(10) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22284 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_setting` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `type` varchar(50) NOT NULL DEFAULT '',
+  `replytitle` varchar(200) NOT NULL DEFAULT '',
+  `replythumb` varchar(200) NOT NULL DEFAULT '',
+  `replydescription` varchar(200) NOT NULL DEFAULT '',
+  `updatetime` int(10) unsigned NOT NULL DEFAULT '0',
+  `rid` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_share` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `oauth_openid` varchar(200) NOT NULL DEFAULT '',
+  `nickname` varchar(200) NOT NULL DEFAULT '',
+  `total` int(10) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(200) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `sharefrom` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8992 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_shtmline` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `oauth_openid` varchar(200) NOT NULL DEFAULT '',
+  `nickname` varchar(200) NOT NULL DEFAULT '',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(200) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `isgrant` tinyint(1) NOT NULL DEFAULT '0',
+  `redpack` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `clickredpack` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `scanid` int(10) NOT NULL DEFAULT '0',
+  `enable` tinyint(1) NOT NULL DEFAULT '0',
+  `err_code` varchar(50) NOT NULL DEFAULT '',
+  `err_code_desc` varchar(50) NOT NULL DEFAULT '',
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `err_code_des` varchar(50) NOT NULL DEFAULT '',
+  `checkarea` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_shtmlineclick` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `oauth_openid` varchar(200) NOT NULL DEFAULT '',
+  `nickname` varchar(200) NOT NULL DEFAULT '',
+  `sid` int(10) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(200) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `redpack` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `checkarea` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_slat` (
+  `slat` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_token` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `pdtid` int(10) NOT NULL DEFAULT '0',
+  `cateid` int(10) NOT NULL DEFAULT '0',
+  `awardid` int(10) NOT NULL DEFAULT '0',
+  `redpack` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `oauth_openid` varchar(50) NOT NULL DEFAULT '',
+  `nickname` varchar(50) NOT NULL DEFAULT '',
+  `avatar` varchar(200) NOT NULL DEFAULT '',
+  `tk` varchar(50) NOT NULL DEFAULT '',
+  `isgrant` tinyint(1) NOT NULL DEFAULT '0',
+  `addtime` int(10) NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `addip` varchar(50) NOT NULL DEFAULT '',
+  `total_num` int(10) NOT NULL DEFAULT '0',
+  `type` int(10) unsigned NOT NULL DEFAULT '0',
+  `err_code` varchar(50) NOT NULL DEFAULT '',
+  `send_listid` varchar(50) NOT NULL DEFAULT '',
+  `cashtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `gcid` int(10) unsigned NOT NULL DEFAULT '0',
+  `province` varchar(50) NOT NULL DEFAULT '',
+  `city` varchar(50) NOT NULL DEFAULT '',
+  `district` varchar(50) NOT NULL DEFAULT '',
+  `sex` varchar(50) NOT NULL DEFAULT '',
+  `rptype` tinyint(1) NOT NULL DEFAULT '0',
+  `err_code_des` varchar(200) NOT NULL DEFAULT '',
+  `credit1` int(10) NOT NULL DEFAULT '0',
+  `enable` tinyint(1) NOT NULL DEFAULT '0',
+  `street` varchar(200) NOT NULL DEFAULT '',
+  `streetnum` varchar(20) NOT NULL DEFAULT '',
+  `title` varchar(20) NOT NULL DEFAULT '',
+  `weixincouponid` varchar(50) NOT NULL DEFAULT '',
+  `verif` tinyint(1) NOT NULL DEFAULT '0',
+  `veriftime` int(10) NOT NULL DEFAULT '0',
+  `veriferid` int(10) NOT NULL DEFAULT '0',
+  `verifer_oauth_openid` varchar(50) NOT NULL DEFAULT '',
+  `verifernickname` varchar(50) NOT NULL DEFAULT '',
+  `swprice` int(10) NOT NULL DEFAULT '0',
+  `isget` tinyint(1) NOT NULL DEFAULT '0',
+  `code` varchar(50) NOT NULL DEFAULT '',
+  `verifer` varchar(50) NOT NULL DEFAULT '',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `istx` tinyint(1) NOT NULL DEFAULT '0',
+  `islock` tinyint(1) NOT NULL DEFAULT '0',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  `couponid` int(10) NOT NULL DEFAULT '0',
+  `scanid` int(10) NOT NULL DEFAULT '0',
+  `thumb` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19786 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE IF NOT EXISTS `ims_hxq_newywym_verifer` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `actid` int(10) NOT NULL DEFAULT '0',
+  `name` varchar(200) NOT NULL DEFAULT '',
+  `mobile` varchar(200) NOT NULL DEFAULT '',
+  `nickname` varchar(200) NOT NULL DEFAULT '',
+  `oauth_openid` varchar(200) NOT NULL DEFAULT '',
+  `disable` tinyint(1) NOT NULL DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `password` varchar(50) NOT NULL DEFAULT '',
+  `bizid` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_hxq_newywym_activity`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_award`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_biz`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_cash`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_cate`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_ch`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_click`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_coupon`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_coupongrant`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_fan`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_fisnaward`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_fission`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_give`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_lock`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_noticelog`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_product`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_reply`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_scan`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_setting`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_share`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_shtmline`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_shtmlineclick`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_slat`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_token`;
+DROP TABLE IF EXISTS `ims_hxq_newywym_verifer`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

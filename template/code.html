@@ -1,0 +1,161 @@
+{template 'header'}
+<style>
+body{ width:100%; height:100%;background-color:{$act['pagesetting']['bgcolor']};}
+.container{ width:100%; height:100%;margin:auto; padding:0px;{if !$_GPC['preview']}display:none{/if}}
+.actinterval{ margin:10px auto; width:260px; line-height:24px; font-size:14px; text-align:center;color:#F00}
+@media screen and (min-width:360px){
+.grantsection{margin:10px auto 0 auto; position: relative;background:url({php echo $_W['attachurl'].$act['pagesetting']['grantinfobgimg']}); background-size:100% 100%; height:305px;width:345px;}
+}
+@media screen and (min-width:300px) and (max-width:361px){
+.grantsection{margin:10px auto  0 auto; position: relative;background:url({php echo $_W['attachurl'].$act['pagesetting']['grantinfobgimg']}); background-size:100% 100%; height:290px;width:330px;}
+}
+@media screen and (max-width:301px){
+.grantsection{margin:10px auto  0 auto; position: relative;background:url({php echo $_W['attachurl'].$act['pagesetting']['grantinfobgimg']}); background-size:100% 100%; height:230px;width:270px;}
+}
+.fanavatar{ position:absolute; top:30px; width:50px; height:50px; left:50%; margin-left:-25px; border-radius:25px; text-align: center ;}
+.grantcard{position:absolute; top:90px; width:60px; height:60px; left:50%; margin-left:-30px; text-align:left ;} 
+.grantcard img{ width:100%}
+.grantmessage{position:absolute; top:160px; width:200px; height:30px; left:50%; margin-left:-100px; text-align:left ; font-size:14px; color:#FFF} 
+.grantbtn{ position: absolute;bottom:20px; width:200px; height:50px; left:50%; margin-left:-100px;}
+.grantbtn img{  width:100%; height:100%;}
+.cardgranted{ text-align:center !important}
+#bottom .cardbox{ float:left; width:{php echo substr(sprintf("%.3f",(100-$act['totalcard'])/$act['totalcard']), 0, -1)}%; margin:0px 0.5%; height:auto; overflow:hidden;}
+</style>
+<script>
+var starttime={$act['starttime']};
+var endtime={$act['endtime']};
+var cards={php echo json_encode($cards)};
+var pageurl='{$_W['siteurl']}';
+var crtgive_url='{php echo $this->createmobileurl('index',array('op'=>'creategive','actid'=>$act['id']))}'
+var give_url='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('give',array('actid'=>$act['id']))}';
+var getgive_url='{php echo $this->createmobileurl('index',array('op'=>'getgive','actid'=>$act['id']))}'
+var checklocation_url='{php echo $this->createMobileUrl('checkposition',array('actid'=>$act['id']))}'
+var checkiplocation_url='{php echo $this->createMobileUrl('checkipposition',array('actid'=>$act['id']))}'
+
+var fannickname='{$_W['fans']['nickname']}'
+var fanavatar='{$_W['fans']['tag']['avatar']}'
+var sharetype={$act['sharetype']};
+var granturl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('grant',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var helpurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('help',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var indexurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('index',array('actid'=>$act['id']))}';
+var sharedata_={php echo json_encode($act['sharedata'])};
+var module_url='{MODULE_URL}'
+var area='{$act['area']}'
+var iparea='{$act['iparea']}'
+var cardname='{$act['cardname']}';
+var getlocation=function (){
+	return undefined;
+};
+var getiplocation=function (){
+	return undefined;
+};
+{if !empty($initdata)}
+var accessdata={$initdata};
+{/if}
+		     	 wx.ready(function (){
+		     if (sharetype){
+		 		wx.hideAllNonBaseMenuItem();
+			 }else{
+				{if !empty($fan)}
+				var sharedata={
+					title:sharedata_.sharetitle,
+					imgUrl:sharedata_.sharethumb,
+					desc:sharedata_.sharedesc,
+					link:helpurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{else}
+				var sharedata={
+					title:sharedata_.defaultsharetitle,
+					imgUrl:sharedata_.defaultsharethumb,
+					desc:sharedata_.defaultsharedesc,
+					link:indexurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{/if}
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+			 }
+	   	    })
+</script>
+<script src="{MODULE_URL}/resources/js/module.js?{TIMESTAMP}"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+<script>
+$(function(){	
+		    {if !$_GPC['preview']}initpage();{/if}
+			setinterval()
+		   				   $('#changebtn').on('click',function(){
+												 $.ajax({
+														type:'get',
+														url:'{php echo $this->createmobileurl('code',array('actid'=>$act['id'],'op'=>'change'))}',
+														dataType:'json',
+														data:'code='+$('input[name=code]').val(),
+														success:function(data){
+															if (data.errno==0){
+																$('#grantlayer').showlayer('您兑换了{$act['cardname']}"'+data.data.title+'"',data.redirect,false,false,'middle');
+																$(window.currentlayer).find('.cardgranted>img').attr('src',data.data.cardthumb);
+															}else if(data.errno==3){
+																$('#followlayer').showlayer('','',false,true,'middle');
+															}else{
+																$('#timeoutlayer').showlayer(data.message,data.redirect,true,false,'middle');
+																console.log(data.message)
+															}
+													    },
+														error:function(){
+														}
+														})
+												 })
+						   })	
+</script>
+</head>
+<body>
+<div class="container container-fill">
+<div id="top"><img src="{php echo $_W['attachurl'].$act['pagesetting']['topimg']}" width="100%" /></div>
+<div class="actinterval timeout"><span class="totaltip">{$totalfan}人参与 已发放{$totalgrantcard}张{$act['cardname']} </span><br/><span class="totaltip">共{$totalaward}份奖品 先兑先得，兑完即止 </span><br /><span class="tipname"></span><span class="day"></span><span class="hour"></span><span class="minute"></span><span class="second"></span></div>
+<style>
+.grantsection{ border: 1px solid #ccc;border-radius: 5px;background: #fff ; margin-top:20px;height: auto; }
+.grantheader{width: 100%;height: 40px;line-height: 40px;text-align: center}
+.grantbody{width: 60%;margin:20px auto  10px auto; }
+.grantbody>div{ width:;line-height:40px;margin: 10px auto; text-align:center  }
+.grantfooter{width: 100%;margin: 20px auto 20px auto; text-align: center; width: 60%}
+</style>
+<div class="grantsection"><div class="grantheader"><img src="{php echo MODULE_URL.'resources/images/ribbons.png'}" style="width: 80%;position: relative;top:-15px" /></div>
+<div class="grantbody">
+<div>输入字卡兑换码，领取字卡</div>
+<div><input class="form-control" name="code"></div>
+</div>
+<div  class=grantfooter>
+<a id="changebtn" class="btn btn-success" style="width: 100%; margin: 0px auto;">点击兑换</a></div>
+</div>
+
+<div id="grantlayer" class="layercontent">
+<span class="close_ close" data-target='fanallayer'><img src="{MODULE_URL}resources/images/close.png" width="30" height="30"/></span>
+<div class="header">恭喜您获得{$act['cardname']}</div>
+<hr style="width:90%; height:1px; margin:0 auto"/> 
+<div class="body">
+<div class="cardgranted"><img src="" width="" height="80"/></div>
+<div class="message"></div>
+</div>
+<div  class="footer"><a href="javascript:void(0)" class="close_ btn">确定</a></div>
+</div>
+<div id="followlayer" class="layercontent">
+<div class="header">提示</div>
+<hr style="width:90%; height:1px; margin:0 auto"/> 
+<div class="body">
+<div><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div class="message">长按识别二维码，关注{$_W['account']['name']}公众号。发送 <span style="color:red">{$act['keyword']}</span> 参与活动</div>
+</div>
+</div>
+<div id="timeoutlayer" class="layercontent"></div>
+<div id="ajaxloading" class="layercontent"><img src="{MODULE_URL}/resources/images/loading.gif"  height="30"/></div>
+{template 'footer'}

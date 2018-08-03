@@ -1,0 +1,127 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+    <li ><a href="{php echo $this->createWebUrl('coupon',array('bizid'=>$biz['id']))}">管理</a></li>
+    <li {if !$_GPC['id']}class="active"{/if}><a href="{php echo $this->createWebUrl('coupon',array('op'=>'edit','bizid'=>$biz['id']))}" ><i class="fa fa-add"></i>添加</a></li>
+    {if $_GPC['id']}<li class="active" ><a href="{php echo $this->createWebUrl('coupon',array('op'=>'edit','bizid'=>$biz['id']))}" ><i class="fa fa-edit"></i>修改</a></li>{/if}
+  <li ><a href="{php echo $this->createWebUrl('coupon',array('op'=>'coupongrant','bizid'=>$biz['id']))}">发放</a></li>
+  <li><a href="{php echo $this->createWebUrl('coupon',array('op'=>'couponverif','bizid'=>$biz['id']))}" >核销</a></li>
+</ul>
+<div class="clearfix">
+
+</div>
+
+
+<style>
+
+.group{display:none}
+
+.clear{ clear:both}
+
+</style>
+
+
+<div class="panel panel-default">
+
+<div class="panel-heading">商家 <span class="label label-success">{$biz['name']}</div>
+
+<div class="clearfix"></div>
+<div class="panel-body">
+
+<form id="form1" name="form1" method="post" class="form-horizontal" action="{php echo $this->createweburl('coupon',array('op'=>'save'))}">
+    <div class="form-group">
+        <label for="coupon[title]" class="col-md-1 control-label">优惠券名称</label>
+        <div class="col-md-3"><input type="text" name="coupon[name]" value="{$coupon['name']}" class="form-control" placeholder=""/>
+        <span class="help-block">如不填默认显示为：商家名</span></div>
+    </div>
+    <div class="form-group">
+        <label for="coupon[title]" class="col-md-1 control-label">优惠内容</label>
+        <div class="col-md-3"><input type="text" name="coupon[value]" value="{$coupon['value']}" class="form-control" placeholder=""/>
+        <span class="help-block">如：5元、10元、8折、热水壶</span></div>
+        <label for="coupon[title]" class="col-md-1 control-label">优惠券类型</label>
+        <div class="col-md-3">
+            <select name="coupon[type]" onchange="" class="change" class="form-control">
+            <option value="0">请选择优惠券类型</option>
+            <option value="1" {if $coupon['type']==1}selected{/if}>代金券</option>
+            <option value="2"  {if $coupon['type']==2}selected{/if}>折扣券</option>
+            <option value="3"  {if $coupon['type']==3}selected{/if}>兑换券</option>
+        </select>
+        <span class="help-block">如：代金券、折扣券、兑换券</span></div>
+    </div>
+    <div class="form-group">
+        <label for="coupon[title]" class="col-md-1 control-label">使用条件</label>
+        <div class="col-md-11"><input type="text" name="coupon[requirement]" value="{$coupon['requirement']}" class="form-control"   placeholder=""/>
+        <span class="help-block">如：不可用于特价商品</span></div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-1 control-label">卡券文字颜色</label>
+        <script type="text/javascript">
+            couponstyle={'1':'#55bd47','2':'#3d78da','3':'#f08500','4':'#cf3e36'}
+            function showCouponColor(eml) {
+                var dropdown = $(eml).parent().parent().next();
+                dropdown.show();
+                $(document).click(function(){
+                    dropdown.hide();
+                });
+                $(".coupon-color").click(function(e){
+                    e.stopPropagation();
+                });
+                $(".dropdown-menu li").click(function(){
+                    $(eml).parent().prev().css("background", $(this).attr("data-color"));
+                    $(eml).parent().prev().css("border-color", $(this).attr("data-color"));
+                    $(eml).parent().prev().prev().prev().val($(this).attr("data-color"));
+                    $(eml).parent().prev().prev().val($(this).attr("data-style"));
+                    dropdown.hide();
+                    $(document).unbind("click");
+                    $(".dropdown-menu li, .coupon-color").unbind("click");
+                });
+            }
+            window.onload=function(){
+                {if $coupon['style']}
+                document.getElementById('couponbg').style.background=couponstyle['{$coupon['style']}'];
+                document.getElementById('couponbgval').value=couponstyle['{$coupon['style']}'];
+                {/if}
+            }
+        </script>
+        <div class="col-md-3 coupon-color" style="position: relative;">
+            <div class="input-group" style="width:200px;">
+                <input id="couponbgval" type="text" class="form-control" name="color" value="">
+                <input type="hidden" name="coupon[style]" class="form-control" value="{$coupon['style']}">
+                <span id="couponbg" class="input-group-addon couponbg" style="width: 35px;"></span>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="showCouponColor(this);">选择颜色</button>
+                </span>
+            </div>
+            <div class="dropdown-menu" style="padding: 6px 0px 0px 6px; width: 185px; position: absolute; top: 35px; left: 15px; display: none;">
+                <ul style="padding:0">
+            <li data-name="Color010" data-style="1" data-color="#55bd47" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#55bd47;float:left;list-style: none;"></li><li data-name="Color040" data-style="2" data-color="#3d78da" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#3d78da;float:left;list-style: none;"></li><li data-name="Color081" data-style="3" data-color="#f08500" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#f08500;float:left;list-style: none;"></li><li data-name="Color101" data-style="4" data-color="#cf3e36" style="padding: 0;margin-right:5px;margin-bottom:5px;width:30px;height:30px;background:#cf3e36;float:left;list-style: none;"></li>    </ul>
+            </div>
+            <span class="help-block">必选</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="imgurl" class="col-md-1 control-label">使用时间</label>
+        <div class="col-md-11">{if !empty($coupon['starttime'])&&!empty($coupon['endtime'])}{php echo tpl_form_field_daterange('coupon[daterange]',array('start'=>date('Y-m-d H:i:s',$coupon['starttime']),'end'=>date('Y-m-d H:i:s',$coupon['endtime'])),array('global'=>false))}{else}{php echo tpl_form_field_daterange('coupon[daterange]',array('start'=>date('Y-m-d H:i:s'),'end'=>date('Y-m-d H:i:s'),strtotime('+7 day')),array('global'=>false))}{/if}
+        <span class="help-block"><strong class="text-danger"></strong></span></div> 
+    </div>
+    <div class="form-group">
+        <label for="coupon[title]" class="col-md-1 control-label">是否显示</label>
+        <div class="col-md-11"><label class="checkbox-inline"><input type="radio" name="coupon[isshow]" value="0" {if !$coupon['isshow']}checked=checked{/if} class="form-control"   placeholder=""/>不显示</label><label class="checkbox-inline"><input type="radio" name="coupon[isshow]" value="1" {if $coupon['isshow']}checked=checked{/if} class="form-control"   placeholder=""/>显示</label>
+        <span class="help-block">优惠券是否将会出现在商家主页</span></div>
+    </div>
+    <div class="form-group">
+        <label for="coupon[title]" class="col-md-1 control-label">上架</label>
+        <div class="col-md-11"><label class="checkbox-inline"><input type="radio" name="coupon[enable]" value="0" {if !$coupon['enable']}checked=checked{/if} class="form-control"   placeholder=""/>下架</label><label class="checkbox-inline"><input type="radio" name="coupon[enable]" value="1" {if $coupon['enable']}checked=checked{/if} class="form-control"   placeholder=""/>上架</label>
+        <span class="help-block">优惠券是否可用</span></div>
+    </div>
+    <div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-1 control-label"></label>
+ 	  <div class="col-sm-6 col-md-8 col-xs-12">
+      <input name="coupon[bizid]" type="hidden" value="{if $coupon['id']}{$coupon['bizid']}{else}{$biz['id']}{/if}" />
+      <input name="coupon[id]" type="hidden" value="{$coupon['id']}" />
+      <input name="saveedit" type="submit" value="保存" class="btn btn-primary"/></div>
+	</div>
+    </form>
+</div>
+    </div>
+
+</div>
+{template 'common/footer'}

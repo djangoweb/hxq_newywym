@@ -1,0 +1,301 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+	<li  class="active" ><a href="{php echo $this->createWebUrl('catemanage')}">码段管理</a></li>
+  {if $_W['isfounder']}
+  <li><a href="{php echo $this->createWebUrl('catemanage',array('op'=>'edit'))}">为公众号分配码段(超管)</a></li>
+  <li><a href="{php echo $this->createWebUrl('catemanage',array('op'=>'export'))}">二维码印刷格式文件(超管)</a></li>
+  {/if}<div class="form-inline pull-right">
+  {if $_W['isfounder']}
+<label>切换公众号</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('catemanage')}&uniacid_='+this.options[this.selectedIndex].value">
+<option value=0>所有公众号</option>
+{loop $uniaccounts $row}
+<option value="{$row['uniacid']}" {if $_GPC['uniacid_']==$row['uniacid']}selected="selected"{/if} >{$row['name']}</option>
+{/loop}
+</select>
+{/if}
+<label>切换活动</label>
+<select name="activityid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('catemanage',array('uniacid_'=>$_GPC['uniacid_']))}&actid='+this.options[this.selectedIndex].value">
+{if empty($acts)}
+  {if $_W['isfounder']}
+    {if empty($_GPC['uniacid_'])}
+    <option value=0>请先选择公众号</option>
+    {else}
+    <option value=0>暂无活动请先生成</option>
+    {/if}
+  {else}
+    <option value=0>暂无活动请先生成</option>
+  {/if}
+{else}
+  <option value=0>所有活动</option>
+  {loop $acts $row}<option value="{$row['id']}" {if $actid==$row['id']}selected="selected"{/if} >{$row['name']}</option>{/loop}
+{/if}
+</select>
+</div>
+</ul>
+
+<div class="clearfix">
+<div>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-break:break-all; white-space:normal !important}
+.divh5{ height: 5px; display:block;width: 100%}
+</style>
+
+<style type="text/css">
+.table-bordered .th-td{padding:0px;border: none; background: #ebebeb}
+.table-bordered td,th{padding: 5px}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">共{$total}个码段</div></div>
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table-bordered">
+    <tr>
+      <th width="40" align="center">ID</th>
+      <th width="140" align="center">码段</th>
+      <th width="140" align="center">公众号</th>
+       <th width="80" align="center">使用</th>
+       <th width="" align="center">活动名称</th>
+      <th width="100" align="center">创建时间</th>
+      <th width="270" align="center">操作</th>
+    </tr>
+    {php $i=0}
+    {loop $cates $row}
+    <tr {if $i%2==1} class="active" {/if}>
+    <td valign="middle" >{$row['id']} </td>
+      <td valign="middle">{$row['mintk']}-{$row['maxtk']}</td>
+      <td valign="middle">{if $row['uniacid']}<img src="{php echo $_W['attachurl'].'/headimg_'.$row['uniacid'].'.jpg'}" width="25" style="border-radius:50%"> {$uniaccounts[$row['uniacid']]['name']}{/if}</td>
+      <td valign="middle">{$row['totalused']}/{$row['total']} </td>
+      <td  valign="middle">{if !empty($acts)}{$acts[$row['actid']]['name']}{else}{$acts_[$row['actid']]['name']}{/if}</td>
+    <td  valign="middle">{php echo date('Y-m-d h:i:s',$row['addtime'])}</td>
+    <td valign="middle" class="opreater ng-scope">
+     <a data-original-title="编辑" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"  href="{php echo $this->createweburl('tokenmanage',array('cateid'=>$row['id'],'uniacid_'=>$row['uniacid']))}">查看</a>
+     {if $_W['isfounder']}<a data-original-title="绑定公众号" title="" data-toggle="tooltip" data-placement="top" data-id={$row['id']} data-actid={$row['actid']} data-uniacid_={$row['uniacid']} data-mintk={$row['mintk']} data-maxtk={$row['maxtk']} class="btn {if $row['uniacid']}btn-primary{else}btn-default{/if} btn-sm" onclick="do_op('binduni')" href="javascript:;">绑定公众号</a>{/if}
+     <a data-original-title="编辑" title="" data-toggle="tooltip" data-placement="top" data-id={$row['id']} data-actid={$row['actid']} data-uniacid_={$row['uniacid']} data-mintk={$row['mintk']} data-maxtk={$row['maxtk']} class="btn {if $row['actid']}btn-primary{else}btn-default{/if} btn-sm" onclick="do_op('bind')" href="javascript:;">绑定活动</a>
+     <div class="divh5"></div>
+     <a data-original-title="解绑" title="" data-toggle="tooltip" data-placement="top" data-id={$row['id']} data-actid={$row['actid']} data-mintk={$row['mintk']} data-maxtk={$row['maxtk']} class="btn btn-default btn-sm" onclick="do_op('unbind')" href="javascript:;">解绑</a>
+     <a data-original-title="拆分" title="" data-toggle="tooltip" data-placement="top" data-id={$row['id']} class="btn btn-default btn-sm" data-mintk={$row['mintk']} data-maxtk={$row['maxtk']} data-actid={$row['actid']} onclick="do_op('split')" href="javascript:;">拆分</a>
+     <a data-original-title="奖品" title="" data-toggle="tooltip" data-placement="top" data-id={$row['id']} class="btn btn-default btn-sm" data-mintk={$row['mintk']} data-maxtk={$row['maxtk']} data-actid={$row['actid']} onclick="" href="{php echo $this->createweburl('awardmanage',array('cateid'=>$row['id'],'uniacid_'=>$row['uniacid']))}">奖品</a>
+     <!-- 
+     <a data-original-title="拆分" title="" data-toggle="tooltip" data-placement="top" data-id={$row['id']} class="btn btn-default btn-sm" data-mintk={$row['mintk']} data-maxtk={$row['maxtk']} data-actid={$row['actid']} onclick="do_op('district')" data-district="{$row['district']}" href="javascript:;">销售区域</a> -->
+	</td>
+    </tr>
+    {php $i++}
+    {/loop}
+    </table>
+    <div class="divh5"></div>
+{$pager}
+</div>
+<script>
+function do_op(type){
+    e=event||window.event
+    self=e.target
+    switch(type){
+      case 'binduni':
+      require(['jquery','util'],function($,u){
+        if ($(self).data('uniacid_')!=0){
+                  u.message('已绑定公众号')
+                  return false;
+                }
+                $.post('{php echo $this->createweburl('catemanage',array('op'=>'getuni'))}',{},function(data){
+                data=eval('('+data+')')
+                title='绑定活动';
+                content='<div>'
+                select1='<select name="uniacid_">'
+                for(a in data.uniac){
+                select1+='<option value="'+data.uniac[a]['uniacid']+'" selected=selected>'+data.uniac[a]['name']+'</option>'
+                }
+                select1+='</select>';
+                content+='<div class="col-md-6">'
+                content+=select1;
+                content+="</div>";
+                content+='<div class="col-md-6">';
+                content+='一旦绑定后该码段的所属公众号无法更改，请慎重绑定';
+                content+="</div>";
+                content+='<div class="col-md-8 col-md-offset-4 message text-danger"></div>'
+                content+='</div>'
+                footer='<div class="modal-footer"><input type=hidden value="'+$(self).data('id')+'" name="id"><button type="button" class="btn btn-primary" onclick="binduni()">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                options={};
+                bindunimodal=u.dialog(title,content,footer,options);
+                bindunimodal.modal('show')
+                })
+          });
+      break;
+case 'bind':
+      require(['jquery','util'],function($,u){
+                if ($(self).data('uniacid_')==0){
+                  u.message('请先将码段绑定公众号')
+                  return false;
+                }
+                $.post('{php echo $this->createweburl('catemanage',array('op'=>'getact'))}',{uniacid_:$(self).data('uniacid_')},function(data){
+                data=eval('('+data+')')
+                title='绑定活动';
+                content='<div>'
+                select1='<select name="uniac">'
+                select1+='<option value="'+data.uniac['id']+'" selected=selected>'+data.uniac['name']+'</option>'
+                select1+='</select>';
+                content+='<div class="col-md-6">'
+                content+=select1;
+                content+="</div>";
+                select='<select name="act">'
+                if (jsonlength(data.data)>0){
+                for (a in data.data){
+                  if (data.data[a]['id']==$(self).data('actid')){
+                    select+='<option value="'+data.data[a]['id']+'" selected=selected>'+data.data[a]['name']+'</option>'
+                  }else{
+                    select+='<option value="'+data.data[a]['id']+'">'+data.data[a]['name']+'</option>'
+                  }
+                }
+                }else{
+                  select+='<option value="0">请先生成活动，再绑定活动</option>';
+                }
+                select+='</select>';
+                content+='<div class="col-md-6">';
+                content+=select;
+                content+='</div>'
+                content+='<div class="col-md-8 col-md-offset-4 message text-danger"></div>'
+                content+='</div>'
+                footer='<div class="modal-footer"><input type=hidden value="'+$(self).data('id')+'" name="id"><button type="button" class="btn btn-primary" onclick="bindcate()">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                options={};
+                bindmodal=u.dialog(title,content,footer,options);
+                bindmodal.modal('show')
+
+                })
+          });
+      break;
+case 'unbind':
+      require(['jquery','util'],function($,u){
+                if ($(self).data('actid')==0){
+                  u.message('已解除绑定')
+                  return false;
+                }
+                title='解除绑定';
+                content='是否要解除该码段与活动的绑定？'
+                footer='<div class="modal-footer"><input type=hidden value="'+$(self).data('id')+'" name="id"><button type="button" class="btn btn-primary" onclick="unbindcate()">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                options={};
+                unbindmodal=u.dialog(title,content,footer,options);
+                unbindmodal.modal('show')
+          });
+      break;
+case 'split':
+      require(['jquery','util'],function($,u){
+                title='拆分码段';
+                content='<div class="material-body we7-form">';
+                content+='<label class="col-md-4">起始号码</label>'
+                content+='<div class="col-md-8"><input type=text value="'+$(self).data('mintk')+'" name="mintk" readonly class="form-control"></div>'
+                content+='<label class="col-md-4">结束号码</label>'
+                content+='<div class="col-md-8"><input type=text value="'+$(self).data('maxtk')+'" name="maxtk" class="form-control"></div>'
+                content+='<div class="col-md-4"></div><div class="col-md-8 message text-danger"></div>'
+                content+='</div>'
+                footer='<div class="modal-footer"><input type=hidden value="'+$(self).data('id')+'" name="id"><button type="button" class="btn btn-primary" onclick="splitcate()">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                options={};
+                splitmodal=u.dialog(title,content,footer,options);
+                splitmodal.modal('show')
+          });
+      break;
+  case 'district':
+      require(['jquery','util'],function($,u){
+                title='设置销售地区';
+                content='<div class="material-body we7-form">';
+                content+='<label class="col-md-4">销售地区</label>'
+                content+='<div class="col-md-8"><input type=text value="'+$(self).data('district')+'" name="district" class="form-control"><span class="help-block">请填写省市名称，精确到县，多个地区请使用英文逗号分隔开。如果需要异地扫码报警此项必填，同时还必须要在模块设置里填写报警模版消息和接收报警的openid（必须先关注公众号）</span></div>'
+                content+='<div class="col-md-4"></div><div class="col-md-8 message text-danger"></div>'
+                content+='</div>'
+                footer='<div class="modal-footer"><input type=hidden value="'+$(self).data('id')+'" name="id"><button type="button" class="btn btn-primary" onclick="setdistrict()">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                options={};
+                districtmodal=u.dialog(title,content,footer,options);
+                districtmodal.modal('show')
+          });
+      break;
+    }
+}
+function binduni(e){
+  e=event||window.event
+  e.preventDefault()
+  $.post('{php echo $this->createweburl('catemanage',array('op'=>'binduni'))}',{uniacid_:bindunimodal.find('select[name=uniacid_]').val(),id:bindunimodal.find('input[name=id]').val()},function(data){
+    alert(JSON.stringify(data))
+            if (data.errno==0){
+              bindunimodal.modal('hide')
+              location.reload()
+            }else{
+              bindunimodal.find('.message').html(data.message);
+              return;
+            }
+  },'json')
+}
+function bindcate(e){
+  e=event||window.event
+  e.preventDefault()
+  $.post('{php echo $this->createweburl('catemanage',array('op'=>'bindcate'))}',{act:bindmodal.find('select[name=act]').val(),id:bindmodal.find('input[name=id]').val()},function(data){
+            if (data.errno==0){
+              bindmodal.modal('hide')
+              location.reload()
+            }else{
+              bindmodal.find('.message').html(data.message);
+              return;
+            }
+  },'json')
+}
+function unbindcate(e){
+  e=event||window.event
+  e.preventDefault()
+  $.post('{php echo $this->createweburl('catemanage',array('op'=>'unbindcate'))}',{id:unbindmodal.find('input[name=id]').val()},function(data){
+            if (data.errno==0){
+              location.reload()
+            }
+            unbindmodal.modal('hide')
+  },'json')
+}
+function splitcate(e){
+  e=event||window.event
+  e.preventDefault()
+  $.post('{php echo $this->createweburl('catemanage',array('op'=>'splitcate'))}',{id:splitmodal.find('input[name=id]').val(),mintk:splitmodal.find('input[name=mintk]').val(),maxtk:splitmodal.find('input[name=maxtk]').val()},function(data){
+            if (data.errno==1){
+              splitmodal.find('.message').html(data.message)
+            }else{
+              splitmodal.modal('hide')
+              location.reload()
+            }
+  },'json')
+}
+function setdistrict(e){
+  e=event||window.event
+  e.preventDefault()
+  $.post('{php echo $this->createweburl('catemanage',array('op'=>'setdistrict'))}',{id:districtmodal.find('input[name=id]').val(),district:districtmodal.find('input[name=district]').val()},function(data){
+            if (data.errno==1){
+              districtmodal.find('.message').html(data.message)
+            }else{
+              districtmodal.modal('hide')
+              location.reload()
+            }
+  },'json')
+}
+function jsonlength(jsonData){  
+  
+    var jsonLength = 0;  
+  
+    for(var item in jsonData){  
+  
+        jsonLength++;  
+  
+    }  
+  
+    return jsonLength;  }
+
+</script>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, u){
+    $('.opreater span a').each(function(){
+      u.clip(this, $(this).attr('data-url'));
+    });
+  });
+  var category = [];
+  require(['bootstrap'],function($){
+    $('.btn,.qrlink').hover(function(){
+      $(this).tooltip('show');
+    },function(){
+      $(this).tooltip('hide');
+    });
+  });
+</script>
+</div>
+{template 'common/footer'}

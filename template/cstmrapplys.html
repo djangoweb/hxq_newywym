@@ -1,0 +1,100 @@
+{template 'header'}
+
+<link href="./resource/css/bootstrap.min.css?{TIMESTAMP}" rel="stylesheet">
+<style>
+body{background: #f5f5f5}
+.top{ text-align: center; padding-bottom:0.1px;padding-top:0.1px;background:-webkit-gradient(linear,center top,center bottom,from(#c54661),to(#c55f46)); background-size:100% 100%; }
+.top>.avatar{float:left;margin-top: 20px;margin-bottom: 20px;border-radius:50%;margin-left:20px;height: 50px ;border-radius: 50%;box-shadow:0px 0px 10px #f5f5f5}
+.top>.name{text-align:left;margin-left: 70px;margin-top: 20px;margin-bottom: 20px;color:#fff;line-height: 50px; font-size: 1.4rem;padding-left:20px; }
+.top>.info{margin:10px 0px; font-size: 1.2rem}
+.top>.info>.send{height: 20px;line-height: 20px;width: 50%;border-right:1px solid #ccc;float:left;text-align: center; }
+.top>.info>.unsend{height: 20px;line-height: 20px;width: 50%; float: left; text-align: center;}
+.mytop>.info>.unsend{height: 20px;line-height: 20px;width: 50%; float: left; text-align: center;}
+.btm{position: fixed; height: 45px;bottom:0px;width: 100% }
+.btm>div{display: inline-block; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 50px}
+.awardbox{ width: 100% ;margin: 20px auto 0 auto; padding: 1px 0px; position: relative; list-style:none ;background:#fff;}
+.awardbox>.row{ position: relative; margin:10px auto;width: 95%;  list-style: none;  font-size: 1.2rem}
+.awardbox>.row:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 1px; background: #ebebeb }
+
+.awardbox>.row:last-child:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 0px; background: #ebebeb }
+.awardbox>.row>.date{float:right;height: 30px; line-height: 30px; width: 80px;}
+.awardbox>.row>.detail{ text-align: left;  line-height: 25px;height:50px;width: 80%;display: inline-block;float: left }
+
+.awardbox>.row>.detail>.detail_{ text-align: left;  line-height: 25px;font-size:1.4rem;}
+
+.awardbox>.row>.detail>.date{ text-align: left;  line-height: 25px;font-size:1.2rem;color:#cccccc; }
+.awardbox>.row>.price{ text-align:center;height:50px; padding-top:15px; width:20%;display: inline-block;float: left;color:red;}
+a.button:link{ padding: 0px 40px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+a.button:hover{ padding: 0px 40px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+a.button:visited{ padding: 0px 40px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+.large{ width: 100%;font-size: 1.4rem }
+.wxtips{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;  background: #f8f6ec; font-size: 1.2rem; }
+.box{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;   }
+
+.bottom { position: fixed; width: 100%;height: 35px;line-height:35px;bottom: 0px; text-align: center;background:rgba(197,95,70,0.8);}
+.bottom a{ width: 100%;height:100%;display: block; color: #fff;font-size: 1.4rem }
+.smbtn{line-height:16px;display:inline-block; text-align: center;font-size: 1.2rem;min-width:60px; padding:2px;}
+.smbtn.danger{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.disable{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.danger:link{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.danger:visited{ background:#f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.disable:link{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.disable:visited{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+a.tag:link{color:#899ef6; text-decoration:none;}
+a.tag:visited{color:#899ef6; text-decoration:none;}
+.atop{ margin:auto; list-style: none; padding:0; width: 95%; line-height: 40px ;font-size: 1.4rem;background:#f5f5f5; }
+.div50{height: 50px;}
+.div40{height: 40px;}
+.red{color:red;}
+
+.wxtips{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;  background: #f8f6ec; font-size: 1.2rem; }
+.agent{line-height: 30px ;font-size: 14px; font-weight: bolder;}
+.company{ line-height: 30px ;font-size:14px}
+.apply_detail{ line-height: 30px ;font-size: 12px; color: #ccc}
+.address{ line-height: 30px;font-size: 12px; }
+.isctct{float: right;}
+.icon{display: inline-block;margin-left: 5px;height: 20px;width: 20px}
+.icon-phone{ background: url({MODULE_URL}images/icon.jpg);background-size:100% 100%;background-position: 0,0  }
+
+.page-nav{ background: #c14f44;color:#fff;font-size: 14px;line-height: 35px;text-align: center; }
+.page_title{margin-left: 45px}
+.back{border-radius: 50%;width: 35px;height: 35px;line-height:35px;float: left;font-size: 1.6rem;color: #fff;text-align: center;}
+.back a{display: block;border-left:1px solid #fff;border-top:1px solid #fff;transform:rotate(-45deg);margin: 10px 10px 10px 15px;height: 15px;width: 15px; }
+</style>
+<div class="page-nav"><div class="back"><a href="{php echo mobileurl('index',array('actid'=>$actid,'agentuniacid'=>$_GPC['agentuniacid']))}"></a></div><div class="page_title">营销码申请试用列表</div></div>
+<ul class="awardbox">
+{loop $aplys $row}
+<div class="row">
+	{if !$_GPC['agentid']}
+	<div class="agent">代理商 {$uniaccounts[$row['agtuniacid']]['name']}</div>
+	{/if}
+	<div class="company">{$row['company']} {$row['name']}</div><div class="apply_detail">{loop $row['acttype'] $item} <span class="label label-warning">{$acttypes[$item]}</span>{/loop}</div><div class="address"><div  data-id="{$row['id']}" class="isctct  label {if $row['isctct']}label-default{else}label-danger{/if}">已联系</div> <span class="address_">{$row['province']} {$row['city']}</span> <span class="date">{php echo date('Y-m-d H:s',$row['addtime'])} {$row['phone']} <a href="tel:{$row['phone']}" class="icon icon-phone"></a></span></div>
+<div class="clearfix"></div>
+</div>
+{/loop}
+</ul>
+<script type="text/javascript">
+	{if $_GPC['agentid']}
+	require(['jquery'],function(){
+			$('.isctct').each(function(){
+				$(this).click(function(){
+					self=this
+					$.post('{php echo mobileurl('cstmrapply',array('op'=>'cstmrapplys.doctct'))}',{id:$(self).data('id')},function(data){
+						if (data.isctct==0){
+							$(self).removeClass('label-default').addClass('label-danger')
+						}else{
+
+							$(self).removeClass('label-danger').addClass('label-default')
+						}
+					},'JSON')
+				})
+			})
+	})
+	{/if}
+</script>
+{template 'footer'}

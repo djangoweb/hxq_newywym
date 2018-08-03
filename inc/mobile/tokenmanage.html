@@ -1,0 +1,139 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs" >
+  <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('tokenmanage',array('cateid'=>$cateid))}">二维码管理</a></li>
+</ul>
+<div class="clearfix"></div>
+<style>
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+.awardbt{ margin:10px auto;}
+</style>
+<!--
+<div class="panel panel-info">
+<div class="panel-body ng-scope" ng-controller="dlqrcode">
+<a href="{php echo $this->createweburl('tokenmanage',array('actid'=>$actid,'cateid'=>$cateid,'op'=>'download','op_'=>'url'))}"  class="btn btn-primary">下载TXT抽奖链接文件</a> 
+<a href="{php echo $this->createweburl('tokenmanage',array('actid'=>$actid,'cateid'=>$cateid,'op'=>'download','op_'=>'xls'))}"  class="btn btn-primary">下载XLS抽奖链接文件</a> 
+<a href="javascript:void(0);"  class="btn btn-primary opreater ng-scope"   ><span ng-click="do({$actid},{$cateid})">下载抽奖二维码</span></a> 
+</div>
+</div>
+-->
+<div class="panel panel-info"><div class="panel panel-body ng-scope" ng-controller="dlqrcode"><a class="btn btn-primary opreater ng-scope" href="javascript:void(0);"><span ng-click="do({$cateid})">下载图片压缩包</span></a></div></div>
+<div class="panel panel-default">
+<div class="panel-heading">号段{$cate['mintk']}-{$cate['maxtk']} 总数{$cate['total']} 活动：{if $cate['actid']}{$acts[$cate['actid']]['name']}{else}未绑定活动{/if}</div>
+<div class="panel-body">
+
+{if empty($tokens)}
+
+暂无二维码，请先生成！
+
+{else}
+
+<table border="0" cellpadding="0" width="100%" cellspacing="0" class="table">
+    <tr>
+  <th width="100" align="center">ID</th>
+      <th width="100" align="center">二维码</th>
+      <th width="" align="center">链接</th>
+      <th width="120" align="center">使用时间</th>
+      <th width="120" align="center">操作</th>
+      </tr>
+   {loop $tokens $row}
+     {if $row['enable']!=-1}
+    <tr>
+      <td valign="middle">{$row['id']}</td>
+      <td valign="middle"><a href="{$row['qrurl']}" target="_blank">查看</a></td>
+      <td valign="middle">{$row['url']}</td>
+      <td valign="middle">{if $row['usedtime']}{php echo date('Y-m-d H:i',$row['usedtime'])}{/if}</td>
+      <td valign="middle">
+      <a data-original-title="回收" title=""  data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"  href="{php echo $this->createWebUrl('tokenmanage',array('op'=>'reset','id'=>$row['id'],'cateid'=>$cate['id']))}" onclick="return confirm('确定回收？')"><i class="fa fa-share-alt"></i></a>
+      <a data-original-title="删除" title=""  data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"  href="{php echo $this->createWebUrl('tokenmanage',array('op'=>'delete','id'=>$row['id'],'cateid'=>$cate['id']))}" onclick="return confirm('确定删除编号：{$row['id']} 的二维码，删除后将不可用？')"><i class="fa fa-remove"></i></a>
+    </td>
+    </tr>
+    {/if}
+   {/loop}
+</table>
+
+{/if}
+
+{$pager}
+
+</div>
+
+</div>
+   <script type="text/javascript">
+
+  pagesize=500;
+  var running = false;
+  window.onbeforeunload = function(e) {
+    if(running) {
+                    return (e || window.event).returnValue = '正在批量生成二维码, 请耐心等待不要关闭页面，离开此页面将会中断操作.';
+    }
+  }
+  
+ require(['angular', 'jquery', 'util'], function(angular, $, u){
+    angular.module('app', []).controller('dlqrcode', function($scope, $element, $http) {
+        $scope.adv = {
+          running : true,
+          page:1,
+          pagesize:100,
+          created:0
+          };
+          $scope.do=function(cateid){
+        message=u.message ('正在生成二维码,请不要离开页面，生成完毕会提供二维码压缩包下载地址', '', 'info')
+        $scope.generation(cateid)
+          }
+            $scope.generation=function(cateid){
+              $scope.adv.running = running = true;
+              $http.post("./index.php?c=site&a=entry&op=download&op_=zip&do=tokenmanage&m=hxq_newywym&cateid="+cateid+"&page="+$scope.adv.page).success(function(data){
+                      $scope.adv.running = running = false;
+                      if(data.errno==1){
+                       $scope.adv.page=data.page
+                       $scope.adv.created+=data.j
+                       $scope.adv.totaltoken=(typeof $scope.adv.totaltoken=='undefined')?data.total:$scope.adv.totaltoken;
+                        message=u.message ('共'+$scope.adv.totaltoken+'个二维码，已经生成'+$scope.adv.created+'个', '', 'info')
+                        $scope.generation(cateid)
+                      }else if(data.errno==2){
+                        $scope.adv.page=0
+                        $scope.adv.created+=data.j
+                        $scope.adv.totaltoken=(typeof $scope.adv.totaltoken=='undefined')?data.total:$scope.adv.totaltoken;
+                       message=u.message ('共'+$scope.adv.totaltoken+'个二维码，已经生成'+$scope.adv.created+'个，已生成完。 <a href="'+data.redirect+'" target="_blank"><i class="fa fa-link"></i>点击下载二维码压缩包</a>', '', 'info')
+                       $scope.adv.created=0
+                       $scope.adv.totaltoken=undefined
+                       $scope.adv.page=1
+                      }else if(data.errno==3){
+                        $scope.adv.page=0
+                        $scope.adv.created=0
+                       $scope.adv.totaltoken=undefined
+                       $scope.adv.page=1
+                        message=u.message ('出错了:'+data.message, '', 'error')
+                      }else{
+                        $scope.adv.page=0
+                        $scope.adv.created=0
+                       $scope.adv.totaltoken=undefined
+                       $scope.adv.page=1
+                        message=u.message ('出错了:未知错误', '', 'error')
+                      }
+                })
+            }
+    })
+    angular.bootstrap(document, ['app']);
+  });
+  var category = [];
+
+/*  require(['bootstrap'],function($){
+
+    $('.btn').hover(function(){
+
+      $(this).tooltip('show');
+
+    },function(){
+
+      $(this).tooltip('hide');
+
+    });
+
+  });*/
+</script>
+
+</div>
+
+{template 'common/footer'}

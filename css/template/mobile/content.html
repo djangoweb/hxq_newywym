@@ -1,0 +1,24 @@
+{template 'header'}
+<style>
+body{  background: none !important}
+.content{ margin: 0px 10px;word-break: break-all;white-space:normal; }
+
+.bottom { position: fixed; width: 100%;height: 40px;bottom: 0px; text-align: center; background: #ebebeb}
+.bottom a{ width: 100%;height:100%;display: block; color: #000; }
+.bottom a .left{ width: 40px; height: 40px; float: left;  }
+.bottom a .title{ margin:0 40px;  height: 40px; line-height: 40px; text-align: center; font-size: 1.6rem;}
+.bottom a .left .back{ height: 14px; width: 14px;  margin: 13px; border-left: 1px solid #ccc; border-bottom: 1px solid #ccc; transform: rotate(45deg); display: block;  }
+.price{ width: 90%; margin:10px auto; font-size: 1.4rem;}
+.div50{ height: 50px;width: 100% }
+.bottom { position: fixed; width: 100%;height: 35px;line-height:35px;bottom: 0px; text-align: center;background:rgba(197,95,70,0.8);}
+.bottom a{ width: 100%;height:100%;display: block; color: #fff;font-size: 1.4rem }
+.div40{height: 40px;}
+</style>
+<div class="content">{$act['description']}</div>
+<div class="div40"></div>
+<div class="bottom"><a href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}">返回</a></div>
+<script>require(['content'],function(modal){
+	params={};
+	modal.init(params);
+	})</script>
+{template 'footer'}

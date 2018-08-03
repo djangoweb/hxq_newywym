@@ -1,0 +1,50 @@
+{template 'header'}
+<style>
+body{ background: #ebebeb; }
+</style>
+<script type="text/javascript" src="{MODULE_URL}/js/main.js?{TIMESTAMP}"></script>
+<script>
+sharedata={
+	title:'{$act['sharetitle']}',
+	imgUrl:'{php echo $_W['attachurl'].$act['sharethumb']}',
+	desc:'{$act['sharedesc']}',
+	link:'{php echo $_W['siteroot'].'app/'.$this->createmobileurl('content',array('cateid'=>$cate['id']))}',
+	success:function(){},
+	fail:function(data){
+		alert(data)
+	}
+	}
+wx.ready(function(){
+	wx.onMenuShareTimeline(sharedata)
+	wx.onMenuShareAppMessage(sharedata)
+	$('#loading').hide()
+	wx.scanQRCode({
+	    needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+	    scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+	    success: function (res) {
+	    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+		},
+		cancel:function(){
+
+		}
+	});
+	$('#btn-scan').show()
+})
+wx.error(function(){
+   // alert("jssdk失败")
+})
+</script>
+<style>
+a.success:link{ background: #5cb85c; color:#fff; }
+a.success:hover{ background: #5cb85c ;color:#fff; }
+a.success:visited{ background: #5cb85c;color:#fff; }
+a.button:link{ padding: 0px 10px; background: #fed700;color:#6e2020; text-align: center;display:inline-block;font-size: 1.4rem;border-radius: 30px;padding: 0px 10px;}
+a.button:hover{ padding: 0px 10px;background: #fed700; color:#6e2020; text-align: center;display:inline-block;font-size: 1.4rem;border-radius: 30px;padding: 0px 10px;}
+a.button:visited{ padding: 0px 10px; background: #fed700;  color:#6e2020; text-align: center;display:inline-block;font-size: 1.4rem;border-radius:30px;padding: 0px 10px;}
+#btn-scan{width:160px;height:160px;line-height:28px;padding: 52px 0px; position: absolute;top:0px;left: 0px;right: 0px;bottom:0px;margin: auto;}
+</style>
+<div style="height: 100%;width:100%;position: fixed;">
+<a id="btn-scan" href="javascript:void(0)" onclick="wx.scanQRCode({needResult:0})" class="button success">点此<br>再次扫描扫码</a>
+</div>
+</body>
+</html>

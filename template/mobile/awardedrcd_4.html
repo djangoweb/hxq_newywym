@@ -1,0 +1,144 @@
+{template 'header'}
+<style>
+body{background: #f5f5f5}
+.top{ text-align: center; padding-bottom:0.1px;padding-top:0.1px;background:-webkit-gradient(linear,center top,center bottom,from(#c54661),to(#c55f46)); background-size:100% 100%; }
+.top>.avatar{float:left;margin-top: 20px;margin-bottom: 20px;border-radius:50%;margin-left:20px;height: 50px ;border-radius: 50%;box-shadow:0px 0px 10px #f5f5f5}
+.top>.name{text-align:left;margin-left: 70px;margin-top: 20px;margin-bottom: 20px;color:#fff;line-height: 50px; font-size: 1.4rem;padding-left:20px; }
+.top>.info{margin:10px 0px; font-size: 1.2rem}
+.top>.info>.send{height: 20px;line-height: 20px;width: 50%;border-right:1px solid #ccc;float:left;text-align: center; }
+.top>.info>.unsend{height: 20px;line-height: 20px;width: 50%; float: left; text-align: center;}
+.mytop>.info>.unsend{height: 20px;line-height: 20px;width: 50%; float: left; text-align: center;}
+.btm{position: fixed; height: 45px;bottom:0px;width: 100% }
+.btm>div{display: inline-block; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 50px}
+.icon{  background:url({MODULE_URL}images/icon.png); width:16px; height: 16px; background-size: 100%;margin:5px auto 0 auto; display:block;}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+.iconhome{ background-position:0px 0px;}
+.iconmp{ background-position:0px -32px;}
+.iconawarded{ background-position:0px -64px;}
+.iconmy{ background-position:0px -96px;}
+.iconhome_{ background-position:0px -16px;}
+.iconmp_{ background-position:0px -48px;}
+.iconawarded_{ background-position:0px -80px;}
+.iconmy_{ background-position:0px -112px;}
+.gradbox{ width:95%;margin:10px auto 0px auto; padding: 0px; background: #f8f6ec }
+.gradbox>.grad{display: block;width: 50%;border-right:1px solid #efefef;border-bottom:1px solid #efefef;list-style: none;float: left; box-sizing: border-box; text-align: center; padding:0px;}
+.gradbox>.grad:nth-child(2n+0){border-right:none;}
+.gradbox>.grad:nth-child(n+3){border-bottom:none;}
+.gradbox>.grad>a{ display: block; padding: 5px 0; height: 52px; color:#000; text-decoration: none; font-size: 1.2rem}
+.gradbox>.grad>a>.data{line-height: 21px; display: block; width: 100%; text-align: center; font-size: 1.4rem;}
+.gradbox>.grad>a>.name{line-height: 21px;display: block;width: 100%; text-align: center;font-size: 1.2rem;}
+.gradbox>.grad>a>.single{line-height: 42px;display: block;width: 100%;text-align: center; font-size: 1.2rem;text-decoration: underline; color:#6e2020;}
+.gradbox>.grad>a.danger{ color:red; 
+}
+.awardbox{ width: 100% ;margin: 0 auto; padding: 0px; position: relative; list-style:none ;background:#fff;}
+.atop{ margin:0px; list-style: none; padding: 5px;  line-height: 50px ;min-height: 50px;font-size: 1.4rem;background:#f5f5f5; }
+.atop>img{ width: 30px; height: 30px;float: left; border-radius: 50%}
+.atop>.nickname{ margin-left:40px; line-height: 30px;  font-size: 1.4rem }
+.awardbox>.row{ position: relative; margin:5px auto;width: 95%;  list-style: none;  font-size: 1.2rem}
+.awardbox>.row:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 1px; background: #ebebeb }
+.awardbox>.row:last-child:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 0px; background: #ebebeb }
+.awardbox>.row>.thumb{ text-align: left;  height:50px;width: 50px;display: inline-block;float: left;text-align: center; }
+.awardbox>.row>.thumb>img{ width: 40px;height: 40px;margin: 5px auto;border-radius: 5px}
+.awardbox>.row>.date{float:right;height: 30px; line-height: 30px; width: 60px;}
+.awardbox>.row>.detail{ text-align: left;  line-height: 25px;height:50px;display: inline-block;}
+.awardbox>.row>.detail>.detail_{ text-align: left;  line-height: 25px;font-size:1.4rem;}
+.awardbox>.row>.detail>.date{ text-align: left;  line-height: 25px;font-size:1.2rem;color:#cccccc; }
+.awardbox>.row>.price{ text-align:center;height:50px; padding-top:15px; width:60;display: inline-block;float: right}
+i{ width: 2.2rem; height: 2.2rem; display: inline-block;  background-size: 30rem !important;}
+.grad1{background: url('{MODULE_URL}images/iconbg.png');  background-position:-0.2rem -0.4rem;    }
+.grad2{  background: url('{MODULE_URL}images/iconbg.png');  background-position:-2.4rem -0.4rem;   }
+.grad3{ background: url('{MODULE_URL}images/iconbg.png');  background-position:-4.8rem -0.4rem;   }
+.grad4{  background: url('{MODULE_URL}images/iconbg.png');  background-position:-7.2rem -0.4rem;   }
+.wxtips{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;  background: #f8f6ec; font-size: 1.2rem; }
+.box{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;   }
+.bottom { position: fixed; width: 100%;height: 35px;line-height:35px;bottom: 0px; text-align: center;background:rgba(197,95,70,0.8);}
+.bottom a{ width: 100%;height:100%;display: block; color: #fff;font-size: 1.4rem }
+a.smbtn{line-height:16px;display:inline-block; text-align: center;font-size: 1.2rem;min-width:60px; padding:2px;box-shadow:none !important;}
+a.smbtn.danger{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.disable{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.danger:link{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.danger:visited{ background:#f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.disable:link{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+a.smbtn.disable:visited{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+a.tag:link{color:#899ef6; text-decoration:none;}
+a.tag:visited{color:#899ef6; text-decoration:none;}
+.div40{height: 40px;}
+.atop{ margin:auto; list-style: none; padding:0; width: 95%; line-height: 40px ;font-size: 1.4rem;background:#f5f5f5; }
+.div50{height: 50px;}
+.div40{height: 40px;}
+.red{color:red;}
+.nav{position: fixed;top:10px;height: 40px;}
+.back{border-radius: 50%;width: 40px;height: 40px; background: rgba(0,0,0,0.6);line-height:40px;float: left;margin-left: 10px;font-size: 1.6rem;color: #fff;text-align: center;}
+.nav a{display: block;border-left:1px solid #fff;border-top:1px solid #fff;transform:rotate(-45deg);margin: 10px 10px 10px 15px;height: 20px;width: 20px; }
+
+.wxtips{ width: 95%;margin:10px auto;padding: 10px; color: #6e2020 ;  background: #f8f6ec; font-size: 1.2rem; }
+</style>
+<div class="nav"><div class="back"><a href="{php echo $this->createmobileurl('my',array('actid'=>$act['id']))}"></a></div></div>
+<div class="div50"></div>
+<div class="atop">可用礼品兑换<span class="text-red">{$totalsw}</span>件</div></div>
+<ul class="awardbox">
+{loop $myawardeds $row}
+<div class="row">
+<div class="thumb"><img src="{$_W['attachurl']}{$awards[$row['awardid']]['thumb']}"></div>
+<div class="detail"><div class="detail_">扫码中奖 <span class="red">{$awards[$row['awardid']]['title']}</span></div><div class="date">{php echo date('Y-m-d H:i:s',$row['addtime'])}</div></div>
+<div class="price">
+<a href='javascript:void(0)' class="smbtn danger verif" data-id={$row['id']} data-title={$row['title']} data-veriftime={$row['veriftime']} >点击核销</a>
+</div>
+<div class="clearfix"></div>
+</div>
+{/loop}
+<div class="row" style="text-align:center;line-height:50px;">没有更多礼品兑换券了 | <a href="{php echo $this->createmobileurl('awardedrcd',array('actid'=>$act['id'],'type'=>'4','type_'=>'unuse'))}" class="blue">查看已失效礼品兑换券</a></div>
+</ul>
+<script type="text/javascript">
+  require(['jquery','main'],function($,main){
+      $('.verif').each(function(){
+      	$(this).on('click',function(){
+	        if ($(this).data('veriftime')!=0){
+	          return false;
+	        }
+	        self=this
+        	callback=function(){
+            	if (layers['veriflayer'].find('input[name=password]').val()==''){
+                  layers['veriflayer'].find('.message').html('请输入核销密码')
+                  return false;
+                }
+                $.ajax({
+                                              type:'get',
+                                              dataType:'json',
+                                              url:'{php echo $this->createmobileurl('verif',array('actid'=>$act['id'],'op'=>'sw'))}&id='+$(self).data('id'),
+                                              data:{'password':layers['veriflayer'].find('input[name=password]').val()},
+                                             success:function(data){    
+                                                    if (data.errno==0){
+                                                       
+                                                       $('#layer_'+layers['veriflayer'].attr('id')).remove()
+                                                       layers['veriflayer']=null
+                                                       $('#timeoutlayer').showlayer(data.message,'',3,false,'middle','')
+                                                       $(self).addClass('disable').removeClass('danger').off()
+                                                    }else{
+                                                       layers['veriflayer'].find('.message').html(data.message)
+                                                    }
+                                             }
+               })
+	        }
+	        $('#veriflayer').showlayer('','',false,true,'middle',callback)
+      	})
+      })
+      })
+</script>
+<div id="veriflayer" class="layercontent">
+<div class="header"></div>
+<form class="form-horizontal">
+<div class="body">
+<div class="verifer"><input value="" type="password" name="password" class="form-control" placeholder="请商家输入核销密码"></div>
+<div class="message"></div>
+<div class="footer"><a href="javascript:;" class="button disable close_">取消</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="button submit" href="javascript:;">核销</a></div>
+</div>
+</form>
+</div>
+<div id="timeoutlayer" class="layercontent"><div class="message"></div></div>
+{template 'footer'}

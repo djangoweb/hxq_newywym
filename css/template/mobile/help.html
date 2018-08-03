@@ -1,0 +1,31 @@
+{template 'header'}
+<style>
+body{ background: #fff }
+.top{ height: 120px; background: orange;overflow: hidden; }
+.top img{ width:100%; }
+.content{ margin: 0px 10px;word-break: break-all;white-space:normal; }
+
+.bottom { position: fixed; width: 100%;height: 40px;bottom: 0px; text-align: center; background: #ebebeb}
+.bottom a{ width: 100%;height:100%;display: block; color: #000; }
+.bottom a .left{ width: 40px; height: 40px; float: left;  }
+.bottom a .title{ margin:0 40px;  height: 40px; line-height: 40px; text-align: center; font-size: 1.6rem;}
+.bottom a .left .back{ height: 14px; width: 14px;  margin: 13px; border-left: 1px solid #ccc; border-bottom: 1px solid #ccc; transform: rotate(45deg); display: block;  }
+.price{ width: 90%; margin:10px auto; font-size: 1.4rem;}
+.div50{ height: 50px;width: 100% }</style>
+<script type="text/javascript" src="{MODULE_URL}/js/main.js?{TIMESTAMP}"></script>
+<script>
+wx.config({debug:jssdkconfig.debug,appId:jssdkconfig.appId,timestamp:jssdkconfig.timestamp,nonceStr:jssdkconfig.nonceStr,signature:jssdkconfig.signature,jsApiList:jssdkconfig.jsApiList});
+wx.ready(function(){
+	wx.onMenuShareTimeline(sharedata)
+	wx.onMenuShareAppMessage(sharedata)
+})
+wx.error(function(){
+   // alert("jssdk失败")
+})
+</script>
+<div class=top><img src="{$_W['attachurl']}{$act['hpthumb']}" width=100%></div>
+<div class="content">{$act['hpctnt']}</div>
+<div class="div50"></div>
+<div class="bottom"><a href="{php echo $this->createmobileurl('my',array('cateid'=>$cateid))}"><div class=left><span class=back ></span></div><div class=title>返回</div></a></div>
+</body>
+</html>

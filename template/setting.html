@@ -1,0 +1,304 @@
+{template 'common/header'}
+
+<style>
+
+.sharenum{ display:none}
+
+.clear{ clear:both}
+.div15{ height:15px; clear:both;}
+</style>
+<ul class="nav nav-tabs">
+    <li {if $_GPC['type']=='pay'||$_GPC['type']==''}class="active"{/if}><a href="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=pay{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=pay{/if}"><i class="fa fa-edit"></i>微信支付设置</a></li>
+    <li {if $_GPC['type']=='notice'}class="active"{/if}><a href="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=notice{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=notice{/if}" ><i class="fa fa-edit"></i>通知设置</a></li>
+    <li {if $_GPC['type']=='corpright'}class="active"{/if}><a href="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=corpright{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=corpright{/if}" ><i class="fa fa-edit"></i>版权信息</a></li>
+    <li {if $_GPC['type']=='slat'}class="active"{/if}><a href="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=slat{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=slat{/if}" ><i class="fa fa-edit"></i>加密盐设置</a></li>
+    <li {if $_GPC['type']=='jump'}class="active"{/if}><a href="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=jump{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=jump{/if}" ><i class="fa fa-edit"></i>防封设置</a></li>
+</ul>
+{if $_GPC['type']=='pay'||$_GPC['type']==''}
+<form style="" id="reply-form" class="form-horizontal form ng-pristine ng-valid" action="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=pay{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=pay{/if}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading">微信支付参数设置</div>
+<div class="panel-body">
+<div class="form-group"><label for="appid" class=" col-md-2 control-label"><strong class="text-danger">*</strong>红包支付方式</label>
+        <div class="col-md-8"><label><input  name="paytype" data-tgtelm="paytype_1" type=radio class="form-control"  value="1" {if $config['pay']['paytype']==1||empty($config['pay']['paytype'])}checked=checked{/if}>红包</label>
+        <label><input  name="paytype" type=radio class="form-control"  value="2" {if $config['pay']['paytype']==2}checked=checked{/if}>企业付款</label>
+        <span class="help-block "></span></div>
+    </div>
+
+<div class="form-group"><label for="appid" class=" col-md-2 control-label">
+身份标识(appId)</label>
+        <div class="col-md-8"><input  name="appid" class="form-control"  value="{$config['pay']['appid']}">
+        <span class="help-block ">公众号appid</span></div>
+    </div>
+
+<div class="form-group">
+
+  <label for="mchid" class="col-xs-12 col-sm-3 col-md-2 control-label"><strong class="text-danger">*</strong>微信支付商户号(MchId)</label>
+
+    <div class=" col-md-8 "><input type="text" name="mchid" class="form-control"  value="{$config['pay']['mchid']}"/>
+
+    <span class="help-block text-danger"><span class="col-md-8">微信支付商户商户号mchid</span></span></div>
+
+    </div>
+<span class="paytype_1">
+<div class="form-group"><label for="appid" class=" col-md-2 control-label">场景ID</label>
+   <div class="col-md-8"><select name="scene_id" class="form-control">
+   <option value="">不选择</option>
+   <option value="PRODUCT_1" {if $config['pay']['scene_id']=='PRODUCT_1'}selected=selected{/if}>商品促销</option>
+   <option value="PRODUCT_2" {if $config['pay']['scene_id']=='PRODUCT_2'}selected=selected{/if}>抽奖</option>
+   <option value="PRODUCT_3" {if $config['pay']['scene_id']=='PRODUCT_3'}selected=selected{/if}>虚拟物品兑奖</option>
+   <option value="PRODUCT_4" {if $config['pay']['scene_id']=='PRODUCT_4'}selected=selected{/if}>企业内部福利</option>
+   <option value="PRODUCT_5" {if $config['pay']['scene_id']=='PRODUCT_5'}selected=selected{/if}>渠道分润</option>
+   <option value="PRODUCT_6" {if $config['pay']['scene_id']=='PRODUCT_6'}selected=selected{/if}>保险回馈</option>
+   <option value="PRODUCT_7" {if $config['pay']['scene_id']=='PRODUCT_7'}selected=selected{/if}>彩票派奖</option>
+   <option value="PRODUCT_8" {if $config['pay']['scene_id']=='PRODUCT_8'}selected=selected{/if}>税务刮奖</option>
+   </select><span class="help-block ">请根据您申请的场景来选择，主要用于发1元一下0.3元以上的红包，如未申请场景请留空即可。</span></div>
+</div>
+</span>
+<div class="form-group"><label for="apikey" class=" col-md-2 control-label"><strong class="text-danger">*</strong>子商户支付密钥(API密钥)</label>
+
+        <div class="col-md-8"><input  name="apikey" class="form-control"  value="{$config['pay']['apikey']}">
+
+        <span class="help-block text-danger">支付密钥(API密钥)</span></div>
+
+    </div>
+    </span>
+ 
+  <div class="form-group">
+
+  <label for="act_name" class="col-xs-12 col-sm-3 col-md-2 control-label"><strong class="text-danger">*</strong>红包领取祝福语(wishing)</label>
+
+    <div class=" col-md-8 "><input type="text" name="wishing" class="form-control"  value="{$config['pay']['wishing']}"/>
+
+    <span class="help-block">红包领取祝福语显示在红包界面的公众号名称下面，#act_name#,可作为活动名称变量</span></div>
+
+    </div>
+
+
+        <div class="form-group">
+
+  <label for="sslcart" class="col-xs-12 col-sm-3 col-md-2 control-label"><strong class="text-danger">*</strong>微信支付证书(sslcert)</label>
+
+    <div class=" col-md-8"><textarea type="text" name="sslcert" rows="8" class="form-control">{$config['pay']['sslcert']}</textarea></div>
+
+    <div class=" col-md-8 col-md-offset-2 ">
+
+    <span class="help-block text-danger">请将微信支付证书(sslcert)文件打开,将里面的内容粘贴到此</span></div>
+
+    </div>
+
+        <div class="form-group">
+
+  <label for="sslkey" class="col-xs-12 col-sm-3 col-md-2 control-label"><strong class="text-danger">*</strong>微信支付私钥(sslkey)</label>
+
+   	 <div class=" col-md-8"><textarea type="text" name="sslkey"  rows="8" class="form-control">{$config['pay']['sslkey']}</textarea></div>
+
+    <div class=" col-md-8 col-md-offset-2 ">
+
+    <span class="help-block text-danger">请将微信支付私钥(sslkey)文件打开,将里面的内容粘贴到此</span></div>
+
+    </div>
+
+        <div class="form-group">
+
+  <label for="cainfo" class="col-xs-12 col-sm-3 col-md-2 control-label">*CA证书(rootca)</label>
+
+    <div class=" col-md-8"><textarea type="text" name="rootca"  rows="8" class="form-control" >{$config['pay']['rootca']}</textarea></div>
+
+    <div class=" col-md-8 col-md-offset-2 ">
+
+    <span class="help-block text-danger">请将CA证书(rootca)文件打开,将里面的内容粘贴到此(注：2018年3月8号后下载的证书此处可以不填)</span></div>
+
+    </div>
+
+    <div class="form-group">
+
+  <div class=" col-md-8  col-md-offset-2"><input type="hidden" name="savepay" value="1"/><input type="hidden" name="token" value="{$_W['token']}"/><input type="submit" class="btn btn-primary" value="保存支付设置"/></div>
+
+    </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</form>
+<script>
+require(['jquery'],function($){
+                       $.extend({'getelement':function(target){
+                          if (!target) return false
+                          if ($('#'+target).size()>0)
+                          return $('#'+target)
+                          else if ($('.'+target).size()>0)
+                          return $('.'+target)
+                          else if ($("input[name='"+target+"']").size()>0)
+                          return $("input[name='"+target+"']")
+                          else
+                          return false
+                       }})
+$.fn.extend({togglecontrol:function(){
+                              radio=$.getelement($(this).attr('name'))
+                              radio.each(function(){
+                                            tgtelm=$.getelement($(this).attr('data-tgtelm'));
+                                            if (!$(this).prop('checked')){
+                                                if (tgtelm){
+                                                tgtelm.attr('disabled',true);
+                                                tgtelm.find('input').attr('disabled',true);
+                                                tgtelm.hide();
+                                                }
+                                            }else{
+                                                checked=this
+                                            }
+                              })
+                              tgtelm=$.getelement($(checked).attr('data-tgtelm'));
+                              //tgtelm.attr('disabled',false);
+                              if (tgtelm){
+                              tgtelm.find('input').attr('disabled',false);
+                              tgtelm.show();
+                          }
+                              $.getelement($(this).attr('name')).off('change').on('change',function(){$(this).togglecontrol()})
+                              
+        }})    
+$.getelement('paytype').togglecontrol();
+})
+</script>
+{elseif $_GPC['type']=='notice'}
+<form style="" id="reply-form" class="form-horizontal form ng-pristine ng-valid" action="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=notice{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=notice{/if}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading">通知设置</div>
+<div class="panel-body">
+   <div class="form-group">
+    <label class="control-label col-md-2">增值成功消息通知</label>
+        <div class="col-md-10"><input type="text" name="dokeeptplid" class="form-control" value="{$config['notice']['dokeeptplid']}">
+        <span class="help-block">此处的消息通知是发给扫码转发者的，有好友为他增值了红包则模版消息通知他增加趣味性。填写了后需要扫码的粉丝关注做活动的公众号才能正常发送。请在微信后台搜索“助力成功通知”，编号为“OPENTM407369197”</span>
+        </div>
+    </div>
+   <div class="form-group">
+    <label class="control-label col-md-2">裂变红包中奖通知</label>
+        <div class="col-md-10"><input type="text" name="dofissiontplid" class="form-control" value="{$config['notice']['dofissiontplid']}">
+        <span class="help-block">此处的消息通知是发给扫码转发者的，有好友领取他的裂变红包则模版消息通知他增加趣味性。填写了后需要扫码的粉丝关注做活动的公众号才能正常发送。请在微信后台搜索“兑奖成功通知”，编号为“OPENTM208022325”</span>
+        </div>
+    </div>
+    <div class="form-group">
+    <label class="control-label col-md-2">领取优惠券模版消息通知</label>
+        <div class="col-md-10"><input type="text" name="coupontplid" class="form-control" value="{$config['notice']['coupontplid']}">
+        <span class="help-block">此处的消息通知是发给活动粉丝的，填写了后需要参与活动的粉丝关注代理的公众号才能正常发送。请在微信后台搜索“兑奖成功通知”，编号为“OPENTM208022325”</span>
+        </div>
+    </div>
+    <div class="form-group">
+    <label class="control-label col-md-2">红包发放错误模版消息id</label>
+        <div class="col-md-10"><input type="text" name="tplid" class="form-control" value="{$config['notice']['tplid']}">
+        <span class="help-block">请在公众号后台搜索模版标题为：设备警告 编号:OPENTM402072897</span>
+        </div>
+    </div>
+    <div class="form-group">
+    <label class="control-label col-md-2">红包发放错误通知openid列表</label>
+        <div class="col-md-10"><input type="text" name="tplopenids" class="form-control" value="{$config['notice']['tplopenids']}">
+        <span class="help-block">多个openid请用，号隔开</span>
+        </div>
+    </div>
+    <div class="form-group">
+  <div class=" col-md-8  col-md-offset-2"><input type="hidden" name="savenotice" value="1"/><input type="hidden" name="token" value="{$_W['token']}"/><input type="submit" class="btn btn-primary" value="保存设置"/></div>
+
+    </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</form>
+{elseif $_GPC['type']=='corpright'}
+<form style="" id="reply-form" class="form-horizontal form ng-pristine ng-valid" action="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=corpright{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=corpright{/if}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading">版权信息</div>
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-12"><textarea type="text" name="corpright" class="form-control">{$config['corpright']}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+  <div class=" col-md-8  col-md-offset-2"><input type="hidden" name="savecorpright" value="1"/><input type="hidden" name="token" value="{$_W['token']}"/><input type="submit" class="btn btn-primary" value="保存设置"/></div>
+
+    </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</form>
+{elseif $_GPC['type']=='slat'}
+<form style="" id="reply-form" class="form-horizontal form ng-pristine ng-valid" action="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=slat{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=slat{/if}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading">二维码加密盐</div>
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-12">
+        {if !$slat}
+        <input type="text" name="slat" class="form-control">
+        <span class="help-block">请输入8位的加密盐</span>
+        {else}
+        已设置 <span class="label label-primary">{$slat['slat']}</span>
+        {/if}
+        </div>
+    </div>
+  <div class="form-group">
+  {if !$slat}
+  <div class=" col-md-8  col-md-offset-2"><input type="hidden" name="saveslat" value="1"/><input type="hidden" name="token" value="{$_W['token']}"/><input type="submit" class="btn btn-primary" value="保存设置"/></div>
+  {/if}
+  </div>
+</div>
+
+</div>
+
+</form>
+{elseif $_GPC['type']=='jump'}
+
+<form style="" id="reply-form" class="form-horizontal form ng-pristine ng-valid" action="?{if IMS_VERSION<'1.0'}c=profile&a=module&do=setting&m={php echo $this->modulename}&type=pay{else}c=module&a=manage-account&do=setting&m={php echo $this->modulename}&type=pay{/if}" method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+<div class="panel-heading">防封设置</div>
+<div class="panel-body">
+
+<div class="form-group">
+
+  <label for="mchid" class="col-xs-12 col-sm-3 col-md-2 control-label"><strong class="text-danger">*</strong>转发域名</label>
+
+    <div class=" col-md-8 "><input type="text" name="redirect" class="form-control"  value="{$config['jump']['redirect']}"/>
+
+    <span class="help-block text-danger">此域名为转发到朋友圈的域名，做粉丝点击跳转到炮灰域名用，结尾需加"/"</span></div>
+
+    </div>
+
+        <div class="form-group">
+
+  <label for="cainfo" class="col-xs-12 col-sm-3 col-md-2 control-label"><strong class="text-danger">*</strong>炮灰域名</label>
+
+    <div class=" col-md-8"><textarea type="text" name="display"  rows="8" class="form-control" >{$config['jump']['display']}</textarea></div>
+
+    <div class=" col-md-8 col-md-offset-2 ">
+
+    <span class="help-block text-danger">可以指定多个炮灰域名，多个域名请换行输入。默认跳转第一行的域名，如果第一行的域名被封，把第一行删掉这样就跳转原来的第二行域名，第二行如果还被封就删掉，继续跳转下一行域名,结尾需加斜杠"/"。</span></div>
+
+    </div>
+
+    <div class="form-group">
+
+  <div class=" col-md-8  col-md-offset-2"><input type="hidden" name="savejump" value="1"/><input type="hidden" name="token" value="{$_W['token']}"/><input type="submit" class="btn btn-primary" value="保存防封设置"/></div>
+
+    </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</form>
+{/if}
+
+{template 'common/footer'}

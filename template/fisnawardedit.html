@@ -1,0 +1,254 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo $this->createWebUrl('fisnaward',array('actid'=>$act['id']))}">管理裂变奖项</a></li>
+    <div class="form-inline pull-right">
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('fisnaward')}&actid='+this.options[this.selectedIndex].value">
+{loop $acts $row}<option value="{$row['id']}" {if $act['id']==$row['id']}selected="selected"{/if} >{$row['name']}</option>{/loop}
+</select>
+</div>
+</ul>
+<div class="clearfix">
+
+</div>
+<div class="panel panel-info">
+
+<div class="panel-body">&#35828;&#22270;&#35889;&#28304;&#30721;&#46;&#46;&#25552;&#46;&#46;&#31034;&#65306;&#22870;&#21697;&#23454;&#38469;&#20013;&#22870;&#29575;&#31561;&#20110;<strong class=text-success>&#x5956;&#x54C1;&#x6570;</strong><strong class="text-danger">&#x9664;&#x4EE5;</strong><strong class=text-success>&#x6240;&#x6709;&#x672A;&#x7981;&#x7528;&#x5956;&#x54C1;&#x6570;&#x4E4B;&#x548C;</strong>
+
+</div></div>
+
+
+<style>
+
+.group{display:none}
+
+.clear{ clear:both}
+
+</style>
+
+
+<style>
+
+.group{display:none}
+
+.clear{ clear:both}
+.template{ display: none }
+</style>
+<div class="panel panel-default">
+
+<div class="panel-heading">活动 <span class="label label-success">{$act['name']}</span> 共<span class="label label-success">{$totalqr}</span>个二维码 需要{php echo $totalqr*$act['fissionnum']}个裂变奖品</div>
+
+<div class="clearfix"></div>
+<div class="panel-body">
+
+<form id="form1" name="form1" method="post" class="form-horizontal" onsubmit="return checkform(this)" action="{php echo $this->createweburl('fisnaward',array('op'=>'save','actid'=>$act['id']))}" >
+<div id="awards">
+{if $awards}
+{php $i=0}
+{loop $awards $row}
+<div class="form-group">
+        <input value="{$row['id']}" type="hidden" name="awards[{$i}][id]">
+        <div class="col-md-2 type item"><select name="awards[{$i}][type]" onchange="change(this)" class="change" class="form-control"><option value="1" {if $row['type']==1}selected{/if}>普通红包</option><option value="3"  {if $row['type']==3}selected{/if}>积分</option><option value="5" {if $row['type']==5}selected{/if}>模块优惠券</option><option value="100" {if $row['type']==100}selected=selected{/if}>未中奖</option></select></div>
+        <div class="col-md-2 name item"><input class="form-control" name="awards[{$i}][name]" placeholder="名称" value="{$row['title']}"></div>
+        <div class="col-md-2 coupon item"><select name="awards[{$i}][couponid]"><option value=0>请选择优惠券</option>
+        {loop $coupons $row_}
+        <option value="{$row_['id']}" {if $row_['id']==$row['couponid']}selected{/if}>{$row_['name']}</option>
+        {/loop}
+        </select></div>
+        <div class="col-md-2 thumb item"><div class="input-group "><input type="text" name="awards[{$i}][thumb]" value="{$row['thumb']}" class="unrequire form-control" autocomplete="off"><span class="input-group-btn"><button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button></span></div><div class="input-group " style="margin-top:.5em;"><img src="{php echo $_W['attachurl'].$row['thumb']}" onerror="this.src='./resource/images/nopic.jpg'; this.title='图片未找到'" class="img-responsive img-thumbnail" width="150"><em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="deleteImage(this)">×</em></div></div>
+        <div class="col-md-2 redpack item"><input class="form-control" name="awards[{$i}][redpack]" require='number'  value="{$row['redpack']}" placeholder="金额"></div>
+        <div class="col-md-2 credit1 item"><input class="form-control" name="awards[{$i}][credit1]" require='number'  value="{$row['credit1']}" placeholder="积分"></div>
+        <div class="col-md-2 total item"><input  name="awards[{$i}][total]" require='number' class="form-control total_" value="{$row['total']}" type="number" placeholder="发放总数" ng-modal="total"/></div>
+         <div class="col-md-2 tokenids item"><input  name="awards[{$i}][tokenids]"   class="form-control unrequire" value=""  placeholder="内定二维码编号" ng-modal="tokenids"/></div>
+        <div class="col-md-2"><span class="label label-danger">已发{$row['awarded']}</span> <span class="label label-success">{$row['ratepercent']}%</span> {if $row['disable']}<a href="{php echo $this->createweburl('fisnaward',array('id'=>$row['id'],'op'=>'disable'))}" class="label label-danger">禁</a>{else}<a href="{php echo $this->createweburl('fisnaward',array('id'=>$row['id'],'op'=>'disable'))}" class="label label-success">启</a>{/if}{if $i!=0}<a href="javascript:;" onclick="if (confirm('删除奖品后将会无法统计奖品发放，活动开始后请不要删除奖品。')){this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)}"><i class="fa fa-remove"></i></a>{/if}</div>
+        </div>
+        {php $i++}
+{/loop}
+{else}
+<div class="form-group">
+        <div class="col-md-2 type item"><select name="awards[0][type]" onchange="change(this)" class="change" class="form-control"><option value="1">普通红包</option><option value="3">积分</option><option value="5">模块优惠券</option><option value="100">未中奖</option></select></div>
+        <div class="col-md-2 name item"><input class="form-control" name="awards[0][name]" placeholder="名称"></div>
+        <div class="col-md-2 coupon item"><select name="awards[0][couponid]"><option value=0>请选择优惠券</option>
+        {loop $coupons $row}
+        <option value="{$row['id']}">{$row['name']}</option>
+        {/loop}
+        </select></div>
+        <div class="col-md-2 thumb item"><div class="input-group "><input type="text" name="awards[0][thumb]" value="" class="form-control unrequire" autocomplete="off"><span class="input-group-btn"><button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button></span></div><div class="input-group " style="margin-top:.5em;"><img src="./resource/images/nopic.jpg" onerror="this.src=./resource/images/nopic.jpg; this.title=图片未找到" class="img-responsive img-thumbnail" width="150"><em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="deleteImage(this)">×</em></div></div>
+        <div class="col-md-2 redpack item"><input class="form-control" name="awards[0][redpack]" require='number'  placeholder="金额"></div>
+
+        <div class="col-md-2 credit1 item"><input class="form-control" name="awards[0][credit1]" require='number'  value="" placeholder="积分"></div>
+        <div class="col-md-2 total item"><input   name="awards[0][total]" value="" total='total' require='number'  class="form-control total_"  type="number" placeholder="发放总数"/></div>
+        <div class="col-md-2 tokenids item"><input  name="awards[0][tokenids]"   class="form-control unrequire" value=""  placeholder="内定二维码编号" ng-modal="tokenids"/></div>
+        <div class="col-md-2"></div>
+        </div>
+{/if}
+</div>
+<div class="form-group error-tips"></div>
+<div class="form-group">
+    <label class="col-md-2 control-label" style="text-align: right;">
+    <a href="javascript:;" class="btn btn-default" id="addaward" data-index={if count($awards)>0}{php echo count($awards)}{else}1{/if} onclick="addaward(this)">奖项<i class="fa fa-plus"></i></a>
+    </label>
+</div>
+<div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+      <div class="col-sm-6 col-md-8 col-xs-12">
+      <input name="saveedit" type="submit" value="保存奖项" class="btn btn-primary"/></div>
+      </div>
+    </form>
+</div>
+    </div>
+</div>
+<script type="text/javascript">
+    act={php echo json_encode($act)};
+    totalqr={$totalqr}*{$act['fissionnum']};
+    require(['jquery'],function($){
+        $total=0;
+        $('.total_').each(function(index,elm){
+            $total+=parseInt($(elm).val())
+        })
+        $('.awardtotal').html($total);
+        $('.total_').on('keyup',function(){
+            $total=0;
+            $('.total_').each(function(index,elm){
+                $total+=parseInt($(elm).val())
+            })
+            $('.awardtotal').html($total);  
+        })
+        $('.change').each(function(){
+            change(this)
+        })
+    })
+
+    function checkform(form){
+        var total=0;
+        var validate=true
+        $(form).find('input,select').each(function(){
+                html="<div class='text-danger'>不能为空</div>"
+                if ($(this).parents('.item').css('display')!='none'){
+                    html="<div class='text-danger'>不能为空</div>"
+                    if (($(this).hasClass('unrequire')&&$(this).parent().parent().prev().prev().prev().find('select').val()==100)||($(this).parent().hasClass('tokenids')&&$(this).hasClass('unrequire'))){
+                    }else{
+                    if ($(this).val()==''||$(this).val()==0||$.trim($(this).val())==''||$(this).val()==null){
+                        if ($(this).parents('.item').find('.text-danger').size()==0){
+                           $(this).parents('.item').append(html)
+                        }
+                        validate=false;
+                    }else if($(this).attr('require')=='number'&&isNaN($(this).val())){
+                        html="<div class='text-danger'>必须为数字</div>";
+                        if ($(this).parents('.item').find('.text-danger').size()==0){
+                            $(this).parents('.item').append(html)
+                        }
+                        validate=false;
+                    }else{
+                        if ($(this).hasClass('total_')){
+                            total=total+parseInt($(this).val())
+                        }
+                        $(this).parents('.item').find('.text-danger').remove()
+                    }
+                    }
+                }
+        })
+        if (total>totalqr){
+            validate=false;
+            html="<div class='text-danger'>奖品总数已大于裂变总次数</div>";
+            if ($('.error-tips').find('.text-danger').size()==0){
+                $('.error-tips').append(html)
+            }
+        }
+        $(form).find('select').each(function(){
+            if ($(this).val()==3&&$(this).attr('name').indexOf('type')>0&&act.focusfollow==0){
+                    html="<div class='text-danger'>积分类型活动必须强制关注</div>";
+                    //alert(3)
+                    if ($('.error-tips').find('.text-danger').size()==0){
+                        $('.error-tips').append(html)
+                    }
+                    validate=false;
+                    return false;
+            }
+        })
+        
+        if (!validate){ return false }else{ return true};
+    }
+function addaward(elm){
+    var template,index;
+    require(['jquery'],function($){
+        index=$(elm).data('index')
+        template='<div class="form-group">'
+        template+='<div class="col-md-2 type item"><select name="awards['+index+'][type]" onchange="change(this)" class="form-control change"><option value="1">普通红包</option><option value="3">积分</option><option value="5">模块优惠券</option><option value="100">未中奖</option></select></div>'
+        template+='<div class="col-md-2 name item"><input class="form-control" name="awards['+index+'][name]" placeholder="名称"></div>'
+        template+='<div class="col-md-2 coupon item"><select name="awards['+index+'][couponid]"><option value=0>请选择优惠券</option>'
+        {loop $coupons $row}
+        template+='<option value="{$row['id']}">{$row['name']}</option>'
+        {/loop}
+        template+='</select></div>'
+        template+='<div class="col-md-2 thumb item"><div class="input-group "><input type="text" name="awards['+index+'][thumb]" value="" class="form-control unrequire" autocomplete="off"><span class="input-group-btn"><button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button></span></div><div class="input-group " style="margin-top:.5em;"><img src="./resource/images/nopic.jpg" onerror="this.src=./resource/images/nopic.jpg; this.title=图片未找到" class="img-responsive img-thumbnail" width="150"><em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="deleteImage(this)">×</em></div></div>'
+        template+='<div class="col-md-2 redpack item"><input class="form-control" require="number"  name="awards['+index+'][redpack]" placeholder="金额"></div>'
+        template+='<div class="col-md-2 credit1 item"><input class="form-control" require="number" name="awards['+index+'][credit1]" placeholder="积分"></div>'
+        template+='<div class="col-md-2 total item"><input  name="awards['+index+'][total]" total="" require="number" value="" class="form-control total_"  type="number" placeholder="发放总数"/></div>'
+        template+='<div class="col-md-2 item tokenids"><input  name="awards['+index+'][tokenids]" class="form-control unrequire" value=""  placeholder="内定二维码编号" ng-modal="tokenids"/></div>'
+        if ($('#awards').find('.form-group').size()>0){
+            template+='<div class="col-md-2"><a href="javascript:;" onclick="if (confirm(\'删除奖品后将会无法统计奖品发放，活动开始后请不要删除奖品。\')){this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)}"><i class="fa fa-remove"></i></a></div>'
+        }else{
+            template+='<div class="col-md-2"></div>'
+        }
+        template+='</div>'
+        $('#awards').append(template)
+        change($('#awards').find('.form-group:last-child').find('.change'))
+        $(elm).data('index',$(elm).data('index')+1)
+        //alert($(elm).data('index'));
+    })
+}
+            function showImageDialog(elm, opts, options) {
+                require(["util"], function(util){
+                    var btn = $(elm);
+                    var ipt = btn.parent().prev();
+                    var val = ipt.val();
+                    var img = ipt.parent().next().children();
+                    options = {'global':false,'class_extra':'','direct':true,'multiple':false,'fileSizeLimit':5120000};
+                    util.image(val, function(url){
+                        if(url.url){
+                            if(img.length > 0){
+                                img.get(0).src = url.url;
+                            }
+                            ipt.val(url.attachment);
+                            ipt.attr("filename",url.filename);
+                            ipt.attr("url",url.url);
+                        }
+                        if(url.media_id){
+                            if(img.length > 0){
+                                img.get(0).src = "";
+                            }
+                            ipt.val(url.media_id);
+                        }
+                    }, options);
+                });
+            }
+            function deleteImage(elm){
+                $(elm).prev().attr("src", "./resource/images/nopic.jpg");
+                $(elm).parent().prev().find("input").val("");
+            }
+function change(elm){
+     switch($(elm).val()){
+      case '1':
+               $(elm).parent().parent().find('.item').hide()
+               $(elm).parent().parent().find('.type,.name,.redpack,.total,.tokenids').show()
+      break;
+      case '3':
+               $(elm).parent().parent().find('.item').hide()
+               $(elm).parent().parent().find('.type,.name,.credit1,.total,.tokenids').show()
+      break;
+      case '4':
+               $(elm).parent().parent().find('.item').hide()
+               $(elm).parent().parent().find('.type,.name,.total,.thumb,.tokenids').show()
+      break;
+      case "5":
+               $(elm).parent().parent().find('.item').hide()
+               $(elm).parent().parent().find('.type,.name,.coupon,.total,.tokenids').show()
+      break;
+      case "100":
+               $(elm).parent().parent().find('.item').hide()
+               $(elm).parent().parent().find('.type,.name,.thumb,.total,.tokenids').show()
+      break;
+     }
+}
+</script>
+
+{template 'common/footer'}

@@ -1,0 +1,131 @@
+{template 'common/header'} 
+<ul class="nav nav-tabs">
+    <li ><a href="{php echo $this->createWebUrl('biz')}">商家管理</a></li>
+    <li class="active" ><a href="{php echo $this->createWebUrl('biz',array('op'=>'edit'))}" ><i class="fa fa-plus"></i>商家添加</a></li>
+</ul>
+<div class="clearfix">
+</div>
+<style>
+.group{display:none}
+.clear{ clear:both}
+#indstp{float: left;width: 30%}
+#indstc{float: left;width: 30%;margin-left: 20px;}
+</style>
+
+<div class="panel panel-default">
+
+<div class="panel-heading">{if !empty($id)}修改商家{else}添加商家{/if}</div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" class="form-horizontal" action="{php echo $this->createweburl('biz',array('op'=>'save'))}">
+    <div class="form-group">
+    <label for="type" class="col-md-1 control-label" style="text-align:right">商家类型</label>
+    <div class="col-md-8">
+   <select  id="indstp" name="biz[indstp]" onchange="getCity()" class="form-control">
+       <OPTION VALUE="0">请选择行业大类</OPTION>  
+    </select>
+    <select id="indstc" name="biz[indstc]" class="form-control">
+       <OPTION VALUE="0">请选择行业子类</OPTION>  
+    </select>
+    </div>
+    <div class="clear"></div>
+    </div>
+    <div class="form-group">
+        <label for="biz[title]" class="col-md-1 control-label">商家名称</label>
+        <div class="col-md-3"><input type="text" name="biz[name]" value="{$biz['name']}" class="form-control"   placeholder=""/></div>
+    </div>
+<div class="form-group">
+<label for="biz[logo]" class="col-md-1 control-label">logo</label>
+        <div class="col-md-8">{php echo tpl_form_field_image('biz[logo]',$biz['logo'],'',array('global'=>false))}
+        <span class="help-block"><strong class="text-danger"></strong></span></div> 
+</div>
+<div class="form-group">
+    <label for="biz[thumb]" class="col-md-1 control-label">顶部横幅banner</label>
+        <div class="col-md-8">{php echo tpl_form_field_image('biz[thumb]',$biz['thumb'],'',array('global'=>false))}
+        <span class="help-block"><strong class="text-danger"></strong></span></div> 
+</div>
+<div class="form-group">
+    <label for="biz[thumb]" class="col-md-1 control-label">商家缩略图</label>
+        <div class="col-md-8">{php echo tpl_form_field_multi_image('biz[thumbs]',$biz['thumbs'])}
+        <span class="help-block"><strong class="text-danger"></strong></span>
+</div> 
+</div>
+<div class="form-group">
+        <label for="biz[title]" class="col-md-1 control-label">营业时间</label>
+        <div class="col-md-3"><input type="text" name="biz[biz_hours]" value="{$biz['biz_hours']}" class="form-control"   placeholder=""/>
+        <span class="help-block"></span></div>
+    </div>
+    <div class="form-group">
+        <label for="sum" class="col-md-1 control-label">电话</label>
+        <div class=" col-md-2"><input type="text" name="biz[phone]" value="{$biz['phone']}" class="form-control"   placeholder=""/><span class="help-block"></span></div>
+    </div>
+    <div class="form-group">
+    <label for="biz[rate]" class="col-md-1 control-label">地址</label>
+        <div class="col-md-11" id=app3><input type="text" name="biz[address]" value="{$biz['address']}" class="form-control" placeholder=""/>
+        <span class="help-block"></span></div>
+    </div>
+    <div class="form-group"><label for="biz" class="col-md-1 control-label">商家位置</label>
+        <div class="col-md-8 ">{php echo tpl_form_field_coordinate('biz',array('lng'=>$biz['lng'],'lat'=>$biz['lat']))}<span class="help-block">请选择坐标</span></div>
+    
+    </div>
+    <div class="form-group"><label for="biz[verifpwd]" class="col-md-1 control-label">核销方式</label>
+        <div class="col-md-11">
+            <label class="checkbox-inline"><input name="biz[veriftype]" type="radio" value="2" checked="checked" />扫码</label>
+    <span class="help-block"></span></div>
+    </div>
+    <div class="form-group"><label for="biz[rate]" class="col-md-1 control-label">商家简介</label>
+        <div class="col-md-11" id=app3><input name="biz[description]" class="form-control" value="{$biz['description']}"/>
+    <span class="help-block"></span></div>
+    </div>
+    <div class="form-group" ><label for="do-submit" class="col-xs-12 col-sm-3 col-md-1 control-label"></label>
+ 	  <div class="col-sm-6 col-md-8 col-xs-12">
+      <input name="biz[id]" type="hidden" value="{$biz['id']}" />
+      <input name="saveedit" type="submit" value="保存商家" class="btn btn-primary"/></div>
+	</div>
+    </form>
+</div>
+    </div>
+</div>
+<script type="text/javascript">
+indstp={php echo json_encode($_M['indstp'])};
+indstc={php echo json_encode($_M['indstc'])};
+indstp_={if $biz['indstp']}{$biz['indstp']}{else}0{/if};
+indstc_={if $biz['indstc']}{$biz['indstc']}{else}0{/if};
+function getCity(){
+     //获得省份下拉框的对象  
+     var indstpelm=document.form1.indstp;  
+     //获得城市下拉框的对象  
+     var indstcelm=document.form1.indstc;       
+     //得到对应省份的城市数组  
+     //alert(indstpelm.options[indstpelm.selectedIndex].value)
+     var pindstc=indstc[indstpelm.options[indstpelm.selectedIndex].value];
+     //清空城市下拉框，仅留提示选项  
+     indstcelm.length=1;
+     //将城市数组中的值填充到城市下拉框中  
+     for(a in pindstc){ 
+       a=parseInt(a)
+       indstcelm[a]=new Option(pindstc[a],a);  
+     }  
+}
+window.onload=function(){
+    var indstpelm=document.form1.indstp; 
+    for(a in indstp){
+       a=parseInt(a);
+       indstpelm[a]=new Option(indstp[a],a);  
+       if (indstp_==a)indstpelm[a].selected=true
+
+    }
+    if (indstc_){
+         var indstcelm=document.form1.indstc;
+         var pindstc=indstc[indstpelm.options[indstpelm.selectedIndex].value];
+         indstcelm.length=1;
+         //将城市数组中的值填充到城市下拉框中  
+         for(a in pindstc){ 
+           a=parseInt(a)
+           indstcelm[a]=new Option(pindstc[a],a);  
+           if (indstc_==a)indstcelm[a].selected=true
+         }  
+    }
+}
+</script>
+{template 'common/footer'}

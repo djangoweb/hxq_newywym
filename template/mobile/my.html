@@ -1,0 +1,172 @@
+{template 'header'}
+<style>
+body{ background: #f5f5f5 }
+.top{ text-align: center; padding-bottom:0.1px;padding-top:0.1px;background:-webkit-gradient(linear,center top,center bottom,from(#c54661),to(#c55f46)); background-size:100% 100%; }
+.top>.avatar{float:left;margin-top: 40px;margin-bottom: 40px;border-radius:50%;margin-left:30px;height: 30px ;border-radius: 50%;}
+.top>.name{text-align:left;margin-left: 70px;margin-top: 40px;margin-bottom: 40px;color:#fff;line-height: 30px; font-size: 1.4rem;padding-left:20px; }
+.btm{position: fixed;display:flex; height: 45px;bottom:0px;width: 100% }
+.btm>div{flex:1; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 50px}
+.icon{  background:url({MODULE_URL}images/icon.png); width:16px; height: 16px; background-size: 100%;margin:5px auto 0 auto; display:block;}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+.iconhome{ background-position:0px 0px;}
+.iconmp{ background-position:0px -144px;}
+.iconawarded{ background-position:0px -64px;}
+.iconmy{ background-position:0px -96px;}
+.iconhome_{ background-position:0px -16px;}
+.iconmp_{ background-position:0px -48px;}
+.iconawarded_{ background-position:0px -80px;}
+.iconmy_{ background-position:0px -112px;}
+.iconscan{ background-position:0px -128px;}
+.gradbox{ margin:0px 1px 0px 1px; padding: 0px;}
+.gradbox>.grad{display: block;width: 50%;list-style: none;float: left; text-align: center;box-sizing: border-box; text-align: center; padding:0px;background: #fff;position: relative; }
+.gradbox>.grad:nth-child(2n+0):before{position: absolute;height: 60%;top:20%;left:0px;width: 1px;background:rgba(200,200,200,0.8);content:"";}
+.gradbox>.grad>.inlinename{display: inline-block;height:72px;line-height: 36px; background: #f44040;color:#fff;font-size:16px;width: 100%}
+.gradbox>.grad>.inlinename>.name{ margin: 15px auto;line-height: 21px; }
+.gradbox>.grad>.inlinename>.credit1{line-height: 42px;}
+.gradbox>.grad>a.inlinebox{display: inline-block;height:72px;}
+.gradbox>.grad>a.inlinebox>.hasicon{height:72px;padding: 5px 0px; float: left; ;margin-left :10px;text-align: center;font-size: 1.2rem;color:#5f5f5f;}
+.gradbox>.grad>a.inlinebox>.noicon{height:72px;padding: 5px 0px; float:left;margin-left :10px;text-align: center;font-size: 1.2rem;color:#5f5f5f;}
+.gradbox>.grad>a.inlinebox>div>.data{line-height: 20px;display: block;width: 100%; text-align: center;font-size: 1.4rem;color:#5f5f5f;}
+.gradbox>.grad>a.inlinebox>div>.name{line-height: 20px;display: block;width: 100%; text-align: center;font-size: 1.2rem;color:#5f5f5f;}
+.gradbox>.grad>a.inlinebox>div>.data_{line-height: 20px;padding:5px 0px;display: block;width: 100%; text-align: center;font-size: 1.4rem;color:#5f5f5f;}
+.gradbox>.grad>a.inlinebox>div>.name_{line-height: 20px;padding:5px 0px;display: block;width: 100%; text-align: center;font-size: 1.2rem;color:#5f5f5f;}
+.gradbox>.grad>a.inlinebox>div>.name__{line-height: 60px;display: block;width: 100%; text-align: center;font-size: 1.2rem;color:#5f5f5f;}
+.data.success{ color:green !important;}
+.data.danger{ color:red !important;}
+.data_.success{ color:green !important;}
+.data_.danger{ color:#c8504b !important;}
+.iconcash{float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -20px; }
+.iconrp{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 0px; }
+.iconzp{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -40px; }
+.iconjf{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -60px; }
+.icongcash{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -80px; }
+.iconhelp{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -100px; }
+.icongrp{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -96px; }
+.iconcoupon{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -160px; }
+.icongift{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -180px; }
+.iconmd{ float: left;width:15px ; height:15px; margin:10px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -165px; }
+.icondt{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -150px; }
+.iconact{ float: left;width:20px ; height:20px; margin:26px 0px; background: url('{MODULE_URL}images/iconmy.png?{TIMESTAMP}'); background-size:100%; background-position: 0 -240px; }
+i{ width: 2.2rem; height: 2.2rem; display: inline-block;  background-size: 30rem !important;}
+.grad1{background: url('{MODULE_URL}images/iconbg.png');  background-position:-0.2rem -0.4rem;    }
+.grad2{  background: url('{MODULE_URL}images/iconbg.png');  background-position:-2.4rem -0.4rem;   }
+.grad3{ background: url('{MODULE_URL}images/iconbg.png');  background-position:-4.8rem -0.4rem;   }
+.grad4{  background: url('{MODULE_URL}images/iconbg.png');  background-position:-7.2rem -0.4rem;   }
+a.smbtn:link{line-height:16px;display:inline-block; text-align: center;font-size: 1.2rem;min-width:60px; padding:2px; }
+a.smbtn:hover{line-height:16px;display:inline-block; text-align: center;font-size: 1.2rem;min-width:60px; padding:2px;}
+a.smbtn:visited{line-height:16px;display:inline-block; text-align: center;font-size: 1.2rem;min-width:60px; padding:2px;}
+.smbtn{line-height:16px;display:inline-block; text-align: center;font-size: 1.2rem;min-width:60px; padding:2px;}
+.smbtn.danger{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.disable{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.danger:link{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.danger:hover{ background:#f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.danger:visited{ background:#f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.disable:link{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.disable:hover{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+.smbtn.disable:visited{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px; }
+a.smlink:link{text-decoration: none;display:inline-block;min-width:60px;height:22px;line-height:18px;padding:2px;color:#5f5f5f;}
+a.smlink:hover{text-decoration: none;display:inline-block;min-width:60px;height:22px;line-height:18px;padding:2px;color:#5f5f5f;}
+a.smlink:visited{text-decoration: none;display:inline-block;min-width:60px;height:22px;line-height:18px;padding:2px;color:#5f5f5f;}
+</style>
+<script type="text/javascript">
+var dscanwarning={$act['dscanwarning']};
+var tk='{$_GPC['tk']}';
+{if !empty($act['districtarr'])}
+var districtarr={php echo json_encode($act['districtarr'])};
+{/if}
+var strDistrict='{$act['strDistrict']}';
+var rptype={$act['rptype']};
+var granttype={$act['granttype']};
+var scanid={if $_M['scanid']}{$_M['scanid']}{else}0{/if};
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+</script>
+<div class="top">
+<img class="avatar" src="{if $fan['avatar']}{$fan['avatar']}{elseif $_W['fans']['tag']['avatar']}{$_W['fans']['tag']['avatar']}{else}{MODULE_URL}/images/noavatar.png{/if}" width=30 height=30>
+<div class="name">{if $fan}{if $fan['nickname']}{$fan['nickname']}{elseif $_W['fans']['nickname']}{$_W['fans']['nickname']}{else}匿名{/if}{else}游客 未参与{/if}</div>
+</div>
+</div>
+<ul class=gradbox>
+{if !in_array('rp',$act['mycloselinks'])}
+<li class="grad"><a class="inlinebox" href="{php echo $this->createmobileurl('awardedrcd',array('actid'=>$act['id'],'type'=>1))}"><span class="iconcash"></span><div class=hasicon><span class="data_ danger">{$rp['ytx']}元</span><span class=name_>已领红包</span></div></a></li><!-- 
+<li class="grad"><a class="inlinebox" href="{php echo $this->createmobileurl('awardedrcd',array('actid'=>$act['id'],'type'=>1,'type_'=>'wtx'))}"><span class="iconrp"></span><div class=hasicon><span class="data_ success">{$rp['wtx']}元</span><span class=name_>未领红包</span></div></a></li> -->
+{/if}
+{if !in_array('coupon',$act['mycloselinks'])}
+<li class="grad"><a class="inlinebox" href="{php echo $this->createmobileurl('awardedrcd',array('actid'=>$act['id'],'type'=>'coupon'))}"><span class="iconcoupon"></span><div class=hasicon><span class="data_ danger">{php echo $totalcoupon}</span><span class=name_>优惠券</span></div></a></li>
+{/if}
+{if !in_array('sw',$act['mycloselinks'])}
+<li class="grad"><a class="inlinebox" href="{php echo $this->createmobileurl('awardedrcd',array('actid'=>$act['id'],'type'=>4))}"><span class="icongift"></span><div class=hasicon><span class="data_ danger">{php echo $totalsw}</span><span class=name_>礼品</span></div></a></li>
+{/if}
+{if !in_array('jf',$act['mycloselinks'])}
+<li class="grad"><a class="inlinebox" href="{php echo $this->createmobileurl('awardedrcd',array('actid'=>$act['id'],'type'=>3))}"><span class="iconjf"></span><div class=hasicon><span class="data_ danger">{php echo $credit1}</span><span class=name_>积分</span></div></a></li>
+{/if}
+{if !in_array('act',$act['mycloselinks'])}
+<li class="grad"><a class="inlinebox" href="{php echo $this->createmobileurl('index',array('actid'=>$act['id']))}"><span class="iconact"></span><div class=hasicon><span class=name__>活动详情</span></div></a></li>
+{/if}<!-- 
+{if !in_array('sm',$act['mycloselinks'])}
+<li class="grad" style="border-bottom: none"><a class="inlinebox" href="{php echo $this->createmobileurl('content',array('actid'=>$act['id']))}"><span class="iconhelp"></span><div class=hasicon><span class="name__">活动说明</span></div></a></li>
+{/if} -->
+<div class="clearfix"></div>
+</ul>
+<style type="text/css">
+.shop{margin:10px 1px 10px 1px;padding:1px 0px;background: #fff}
+.shop_body{width: 95%;margin: auto}
+.shop_banner{line-height: 35px;height: 35px;text-align: center;border-bottom:1px solid #ccc }
+.shop_banner_{font-size: 1.4rem;display: inline-block;  }
+.shop_banner__{font-size: 1.4rem;float: left;margin-left: 10px;line-height: 35px ;font-weight: bolder; }
+.shop_title{font-size: 1.4rem;color: #000;line-height: 30px;}
+.shop_desc{ color:#ccc;font-size: 1.4rem ;line-height:15px;height: 15px}
+.shop_head{margin: 10px auto}
+.shop_pic{margin: -5px auto 10px auto;}
+.line{height: 1px;background: #ccc}
+.shop_footer{ line-height: 40px;}
+</style>
+<ul class="shop" onclick="location.href='{php echo $this->createmobileurl('biz',array('id'=>$biz['id'],'op'=>'detail'))}'">
+	<div class="shop_banner"><div class="shop_banner_"><span class="iconmd"></span><span class="shop_banner__">门店印象</span></div></div>
+	<div class="shop_body">
+	<div class="shop_head">
+		<div class="shop_title">{$biz['name']}</div>
+		<div class="shop_desc">{$biz['description']} {if $biz['hascoupon']}<span class="icon_quan">券</span>{/if}</div>
+	</div>
+	<div class="shop_pic"><img src="{php echo $_W['attachurl'].$biz['thumb']}" width="100%" height="100"></div>
+	</div>
+</ul>
+<ul class=""></ul>
+<!-- 
+<div class="wxtips" style="">
+由于微信支付对现金红包的限制，1元以下的红包将累计至1元以上提取。<br>
+*如您已关注{$_W['account']['name']}公众号在公众号窗口领取提现的红包，未关注则通过微信官方服务通知来领取提现的红包。<br>
+*微信红包规定，超过72小时未拆红包将收回，请及时拆红包。<br>
+</div> -->
+<!-- 
+<ul class="awardbox">
+<div class="atop"><img src="{MODULE_URL}images/dh2.png" width=100%></div>
+{loop $myawardeds $row}
+<div class="row">
+<div class="thumb"><img src="{php echo $row['thumb']}" /></div>
+<div class="right"><div class="date">{php echo date('Y',$row['addtime'])}<br>{php echo date('m-d',$row['addtime'])}</div><div class="detail">微信红包{$row['redpack']}元 {if !$row['isgrant']}未发送，已保存到红包金{else}已发送{/if}</div>
+</div>
+<div class="clearfix"></div>
+</div>
+{/loop}
+</ul> --><!-- 
+<div class="h35"></div>
+<div class="btm">
+{loop $menus $m}
+{if !$m['disable']}
+<div class=""><a class=btmlink {if $m['type']=='url'}href="{php echo tag_replace($m['action'])}"{else}href='javascript:;' onclick="{$m['action']}"{/if}><div {if strpos($m['icon'],'icon')!==false}class="{$m['icon']}"{else}class="icon" style="background:url({php echo $_W['attachurl'].$m['icon']}) ; background-size: 100% 100%;" {/if}" ></div><div class="text">{$m['name']}</div></a></div>
+{/if}
+{/loop}
+</div> -->
+<div id="followlayer" class="layercontent">
+<span class="close_ close" data-target='fanallayer'>×</span>
+<div class="body">
+<div><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div class="message" style="text-align: center;font-size: 1.4rem">{$_W['account']['name']}<br>长按识别二维码了解更多</div>
+</div>
+</div>
+{template 'footer'}

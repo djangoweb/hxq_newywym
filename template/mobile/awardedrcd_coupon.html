@@ -1,0 +1,107 @@
+{template 'header'}
+<style>
+.top{ text-align: center; padding-bottom:0.1px;padding-top:0.1px;background:-webkit-gradient(linear,center top,center bottom,from(#c54661),to(#c55f46)); background-size:100% 100%; font-size:0;position: relative;}
+.top-thumbs{display: block;}
+.top-detail{margin:0px ;background: #fff;}
+.top-detail-logo{text-align:center;position: absolute;left: 5px;bottom:0px;width: 50px;height: 50px;}
+.top-detail-logo img{ border: 2px solid #fff;width: 100%;height: 100% }
+.coupon-header{height: 30px;line-height:30px;margin:15px 13px 10px 13px;font-size: 1.4rem;text-align: left;}
+.coupon-list{margin:10px 13px;padding: 1px 0px;}
+.row{position: relative;margin: 10px auto}
+.row:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 1px; background: #ebebeb }
+.row:last-child:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 0px; background: #ebebeb }
+.row-date{float:right;height: 30px; line-height: 30px; width: 80px;}
+.row-detail{ text-align: left;margin-right: 65px;}
+.row-detail-title{ text-align: left;  line-height: 25px;font-size:1.4rem;color:#cf3e36;}
+.row-detail-date{ text-align: left;  line-height: 25px;font-size:1.2rem;color:#cccccc; }
+.row-price{text-align:center;height:50px; padding-top:15px; width:20%;display: inline-block;float: left;color:red;}
+.row-detail-btn{height: 48px;padding-top:14px;float:right;width: 60px}
+.row-detail-btn-{height: 72px;padding-top: 26px;float: right;width: 60px}
+.progress{height: 24px;line-height: 24px;}
+progress::-webkit-progress-inner-element { border-radius: 4px; }
+progress::-webkit-progress-value { border-radius: 4px;background: #cf3e36}
+progress::-webkit-progress-bar { border-radius: 4px; background:rgba(207,62,54,0.6)} 
+.progress-ts{line-height: 24px;margin-left: 5px;color:#cf3e36;}
+.progress-date{line-height: 24px;color:#cccccc;}
+.smbtn{line-height:16px;display:inline-block; text-align: center;font-size: 1.2rem;min-width:60px; padding:2px;}
+.smbtn.danger{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px;}
+.smbtn.disable{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px;}
+.smbtn.danger:link{ background: #f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px;}
+.smbtn.danger:visited{ background:#f44040;border: red;color:#fff;border:red solid 1px;line-height:14px;border-radius: 10px;}
+.smbtn.disable:link{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px;}
+.smbtn.disable:visited{ background:#ccc;border: #ccc;color:#fff;border:#ccc solid 1px;line-height:14px;border-radius: 10px;}
+.smbtn.warning{ background:orange;border: #ccc;color:#fff;border:orange solid 1px;line-height:14px;border-radius: 10px;}
+.smbtn.warning:link{ background:orange;border:orange;color:#fff;border:orange solid 1px;line-height:14px;border-radius: 10px;}
+.smbtn.warning:visited{ background:orange;border: orange;color:#fff;border:orange solid 1px;line-height:14px;border-radius: 10px;}
+
+.newcoupon {margin: 20px auto;position: relative;}
+.newcoupon:after{content:' '; position: absolute; bottom: -10px; width: 100%;height: 1px; background: #ebebeb }
+.newcoupon:last-child:after{content:' '; position: absolute; bottom: -5px; width: 100%;height: 0px; background: #ebebeb }
+.newcoupon-row{text-align:left;color: #ccc;font-size: 1.2rem;line-height: 20px;margin-top: 10px;}
+.newcoupon-row-heads-img{margin-right:5px;border-radius: 50%; vertical-align: middle;position: relative;}
+.newcoupon-row-more{text-align: center;color: #aaa;font-size: 1.2rem;line-height: 30px;margin: 10px auto}
+.newcoupon-row-list{display: none}
+.newcoupon-row-list-list{color:#aaa;font-size: 1.2rem}
+.newcoupon-row-list-list-date{float: right;width: 100px;line-height: 30px;color: #aaa}
+</style>
+<script type="text/javascript">
+</script>
+<div class="nav"><div class="back"><a href="{php echo $this->createmobileurl('biz',array('cateid'=>$cate['id'],'op'=>'detail'))}"></a></div></div>
+<div class="top"><a href="javascript:;" class="top-thumbs"><img src="{$_W[attachurl]}{$biz['thumb']}" width="100%" height="150"></a><div class="top-detail-logo"><img src="{$_W[attachurl]}{$biz['logo']}" width="50" height="50"></div></div>
+<div class="coupon-header"><i class="icon-quan icon-inlineblock"></i> <span style="display: inline-block;line-height: 30px;height: 30px;">可用优惠券<span class="text-red">{$total}</span>张</span></div>
+<div class="coupon-list">
+{loop $mycoupons $item_}
+{php $item=$item_['coupon']}
+{if $item_['come']==1}
+<div class="newcoupon newcoupon{$item['style']}">
+  <div class="newcoupon-row1">
+    <div class="newcoupon-row1-l"><div class="newcoupon-row1-1-1">{$item['value']}</div><div class="newcoupon-row1-1-2">{$_M['coupontypes'][$item['type']]}</div></div><div class="newcoupon-row1-r">{if $item_['veriftime']}<a class="newcoupon-row1-r-btndisable" href="javascript:;"  data-id="{$item_['id']}">已使用</a>{else}<a class="newcoupon-row1-r-btn"  href="{php echo $this->createmobileurl('coupon',array('op'=>'displayverif','id'=>$item_['id'],'cateid'=>$cate['id']))}"  data-id="{$item_['id']}">使用</a>{/if}</div>
+    <div class="newcoupon-row1-c"><div class="newcoupon-row1-c-1">{$item['name']}</div><div class="newcoupon-row1-c-2">有效期{php echo date('Y-m-d',$item['starttime'])}至{php echo date('Y-m-d',$item['endtime'])}</div></div></div>
+    <div class="newcoupon-row2">
+    <div class="newcoupon-row2-l"><img src="{MODULE_URL}images/cl_{$item['style']}.png?{TIMESTAMP}" width="100%"></div><div class="newcoupon-row2-r"><img src="{MODULE_URL}images/cr_{$item['style']}.png?{TIMESTAMP}" width="100%"></div>
+    <div class="newcoupon-row2-c"><div class="newcoupon-row2-c-1"></div><div class="newcoupon-row2-c-2"></div></div></div>
+  <div class="newcoupon-row3">{$item['requirement']} 到店扫描商家二维码打开此页面，点击使用即可兑换</div>
+{if $act['plusability']==2}
+<div class="newcoupon-row">{if $item_['child']}{loop $item_['child'] $cld}<img src="{if $cld['avatar']}{$cld['avatar']}{else}{MODULE_URL}images/noavatar.png{/if}" class="newcoupon-row-heads-img" width="20" height="20">{/loop} 等人领取您的分享{else}暂时还没有好友领取您的分享{/if}</div>
+{if $item_['child_']}
+<div class="newcoupon-row-more">查看详细</div>
+<div class="newcoupon-row-list">{loop $item_['child_'] $cld}<div class="newcoupon-row-list-list"><div class="newcoupon-row-list-list-date">{php  echo date('m-d H:i:s',$cld['addtime'])}</div><img src="{if $cld['avatar']}{$cld['avatar']}{else}{MODULE_URL}images/noavatar.png{/if}" class="newcoupon-row-heads-img" width="20" height="20"> {if $cld['nickname']}{$cld['nickname']}{else}{php echo cutstr($cld['oauth_openid'],10)}{/if}通过您的分享领取了 {if $cld['type']==1}<span class="text-normal">{$cld['redpack']}</span>元{elseif $cld['type']==5}{$coupons[$cld['couponid']]['value']} {$_M['coupontypes'][$coupons[$cld['couponid']]['type']]}{/if}<div class="clearfix"></div></div>{/loop}</div>
+{/if}
+{/if}
+</div>
+
+{elseif $item_['come']==3}
+<div class="newcoupon newcoupon{$item['style']}">
+  <div class="newcoupon-row1">
+    <div class="newcoupon-row1-l"><div class="newcoupon-row1-1-1">{$item['value']}</div><div class="newcoupon-row1-1-2">{$_M['coupontypes'][$item['type']]}</div></div><div class="newcoupon-row1-r">{if $item_['veriftime']}<a class="newcoupon-row1-r-btndisable" href="javascript:;"  data-id="{$item_['id']}">已使用</a>{else}<a class="newcoupon-row1-r-btn"  href="{php echo $this->createmobileurl('coupon',array('op'=>'displayverif','id'=>$item_['id'],'cateid'=>$cate['id']))}"  data-id="{$item_['id']}">使用</a>{/if}</div>
+    <div class="newcoupon-row1-c"><div class="newcoupon-row1-c-1">{$item['name']}</div><div class="newcoupon-row1-c-2">有效期{php echo date('Y-m-d',$item['starttime'])}至{php echo date('Y-m-d',$item['endtime'])}</div></div></div>
+    <div class="newcoupon-row2">
+    <div class="newcoupon-row2-l"><img src="{MODULE_URL}images/cl_{$item['style']}.png?{TIMESTAMP}" width="100%"></div><div class="newcoupon-row2-r"><img src="{MODULE_URL}images/cr_{$item['style']}.png?{TIMESTAMP}" width="100%"></div>
+    <div class="newcoupon-row2-c"><div class="newcoupon-row2-c-1"></div><div class="newcoupon-row2-c-2"></div></div></div>
+  <div class="newcoupon-row3">{$item['requirement']} 到店扫描商家二维码打开此页面，点击使用即可兑换</div>
+  <div class="newcoupon-row">
+	来自{if $item_['parent']['nickname']}{$item_['parent']['nickname']}{else}{php echo cutstr($item_['parent']['oauth_openid'],10)}{/if}分享给您的优惠券
+  </div></div>
+  {else}
+<div class="newcoupon newcoupon{$item['style']}">
+  <div class="newcoupon-row1">
+    <div class="newcoupon-row1-l"><div class="newcoupon-row1-1-1">{$item['value']}</div><div class="newcoupon-row1-1-2">{$_M['coupontypes'][$item['type']]}</div></div><div class="newcoupon-row1-r">{if $item_['veriftime']}<a class="newcoupon-row1-r-btndisable" href="javascript:;"  data-id="{$item_['id']}">已使用</a>{else}<a class="newcoupon-row1-r-btn"  href="{php echo $this->createmobileurl('coupon',array('op'=>'displayverif','id'=>$item_['id'],'cateid'=>$cate['id']))}"  data-id="{$item_['id']}">使用</a>{/if}</div>
+    <div class="newcoupon-row1-c"><div class="newcoupon-row1-c-1">{$item['name']}</div><div class="newcoupon-row1-c-2">有效期{php echo date('Y-m-d',$item['starttime'])}至{php echo date('Y-m-d',$item['endtime'])}</div></div></div>
+    <div class="newcoupon-row2">
+    <div class="newcoupon-row2-l"><img src="{MODULE_URL}images/cl_{$item['style']}.png?{TIMESTAMP}" width="100%"></div><div class="newcoupon-row2-r"><img src="{MODULE_URL}images/cr_{$item['style']}.png?{TIMESTAMP}" width="100%"></div>
+    <div class="newcoupon-row2-c"><div class="newcoupon-row2-c-1"></div><div class="newcoupon-row2-c-2"></div></div></div>
+  <div class="newcoupon-row3">{$item['requirement']} 到店扫描商家二维码打开此页面，点击使用即可兑换</div></div>
+{/if}
+{/loop}
+</div>
+<div style="text-align:center;line-height:50px;">没有更多券了 | <a href="{php echo $this->createmobileurl('awardedrcd',array('cateid'=>$cate['id'],'type'=>'coupon','type_'=>'unuse'))}" class="blue">查看已失效券</a></div>
+<div id="timeoutlayer" class="layercontent"><div class="message"></div></div>
+
+<script type="text/javascript">
+	require(['jquery'],function(){
+		$('.newcoupon-row-more').on('click',function(){
+			$(this).next().toggle()
+		})
+	})
+</script>
+{template 'footer'}

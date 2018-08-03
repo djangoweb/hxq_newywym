@@ -1,0 +1,56 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo $this->createWebUrl('nav')}">导航管理</a></li>
+</ul>
+<style>
+.table tr td{ vertical-align:top !important;; }
+</style>
+<pre>提示：无法修改首页、我，可自由修改扫码、公众号 两项。</pre>
+
+<div class="panel panel-default">
+<div class="panel-heading">修改导航</div>
+<div class="clearfix"></div>
+<div class="panel panel-body">
+<form id="form1" name="form1" method="post" class="form-horizontal" action="{php echo $this->createweburl('nav',array('op'=>'savenav'))}">
+   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="80" align="center">排序(从大到小)</th>
+    <th width="80" align="center">禁用</th>
+    <th width="" align="center">icon(默认使用css，如需自定义请上传图片)</th>
+    <th width="100" align="center">菜单名称</th>
+    <th width="150" align="center">类型</th>
+    <th width="300" align="center">链接或js代码<br></th>
+    </tr>
+    {loop $menus $k=>$item}
+    <tr>
+    <td valign="top"><input type="text" name="navs[{$k}][sort]" value="{$item['sort']}" class="form-control"   placeholder=""/></td>
+    <td valign="top"><input type="checkbox" name="navs[{$k}][disable]" value="1" {if $item['disable']}checked=checked{/if}class="form-control"   placeholder=""/></td>
+  <td valign="top">{if $k==0||$k==3}{/if}{php echo tpl_form_field_image('navs['.$k.'][icon]',$item['icon'],array())}</td>
+  <td valign=""><input {if $k==0||$k==3}readonly=readonly{/if} type="text" name="navs[{$k}][name]" value="{$item['name']}" class="form-control"   placeholder=""/></td>
+  <td valign="">
+        <label class="radio-inline"><input {if $k==0||$k==3}onclick="return false"{/if} name="navs[{$k}][type]" {if $item['type']=='url'}checked=checked{/if} type="radio" value="url"/>链接</label>
+        <label class="radio-inline"><input {if $k==0||$k==3}onclick="return false"{/if} name="navs[{$k}][type]" {if $item['type']=='js'}checked=checked{/if} type="radio" value="js"/>js</label></td>
+  <td valign=""><input type="text" {if $k==0||$k==3}readonly=readonly{/if} name="navs[{$k}][action]" value="{$item['action']}" class="form-control"   placeholder=""/></td>
+      </tr>
+      {/loop}
+    </table>
+<script>
+$(function(){
+$("input[name='navs[0][icon]']").attr('readonly',true);
+})
+</script>
+     <div class="form-group" >
+
+      <div class="col-sm-6 col-md-12 col-xs-12">
+
+      <input name="token" type="hidden" value="{$_W['token']}" />
+
+      <input name="savenav" type="submit" value="保存奖项" class="btn btn-primary"/></div>
+
+      </div>
+</div>
+</form>
+</div>
+</div>
+{template 'common/footer'}

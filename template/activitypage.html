@@ -1,0 +1,298 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+
+	<li><a href="{php echo $this->createWebUrl('activity')}">管理管理活动</a></li> 
+
+    <li class="active"><a href="{php echo $this->createWebUrl('activitypage',array('id'=>$act['id'],'op'=>'page'))}">修改页面</a></li> 
+
+</ul>
+
+<div class="clearfix">
+
+</div><style>
+
+.sharenum{ display:none}
+
+.clear{ clear:both}
+.fileup{width: 100px;height:100px;position:relative;display: inline-block;background: #ebebeb}
+.fileup a{padding:38px 0;line-height: 60px;font-size: 20px;line-height: 20px;text-align:center;color: #fff;background-position:center center; width:100% ;height:100%;background-repeat:no-repeat; display: block; }
+.fileup input[type=file]{position: absolute;top:0px;right:0px;width: 100%;height: 100%;cursor: pointer;opacity: 0;}
+.iconfont{font-size:64px;line-height:20px;color:#fff;}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">通用页面设置</div>
+<div class="panel-body">
+<div class="col-md-8">
+<form id="event_form" name="event_form" method="post" class="" action="{$_W['siteurl']}">
+    <div class="form-group form-required" >
+    <label for="do-submit">主题图</label>
+    <div style="margin-top:20px;">
+    <div class="fileup btn-fileup">
+          <a href="javascript:;" data-toggle="" class="iconfont icon-iconadd have-img" data-view="" style="background-size:100% 100%;background-image:url('{php echo $_W['attachurl'].$act['page']['banner']}')" onclick="showImageDialog(this)"><i class="glyphicon glyphicon-plus"></i></a>
+          <input type="hidden" name="page[banner]" id="page_banner_image" value="{$act['page']['banner']}">
+        </div>
+    </div>
+    </div>
+    <div class="form-group form-required">
+    <label for="do-submit">LOGO图</label>
+    <div style="margin-top:20px;">
+    <div class="fileup btn-fileup">
+          <a href="javascript:;" data-toggle="" class="iconfont icon-iconadd have-img" data-view="" style="background-size:100% 100%;background-image:url('{php echo $_W['attachurl'].$act['page']['logo']}')"  onclick="showImageDialog(this)"><i class="glyphicon glyphicon-plus"></i></a>
+          <input type="hidden" name="page[logo]" id="page_logo_image" value="{$act['page']['logo']}">
+        </div>
+    </div>
+    </div>
+    <div class="form-group form-required">
+    <label for="do-submit">主标题</label>
+    <input style="margin-top:20px;" class="form-control" type="text" value="{$act['page']['title']}" name="page[title]">
+    </div>
+  <div class="form-group">
+      <label for="do-submit" >副标题</label>
+      <input style="margin-top:20px;" class="form-control" value="{$act['page']['subtitle']}" name="page[subtitle]">
+      </div>
+   <div class="form-group input-box form-required" >
+      <label for="do-submit" >活动详情</label>
+      <div class="form-group J-box" style="border:1px #ebebeb solid;  border-radius:5px;margin-top:20px;padding:20px 0">
+      {if empty($act['page']['desc'])||!is_array($act['page']['desc'])}
+          <div class="form-group S-box"><div class="col-md-9">
+          <input class="form-control" type=hidden value="text" name="page[desc][0][type]">
+          <textarea class="form-control" row=5 value="" name="page[desc][0][value]"></textarea>
+          </div>
+          <div class="col-md-3"><a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> <a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a></div>
+          </div>
+      {else}
+        {loop $act['page']['desc'] $key $item}
+        {if $item['value']}
+          {if $item['type']=='text'}
+          <div class="form-group S-box"><div class="col-md-9">
+          <input class="form-control" type=hidden value="text" name="page[desc][{$key}][type]">
+          <textarea class="form-control" row=5 value="" name="page[desc][{$key}][value]">{$item['value']}</textarea>
+          </div>
+          <div class="col-md-3"><a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> <a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a></div>
+          </div>
+          {else}
+          <div class="form-group S-box"><div class="col-md-4"><div class="fileup btn-fileup"><a href="javascript:;" data-toggle="bg" style="background-size:100% 100%;background-image:url('{php echo $_W['attachurl'].$item['value']}')" onclick="showImageDialog(this)"><i class="glyphicon glyphicon-picture"></i></a><input type="hidden" name="page[desc][{$key}][value]" value="{$item['value']}"><input type="hidden" name="page[desc][{$key}][type]" value="image"></div></div><div class="col-md-4" style="display:inline-block"><a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> <a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a></div></div>
+          {/if} 
+          {/if}
+        {/loop}
+      {/if}
+      </div>
+   </div>
+   <div class="form-group "></div>
+   {php krsort($act['page']['desc'])}
+   {php reset($act['page']['desc'])}
+
+   {php $k=key($act['page']['desc']);$k++;}
+   <div class="form-group"><div class="col-md-6 J-add" id="add_text" data-type="text" data-index="{if $act['page']&&is_array($act['page'])}{$k}{else}1{/if}" style=" text-align:center;background:#EBEBEB;height:50px;line-height:50px;"><i class="glyphicon glyphicon-font"></i> 添加文字</div><div class="col-md-6 J-add" id="add_image" data-type="pic" data-index="{if $act['page']&&is_array($act['page'])}{$k}{else}1{/if}" style=" text-align:center;background:#EBEBEB;height:50px;line-height:50px;"><i class="glyphicon glyphicon-picture"></i> 添加图片</div></div>
+   <div class="form-group"><label for="do-submit" class="  col-md-2 control-label"></label>
+ 	  <div class="col-sm-6 col-md-9 col-xs-12 col-md=offset-4">
+	    <input name="page[actid]" type="hidden" value="{$act['id']}" />
+      <input name="page[template]" type="hidden" value="{$_GPC['template']}" />
+      <input name="token" value="{$_W['token']}" type="hidden" />
+      <input name="save" value="1" type="hidden" />
+      <a class="btn btn-primary" href="{php echo $this->createweburl('activity',array('op'=>'pagestep1','actid'=>$_GPC['actid']))}">上一步</a> 
+      <a class="btn btn-primary save-template" href="javascript:;" value="">保存</a> 
+      <a href="{php echo $this->createweburl('activity')}" value="取消" class="btn btn-default">取消</a>
+    </div>
+	 </div> 
+</form>
+</div><div class="col-md-4"><img width="100%" src="{php echo MODULE_URL.'images/'.$_GPC['template'].'.jpg'}"></div>
+</div>
+</div>
+<script type="text/javascript">
+      function showImageDialog(elm, opts, options) {
+        require(["util"], function(util){
+          var btn = $(elm);
+          var ipt = btn.next();
+          var val = ipt.val();
+          var img = ipt.parent().next().children();
+          options = {'global':false,'class_extra':'','direct':true,'multiple':false,'fileSizeLimit':5120000};
+          util.image(val, function(url){
+            if(url.url){
+              if(img.length > 0){
+                img.get(0).src = url.url;
+              }
+              ipt.val(url.attachment);
+              ipt.attr("filename",url.filename);
+              ipt.attr("url",url.url);
+              btn.css('background','url('+url.url+') 100% 100%')
+              btn.css('background-size','100% 100%')
+            }
+            if(url.media_id){
+              if(img.length > 0){
+                img.get(0).src = "";
+              }
+              ipt.val(url.media_id);
+            }
+          }, options);
+        });
+      }
+      function deleteImage(elm){
+        $(elm).prev().attr("src", "./resource/images/nopic.jpg");
+        $(elm).parent().prev().find("input").val("");
+      }
+
+require(['jquery','util'],function($,u){
+  //交互
+  $(".save-template").on("click",function(){
+      if(validateElements([".form-required input[type='text']",".form-required textarea",".form-required .btn-fileup input[type='hidden']"])){
+        //$(".save-template").attr("disabled", true);
+        save_form();
+      }
+    })
+  $('.form-required').bind('input onchange', function() {
+    $(this).next(".text-error").remove();
+    $(this).removeClass("error-tips");
+  });
+
+  function valiSingleEle(element){
+    var value = $(element).val().trim();
+    var $html = '<div class="text-error">不能为空</div>';
+    if(value ==''){  
+      var requiredEle = $(element).parents(".form-required");
+      var nextDiv = requiredEle.next();
+      var className = nextDiv.attr('class');
+      if(className !== "text-error"){
+        requiredEle.after($html);
+        requiredEle.addClass("error-tips");
+      }
+      return false;
+    }
+    return true;
+  }
+  function validateElements(arrayEle){
+    var isValidate = true;
+    arrayEle.forEach( function (obj, index, array){
+      if($(obj).length > 0 && !valiSingleEle(obj)){
+        isValidate = valiSingleEle(obj);
+      }
+    }
+    )
+      return isValidate;
+  }
+  function save_form() {
+    //document.getElementById('finish_btn').style.display='none';GSG
+    $.ajax({
+        async:true,
+        method:'post',
+        url:'{$_W['siteurl']}',
+        data:$("#event_form").serialize(),
+        dataType:'json',
+        success:function(data){
+              $.get('{php echo $this->createweburl('qrcode',array('actid'=>$_GPC['id']))}&url='+'{php echo urlencode($_W['siteroot'].'/app/'.$this->createmobileurl('index',array('actid'=>$_GPC['id'])))}',function(data){
+                data=eval('('+data+')')
+                title='预览二维码';
+                content='<div class="col-md-12  e text-danger" style="text-align:center">'
+                content+='<img src="{$_W['attachurl']}'+data.url+'" width="200">'
+                content+='<div class="clearfix"></div>'
+                content+='</div>'
+                footer='<div class="modal-footer"><button type="button" class="btn btn-primary" onclick="location.href=\''+'{php echo  $this->createweburl('activity',array('actid'=>$_GPC['actid']))}'+'\'">确定</button> <button type="button" class="btn btn-default" data-dismiss="modal">取消</button></div>';
+                options={};
+                qrcodemodal=u.dialog(title,content,footer,options);
+                qrcodemodal.modal('show')
+              })/*
+              $("#completeModal").modal();
+              document.getElementById("preview_qrcode").innerHTML='';
+              // change new form to edit form
+              $("#event_form").attr("action", "/events/"+data["event_id"]);
+              $("#event_form").attr("method", "put");
+              // change previous step from new to edit
+              $("#previous_step").attr("href", "/events/"+data["event_id"]+"/edit");
+              new QRCode(document.getElementById("preview_qrcode"), {
+                text: "http://wp.vcooline.com/"+data["uid"],
+                width: 258,
+                height: 258,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.L
+              });
+              document.getElementById('finish_btn').style.display='';*/
+        },
+        error:function(a,b,c){
+          alert(b)
+        }
+    })
+/*    $("#event_form").trigger("submit");
+    $("#event_form").on("ajax:success", function(event, data, status, xhr){
+      
+    });*/
+/*    $("#event_form").on("ajax:complete", function(event, data, status, xhr){
+      $(".save-template").attr("disabled", false);
+    });
+    $("#event_form").on("ajax:error", function(event, xhr, status, error){
+      showTip("error", "保存异常");
+    });*/
+  }
+  //交互结束
+    function limit_num(element,ele_entered){
+      $(element).on('change', function() {
+        var $this = $(this);
+        var max = parseInt($this.attr("maxlength"), 10);
+        if (max > 0) {
+          if ($this.val().length > max) {
+            var num=$this.val().substring(0, max);
+            $this.val(num);
+          }
+          var entered = $this.val().length;
+          console.log(entered)
+          $(ele_entered).text(entered);
+        }
+      });
+
+      $(element).bind('input onchange', function() {
+        var $this = $(this);
+        var max = parseInt($this.attr("maxlength"), 10);
+        if (max > 0) {
+          var entered = $this.val().length;
+          $(ele_entered).text(entered);
+        }
+      });
+    }
+    limit_num('.main-title','.main-entered');
+    limit_num('.subtitle-title','.subtitle-entered');
+    limit_num('.goods-name','.goodsname-entered');
+
+    $('.input-box').on('click','.J-delete',function(){
+      var $this = $(this),
+        $item = $this.parents(".S-box");
+      $item.remove();
+    });
+    $('.input-box').on('click','.J-up',function(){
+      var $this = $(this),
+        $item = $this.parents(".S-box"),
+        $prev_item = $item.prev();
+      if ($prev_item.length > 0) $item.insertBefore($prev_item);
+    });
+    $('.input-box').on('click','.J-down',function(){
+      var $this = $(this),
+        $item = $this.parents(".S-box"),
+        $next_item = $item.next();
+      if ($next_item.length > 0) $item.insertAfter($next_item);
+    });
+    $('body').on('click','.J-add',function(){
+      var $this = $(this),
+      $type = $this.data('type');
+      $index = $this.attr('data-index');
+      addTemplate($index, $type);
+    });
+  var delete_icon = '<a href="javascript:;" class="tools J-delete"><i class="glyphicon glyphicon-trash"></i></a> ';
+  var sort_btns = '<a href="javascript:;" class="tools J-down"><i class="glyphicon glyphicon-arrow-down"></i></a> <a href="javascript:;" class="tools J-up"><i class="glyphicon glyphicon-arrow-up"></i></a>';
+  $(".label-group .icon").append(delete_icon).append(sort_btns);
+  function addTemplate(index, type, url){
+    var $template, $box = $('.J-box');
+    switch(type){
+      case 'text':
+        $template = '<div class="form-group S-box"><div class="col-md-9"><input class="form-control" type=hidden value="text" name="page[desc][' + index + '][type]"><textarea class="form-control" row=5 value="" name="page[desc][' + index + '][value]"></textarea></div><div class="col-md-3">' + delete_icon + sort_btns + '</div></div>';
+        break;
+      case 'pic':
+        $template = '<div class="form-group S-box"><div class="col-md-4"><div class="fileup btn-fileup"><a href="javascript:;" data-toggle="bg" style=" background-position: center center;" onclick="showImageDialog(this)"><i class="glyphicon glyphicon-picture"></i></a><input type="hidden" name="page[desc][' + index +'][value]" value="' + url + '"><input type="hidden" name="page[desc][' + index +'][type]" value="image"></div></div><div class="col-md-4" style="display:inline-block">' + delete_icon + sort_btns + '</div></div>';
+        break;
+    }  
+    $("#add_text").attr("data-index", parseInt(index)+1);
+    $("#add_image").attr("data-index", parseInt(index)+1);
+    $box.append($template);
+  }
+})
+</script>
+{template 'common/footer'}

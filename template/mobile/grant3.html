@@ -1,0 +1,577 @@
+{template 'header'}
+<link rel="stylesheet" href="{MODULE_URL}staticfs/thirdparty/animate/animate.css"/>
+
+    <script>
+      picurl=window.sysinfo.MODULE_URL+'/staticfs';
+        var player_modules=[];
+        var loadmodules=[];
+        var MODULES_DICT={
+
+        }
+    </script>
+    
+    <script>
+        if(window.location.search != '' && /(e_ua=)/.test(window.location.search)){
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "{MODULE_URL}staticfs/diazo/epub360player/uasdk-1.0.4.min.js";
+            document.head.appendChild(script);
+        }
+    </script>
+  
+<script type="text/javascript">
+_udn = "epub360.com";
+var if_show_cover = 0;
+var _gaq = _gaq || [];  // to ensure ga anlytics work in player
+var _paq = _paq || [];
+var data_link = ''; // to store the data not for sharing of paragraph/slide/...
+ epub360_domain = 'epub360';
+</script>
+<script type="text/javascript">function workEnd(type){}
+if(navigator.userAgent.indexOf("MSIE 8.0") >= 0){
+    Array.prototype.indexOf = function(Object){
+        for(var i = 0; i<this.length; i++)
+            if(this[i] == Object)
+                return i;
+        return -1;
+    }
+}
+</script>
+<link rel="stylesheet" href="{MODULE_URL}staticfs/diazo/player-built/mobileview.built.edf37f38.cache.css"/>
+<style type="text/css">div.epub360-logo1, div.epub360-logo2, div.epub360-logo3 {display: none;}</style>
+<script type="text/javascript">
+var epub360_domain = '';
+var isMobilePlayer = 0;
+// 判断是否为移动端运行环境
+if(/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))){
+    if(window.location.href.indexOf("?mobile")<0){
+        try{
+            if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)){
+                // 判断访问环境是 Android|webOS|iPhone|iPod|BlackBerry 则加载以下样式
+                isMobilePlayer = 1;
+            }
+            else{
+                // 判断访问环境是 其他移动设备 则加载以下样式
+            }
+        }
+        catch(e){}
+    }
+}
+else{
+    // 如果以上都不是，则加载以下样式
+} 
+
+(function(){
+    if (/MSIE (\d+\.\d+);/.test(navigator.userAgent))
+    { 
+       var ieversion=new Number(RegExp.$1);
+       if (ieversion<=8)
+       {
+            if (typeof cbt_data!="undefined"){
+              try{
+                var slave_url=String(cbt_data.data.slave_url);
+                if(slave_url&&slave_url.length){
+                    window.location.href=slave_url;
+                }    
+                else
+                    window.location.href='{MODULE_URL}staticfs/admin-epub360/browser-old.html';  
+
+              }catch(e){
+                window.location.href='{MODULE_URL}staticfs/admin-epub360/browser-old.html';
+              }
+            }
+       }
+    }
+})();
+</script>
+
+
+<script type="text/javascript">
+      var js_built = 1;
+      var preview_mode = 0;
+      var portal_url = './';
+      var context_url = './';
+      var ga_opt_target  = document.location.origin + context_url, ga_opt_pagePath = context_url;
+      var context_type = 'PhotoGallery';
+      var web_url = '{MODULE_URL}staticfs/';
+      var dict={"msg": "success", "code": 200, "data": {}};
+
+      var epub360 = epub360 || {};
+      epub360.settings = epub360.settings || {};
+      
+      epub360.settings.pems = {'has_analytics_src': false};
+      
+
+      epub360.PlayerPlugins = epub360.PlayerPlugins || [];
+      var clear_loading_progress_waiting = 200;
+      window.epub360_userinfo={};
+      window.epub360_sourceinfo={};
+</script>
+    <script type="text/javascript">
+      var epub360_book_type = 0;  // HTML PACKAGE
+    </script>
+</head>
+<body class="template-player portaltype-interaction-photogallery site-demo section-pic build" style="background-color: #000000;">
+
+<div style="display:none;">
+  <img src="{MODULE_URL}/staticfs/b173611f6ddc2f24d0ca30663d7f634a.png" />
+</div>
+
+<div class="reveal typo">
+    <div class="slides-wrap" style="position:absolute;width:100%;height:100%;left:0;top:0;z-index:1000;">
+    <div class="slides  c-transition-containment">
+        
+        <section class="group" id="group_page_13853534097181">
+            <section class="Presentation" id="page_13853534097181" style="background-color: rgba(255,255,255,1.0);">
+                <div class="interaction-area typo">
+                  <div class="interaction-view"></div>
+               </div>
+            </section>    
+        </section>
+        <div class="slideTempContainer" style="position:absolute;left:-99999px;top:-99999px;"></div>
+    </div></div>
+</div>
+<div id="jswait-loading" class="prejsloading" style="position:absolute;z-index:999999;background-color: #000000; left:0;top:0;width:100%;height:100%;margin:0;padding:0;text-align: center; display: block;">
+
+  <div class="progress active"><div  id="loading-progress" class="bar" style="background: #ff8800 !important;"></div></div>
+
+</div>
+
+<script type="text/javascript">
+var loading_progress_percent = 15; 
+var loading_progress_timer = setInterval(function(){
+        compute_loadding_progress();
+        set_loading_progress();
+    }, 200);
+function compute_loadding_progress(){
+
+    if (loading_progress_percent < 70)
+        loading_progress_percent = loading_progress_percent + 5;
+    else if (loading_progress_percent > 70 && loading_progress_percent < 100)
+        loading_progress_percent = loading_progress_percent + 10;
+    else{
+        clear_loading_progress();  
+    }
+       
+}
+function set_loading_progress(i){
+    if ( document.getElementById('loading-progress') != null  ){
+        document.getElementById('loading-progress').style.width= loading_progress_percent + '%';
+    }
+}
+function clear_loading_progress(){
+    clearInterval(loading_progress_timer);
+    if (typeof loading_progress_timer1 != 'undefined'){
+        clearInterval(loading_progress_timer1);
+
+        interaction_view.containment.children('.prejsloading').fadeOut(1500,function(){
+            interaction_view.containment.children('.prejsloading').remove();
+            interaction_view.play(interaction_view.currentPage);
+            if(window.loadAnalytics) loadAnalytics();
+        })
+    }
+}
+</script>
+<script type="text/javascript" src="{MODULE_URL}staticfs/index.js"></script>
+<script type="text/javascript" src="{MODULE_URL}staticfs/thirdparty/jquery/jquery-1.8.1.js"></script>
+<script type="text/javascript">
+    var epub360_player = [];
+    if (isMobilePlayer){
+        epub360_player = '{MODULE_URL}staticfs/diazo/player-built/mobileview.built.f027df26.cache.js';
+    }else{
+        epub360_player = '{MODULE_URL}staticfs/diazo/player-built/touchview.built.b0d5cc95.cache.js';
+    }
+    player_modules.push(epub360_player);
+</script>
+<!-- 分享信息-->
+<script type="text/javascript">
+window.js_loaded=false;
+require(['script.min'],function($script){
+    $script(player_modules,'player');
+  $script.ready('player',function(){
+      var _i=window.setInterval(function(){
+          if(window.start_player){
+              if(loadmodules.length){
+                  $script(loadmodules, 'modules');
+                  $script.ready('modules',function() {
+                      console.log('loaded');
+                      window.js_loaded=true;
+                      window.start_player();
+                  })
+              }
+              else{
+                   window.js_loaded=true;
+                   window.start_player();
+              }
+              clearInterval(_i);
+          }
+      },50);
+  })
+})
+
+var bookTitle =  '苏酒生态圈';
+var msgContent = '海之蓝、天之蓝'; // 微信分享描述
+var descContent = msgContent; // 1.0兼容
+var msgTitle = '苏酒生态圈'; // 微信转发标题
+var shareTitle = '海之蓝、天之蓝'; // 微信分享朋友圈标题
+var appid = '';
+
+// 微信分享图片
+var imgUrl = "{MODULE_URL}/staticfs/b173611f6ddc2f24d0ca30663d7f634a.png";
+
+
+if (imgUrl.indexOf(window.location.protocol) < 0){
+    if (imgUrl[0]=='.'){
+        imgUrl =  '/' + imgUrl;
+    }
+    imgUrl = window.location.protocol + '//' + window.location.host + imgUrl;
+}
+
+var localUrl = window.location.origin + window.location.pathname;
+var localSearch = '';
+
+if ( window.location.search.indexOf('disableHistoryStart') >= 0 ){
+  localSearch = window.location.search;
+}else{
+  if (window.location.search){
+     localSearch = window.location.search + '&disableHistoryStart=1';
+  }else{
+    localSearch = '?disableHistoryStart=1';    
+  }
+}
+
+ // 微信分享网址
+var message_link = localUrl + localSearch;
+var ua = navigator.userAgent.toLowerCase();
+
+if (/micromessenger/.test(ua)){
+  
+  page_v = message_link.match(/&pageid=page_(\w*)/);
+  if(message_link.indexOf('return=1')!=-1){
+
+      // 打开新网页后返回的处理,避免因为带有from参数而无法定位
+      message_link = message_link.replace('return=1', '');
+
+  }else if(message_link.indexOf('disableHistoryStart=1')==-1 && page_v && page_v.length){
+
+      // 设置了指定分享页的
+      page_query_string = page_v[0];
+      page_id = 'page_' + page_v[1];
+      // message_link = message_link.replace(page_query_string,'');
+      location.hash = '#page/'+page_id;
+      
+  }else{
+
+    // 来自朋友圈分享／转发消息
+    if ( window.location.search.indexOf('from=')>0){
+      location.hash = '';
+    }
+  }
+}
+
+// 背景音乐文件处理
+if ( typeof bgsound_id!="undefined"&& window.location.search.indexOf(bgsound_id) >= 0 ){
+
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0; i<vars.length; i++ ) {
+        var pair = vars[i].split("=");
+        if(pair[0] == bgsound_id){
+            bgsound_src = pair[1];
+            break;
+        }
+    }
+}
+
+// 严格依照微信JS-SDK说明文档开发 http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html 
+// 微信JS接口调用初始化
+function shareSuccess(){
+    // 可以设置微信分享后进行的处理，比如跳转网址
+}
+var audio,audioelement;
+function playbgsound(){
+       if(typeof bgsound_id!="undefined"&&typeof bgsound_src!="undefined"){
+            var newElement = document.createElement('div'); 
+            newElement.id='soundcontainer'; 
+            document.body.appendChild(newElement); 
+            var audiocontainer=document.getElementById('soundcontainer');
+            var gSound=bgsound_src;
+            audiocontainer.innerHTML = '<audio id="bgsound" loop="loop"> <source src="' + gSound + '" /> </audio>'; 
+            audio = document.getElementById('bgsound');
+            audio.src = gSound;
+            audio.play(); 
+           if(!audioelement) audio.pause();           
+           else interaction_view.playbgsound();
+       }
+}
+/*
+   * 注意：
+   * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+   * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+   * 3. 完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+   *
+   * 如有问题请通过以下渠道反馈：
+   * 邮箱地址：weixin-open@qq.com
+   * 邮件主题：【微信JS-SDK反馈】具体问题
+   * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+*/
+//处理不是微信的情况下音频的播放
+var ua = navigator.userAgent.toLowerCase();
+if(!(/micromessenger/.test(ua))){
+  if(window.location.search.indexOf('autoplay=false')==-1){
+    playbgsound();
+  }
+};
+</script>
+
+<div id="followlayer" class="layercontent">
+<div class="body">
+<div class="img"><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div id="bar"></div>
+<div class="message"></div>
+</div>
+<div class="footer" style="display:none"><a id=button href="javascript:;" class="button">复制口令</a></div>
+</div>
+<div id="errorlayer" class="layercontent">
+<span class=" close close_" data-target=''>×</span>
+<div class="body">
+<img width="100%" src="{MODULE_URL}images/layerbg.png" style="border-radius:5px">
+<div class="title"></div>
+<div class="message"></div>
+<div class="hmessage"></div>
+</div>
+</div>
+<div id="unawardlayer" class="layercontent">
+<span class="close_ close" data-target=''>×</span>
+<div class="body">
+<div class="img"><img src="{MODULE_URL}/images/hbxr2.png" width=30% /></div>
+<div class="message">很遗憾您未中奖</div>
+</div>
+</div>
+<div id="grantlayer" class="layercontent">
+<span class=" close close_" data-target=''>×</span>
+<div class="body">
+<img width="100%" src="{MODULE_URL}images/layerbg.png" style="border-radius:5px">
+<div class="title">恭喜发财</div>
+<div class="message"><div class="message_"><div class="fee"></div><div class="font"></div></div></div>
+<div class="hmessage">（红包已经送，请及时领取）</div>
+</div>
+</div>
+
+<style type="text/css">
+#grantlayer{width:60%;box-shadow:none;background: none}
+#grantlayer>.body{position: relative;margin: 0px;width: 100%}
+#grantlayer>.body>.title{ position:absolute;top:45%;height: 20px; margin-top: -10px;text-align: center;font-size: 1.6rem;color:#f9d9a4;text-align: center;width: 100%;}
+#grantlayer>.body>.message{ position:absolute;top:60%;height: 20px; margin-top: -10px;text-align: center;font-size: 2.4rem;color:#f9d9a4;text-align: center;width: 100%;}
+#grantlayer>.body>.hmessage{ position:absolute;top:73%;height: 20px; margin-top: -10px;text-align: center;font-size: 1.0rem;color:#f9d9a4;text-align: center;width: 100%;}
+#grantlayer>.body>.message>.message_{margin:auto;display: inline-block;}
+#grantlayer>.body>.message>.message_>.fee{color:#f9d9a4;font-size: 34px;line-height: 50px;float: left}
+#grantlayer>.body>.message>.message_>.font{color:#f9d9a4;font-size: 14px;height: 14px;line-height:14px;margin-top: 22px;float: left}
+#errorlayer{width:60%;box-shadow:none;background: none}
+#errorlayer>.body{position: relative;margin: 0px;width: 100%}
+#errorlayer>.body>.title{ position:absolute;top:45%;height: 20px; margin-top: -10px;text-align: center;font-size: 1.6rem;color:#f9d9a4;text-align: center;width: 100%;}
+#errorlayer>.body>.message{ position:absolute;top:60%;height: 20px; margin-top: -10px;text-align: center;font-size: 1.4rem;color:#f9d9a4;text-align: center;width: 100%;}
+#errorlayer>.body>.hmessage{ position:absolute;top:73%;height: 20px; margin-top: -10px;text-align: center;font-size: 1.0rem;color:#f9d9a4;text-align: center;width: 100%;}
+#errorlayer>.body>.message>.message_{margin:auto;display: inline-block;}
+#errorlayer>.body>.message>.message_>.fee{color:#f9d9a4;font-size: 34px;line-height: 50px;float: left}
+#errorlayer>.body>.message>.message_>.font{color:#f9d9a4;font-size: 14px;height: 14px;line-height:14px;margin-top: 22px;float: left}
+#myerrorlayer{width:60%;box-shadow:none;background: none}
+#myerrorlayer>.body{position: relative;width: 100%}
+#myerrorlayer>.body>.title{ position:absolute;top:45%;height: 20px; margin-top: -10px;text-align: center;font-size: 1.6rem;color:#f9d9a4;text-align: center;width: 100%;}
+#myerrorlayer>.body>.message{ position:absolute;top:60%;height: 20px; margin-top: -10px;text-align: center;font-size: 2.4rem;color:#f9d9a4;text-align: center;width: 100%;}
+#myerrorlayer>.body>.hmessage{ position:absolute;top:73%;height: 20px; margin-top: -10px;text-align: center;font-size: 1.4rem;color:#f9d9a4;text-align: center;width: 100%;}
+#myerrorlayer>.body>.message>.message_{margin:auto;display: inline-block;}
+#myerrorlayer>.body>.message>.message_>.fee{color:#f9d9a4;font-size: 34px;line-height: 50px;float: left}
+#myerrorlayer>.body>.message>.message_>.font{color:#f9d9a4;font-size: 14px;height: 14px;line-height:14px;margin-top: 22px;float: left}
+a.button_tzl:link{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #f9d9a4; border-radius: 200px; color:#a3483c; text-align: center;display:inline-block;font-size: 1.4px;box-shadow: none}
+a.button_tzl:hover{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #f9d9a4; border-radius: 200px; color:#a3483c;text-align: center;display:inline-block;font-size: 1.4px;box-shadow: none}
+a.button_tzl:visited{ padding: 0px 10px;min-width:100px;height:30px;line-height: 30px; background: #f9d9a4; border-radius: 200px; color:#a3483c; text-align: center;display:inline-block;font-size: 1.4px;box-shadow: }
+</style>
+<style>
+.myaward{position:fixed;bottom:55px;right:10px;width: 45px;height: 45px;border-radius: 50%; z-index:5; background:rgba(0,0,0,0.6);font-size: 8px;text-align:center;font-size: 10px;padding: 2px 0px 2px 0px;display: block; display: none;animation:flicker 4000ms ease-out infinite;}
+.myaward a:link{color: #fff;text-decoration: none;}
+.myaward a:hover{color: #fff;text-decoration: none;}
+.myaward a:active{color: #fff;text-decoration: none;}
+.myaward>a>.title_{line-height: 10px;font-size: 8px;background: none;text-align: center}
+</style>
+<div id="myaward" class="myaward" style=""><a href="javascript:;" style="color: #fff;"><div><img width="15" height="15" src="{MODULE_URL}images/award.png?{TIMESTAMP}"></div><div class="title_">奖品<br>详情</div></a></div>
+<style>
+.ucenter{position:fixed;bottom:5px;right:10px;width: 45px;height: 45px;border-radius: 50%; z-index:5; background:rgba(0,0,0,0.6);font-size: 8px;text-align:center;font-size: 10px;padding: 2px 0px 2px 0px;display: block;}
+.ucenter a:link{color: #fff;text-decoration: none;}
+.ucenter a:hover{color: #fff;text-decoration: none;}
+.ucenter a:active{color: #fff;text-decoration: none;}
+.ucenter>a>.title_{line-height: 10px;font-size: 8px;background: none;text-align: center}
+</style>
+<div id="timeoutlayer" class="layercontent"><div class="message"></div></div>
+{if $page['audio']}
+<div class="audio"><img src="{MODULE_URL}images/audio.png" width="100%" height="100%">
+<audio id="audio_" loop>
+<source src="{if strpos($page['audio'],'http')===false}{php echo $_W['attachurl'].$page['audio']}{else}{$page['audio']}{/if}" type="audio/mpeg" />
+</audio>
+</div>
+<script type="text/javascript">
+require(['jquery'],function(){
+    $.fn.extend({
+        rotate: function () {
+            ele = this ;
+            var audio_ = document.getElementById('audio_');
+            audio_.play();
+            if (!audio_.paused){
+            window.time1=window.setInterval('singleRotate()',20);
+            }
+        },
+        stoprotate:function(){
+          ele=this;
+          var audio_ = document.getElementById('audio_');
+          audio_.pause();
+          if (audio_.paused){
+          window.clearInterval(window.time1)
+        }
+        }
+    });
+    var u = navigator.userAgent;
+    var isiOS = u.indexOf('iPhone'); //ios终端>0
+    if (isiOS>0){
+      $('body').one('touchstart',function(e){
+              audio_ = document.getElementById('audio_');
+                                                      if (audio_.paused){
+                                                        $('.audio').rotate()
+                                                      }else{
+                                                        $('.audio').stoprotate()
+                                                      }
+      })
+      $('.audio').on('touchstart',function(e){          //alert(audio.paused)
+                                                e.stopPropagation()
+                                                $('body').off()
+                                                audio_ = document.getElementById('audio_');
+                                                if (audio_.paused){
+                                                  $(this).rotate()
+                                                }else{
+                                                  $(this).stoprotate()
+                                                }
+                                          })
+    }else{
+      $('.audio').rotate()
+      $('.audio').click(function(e){          //alert(audio.paused)
+          audio_ = document.getElementById('audio_');
+          if (audio_.paused){
+            $(this).rotate()
+          }else{
+            $(this).stoprotate()
+          }
+      })
+    }
+})
+</script>
+<style type="text/css">
+.audio{position: fixed;top: 15px;right: 10px;width: 30px;height: 30px;}
+</style>
+{/if}
+<script>
+var dscanwarning={$act['dscanwarning']};
+var tk='{$_GPC['tk']}';
+{if !empty($act['districtarr'])}
+var districtarr={php echo json_encode($act['districtarr'])};
+{/if}
+var strDistrict='{$act['strDistrict']}'
+var focusfollow={$act['focusfollow']};
+var rptype={$act['rptype']};
+var granttype={$act['granttype']};
+scanid={if $_M['scanid']}{$_M['scanid']}{else}0{/if};
+var err={if $msg}{php echo json_encode($msg)}{else}{}{/if};
+var tokendata={if $tokendata}{php echo json_encode($tokendata)}{else}{}{/if};
+if (tokendata.type!=100) tokendata.thumb='{$_W['attachurl']}'+tokendata.thumb;
+var coupons={if $coupons}{php echo json_encode($coupons)}{else}{}{/if};
+var mycoupons={if $mycoupons}{php echo json_encode($mycoupons)}{else}{}{/if};
+var myawarded={if $mytokens}{php echo json_encode($mytokens)}{else}{}{/if};
+var coupons={if $coupons}{php echo json_encode($coupons)}{else}{}{/if};
+var ele,time1;
+//自定义函数
+//初始角度
+var degree = 0;
+//单次旋转
+function singleRotate() {
+    //一次增加50度
+    degree = degree + 50 * Math.PI / 180;
+    ele.css("transform","rotate("+degree+"deg)");
+}
+
+require(['jquery','main'],function($,main){
+        if (jsonlength(mycoupons)||jsonlength(myawarded.length)){
+            $('#ucenter').show();
+        }
+      $('.btn-coupon').on('click',function(){
+            self=this
+             $.post("{php echo $this->createmobileurl('coupon',array('op'=>'get','actid'=>$act['id']))}",{id:$(this).data('id')},function(data){
+                if (data.errno==0){
+                  $('#couponlayer').find('.message').html(data.name+data.coupontype)
+                  $('#couponlayer').find('.description').html(data.description)
+                  $('#couponlayer').showlayer('','',false,true,'middle',function(){$('#ucenter').show()})
+                  $(self).parent().prev().find('.bizname').css('line-height','45px')
+                  $(self).parent().prev().find('.bizname').after('<div class="tag" style="line-height:30px;font-size:1.2rem">已领取</div>');
+                  $(self).html('已领').off().css('color','#cccccc')
+                  layers['couponlayer'].find('.button').attr('href','{php echo $this->createmobileurl('coupon',array('actid'=>$act['id']))}&id='+data.id)
+                }else{
+                  $('#timeoutlayer').showlayer(data.message,'',5,false,'middle','','')
+                }
+             },'JSON')
+           })
+  if (jsonlength(err)){
+  if (err.errno!=0){
+        $('#errorlayer').find('.message').html(err.message);
+        $('#errorlayer').find('.message_gift').hide();
+        $('#errorlayer').showlayer('','','',true,'middle','')
+  }else{
+    $('#grantlayer').showlayer('','','',true,'middle','')
+    binddiv()
+    function binddiv(){
+    layers['grantlayer'].find('.hmessage').html('请及时领取奖品');
+    if ('{$act['page']['template']}'=='activity_v3'){
+          layers['grantlayer'].find('.message>.message_>.fee').html(scandata.redpack);
+          layers['grantlayer'].find('.message>.message_>.font').html('元');
+    }else{
+    if ('{$act['titleshowtype']}'=='1'){
+        if (tokendata.type==1||tokendata.type==2){
+          layers['grantlayer'].find('.message_gift').hide();
+          layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.title);
+        }else if (tokendata.type==3){
+          layers['grantlayer'].find('.message_gift').hide();
+          layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.title);
+        }else if (tokendata.type==4){
+          layers['grantlayer'].find('.message').hide();
+          layers['grantlayer'].find('.title').css('top','15%');
+          layers['grantlayer'].find('.message_gift>.thumb>img').attr('src',tokendata.thumb);
+          layers['grantlayer'].repositionlayer()
+          layers['grantlayer'].find('.message_gift>.name').html(tokendata.title);
+        }else if (tokendata.type==5){
+          layers['grantlayer'].find('.message_gift').hide();
+          layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.title);
+        }
+    }else{
+      if (tokendata.type==1||tokendata.type==2){
+        layers['grantlayer'].find('.message_gift').hide();
+        layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.redpack);
+        layers['grantlayer'].find('.message>.message_>.font').html('元');
+      }else if (tokendata.type==3){
+        layers['grantlayer'].find('.message_gift').hide();
+        layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.credit1);
+        layers['grantlayer'].find('.message>.message_>.font').html('积分');
+      }else if (tokendata.type==4){
+        layers['grantlayer'].find('.message').hide();
+        layers['grantlayer'].find('.message_gift>.thumb>img').attr('src',tokendata.thumb);
+
+          layers['grantlayer'].repositionlayer()
+        layers['grantlayer'].find('.message_gift>.name').html(tokendata.title);
+      }else if (tokendata.type==5){
+        layers['grantlayer'].find('.message_gift').hide();
+        layers['grantlayer'].find('.message>.message_>.fee').html(tokendata.title);
+        layers['grantlayer'].find('.message>.message_>.font').html(coupons[tokendata.couponid].coupontype);
+      }
+    }
+   }
+  }
+  }
+}
+})
+</script>
+{template 'footer'}

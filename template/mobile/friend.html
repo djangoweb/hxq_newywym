@@ -1,0 +1,197 @@
+{template 'header'}
+<style>
+body{ background:{$act['pagesetting']['bgcolor']};width:100%; height:100%; text-align:center}
+.container{ width:100%; height:100%; margin:auto; padding:0px;{if !$_GPC['preview']}display:none{/if}}
+.actinterval{ margin:7px auto; width:290px; line-height:20px; font-size:14px; text-align:center;color:#F00}
+@media screen and (min-width:360px){
+.fancardsection{margin:0 auto 7px auto; position: relative;background:url({php echo $_W['attachurl'].$act['pagesetting']['cardbgimg']}); background-size:100% 100%; height:213px;width:360px;padding-top:40px }
+}
+@media screen and (min-width:300px) and (max-width:361px){
+.fancardsection{margin:0 auto 7px auto; position: relative;background:url({php echo $_W['attachurl'] .$act['pagesetting']['cardbgimg']}); background-size:100% 100%; height:199px;width:345px;padding-top:40px}
+}
+@media screen and (max-width:301px){
+.fancardsection{margin:0 auto 7px auto; position: relative;background:url({php echo $_W['attachurl'].$act['pagesetting']['cardbgimg']}); background-size:100% 100%; height:165px;width:285px;padding-top:40px}
+}
+.fancard{width:100%; height:100%; position:relative; text-align:center; padding:0 10px}
+.card__{ list-style:none;height:100%;display:inline-block; width:25%; margin-left:3%; position:relative; text-align:center;}
+.card___{ vertical-align:middle;position:absolute; top:0px;bottom:0px; left:0px; right:0px; margin:auto; height:70%; width:100%; overflow:hidden;padding: 5px}
+.card___ img{ vertical-align: top;margin:auto; width:100%}
+.cardtip{list-style:none; height:100%; color:#FFF; display: inline-block; width:70%; margin-left:2%; position:relative; text-align: center; padding:0px; font-size:1.3rem}
+.cardtip_{ position:absolute; top:0px;bottom:0px; left:0px; right:0px; margin:auto; padding:5px;height:70%; width:100%; line-height:24px; text-align: left; white-space:word-wrap; overflow:hidden; word-break:break-all}
+.ruleurl{position: absolute; top:6px; height:28px; width:85px; padding:5px; text-align:center;line-height:18px; border-radius:5px; background:#bd5e30; right:95px; color:#FFF;font-size:14px; font-family:'微软雅黑';text-decoration:none;font-weight: bolder; z-index:1;}
+.ruleurl:active{color:#FFF;text-decoration:none;}
+.ruleurl:hover{ color:#FFF;text-decoration:none;}
+.ruleurl:visited{color:#FFF;text-decoration:none;}
+.awardurl{position:absolute; top:6px;   height:28px; width:85px; padding:5px; text-align:center; line-height:18px; border-radius:5px; background:#bd5e30; right:5px; color:#FFF; font-size:14px; font-family:'微软雅黑'; text-decoration:none; font-weight: bolder;z-index:1;}
+.awardurl:active{ color:#FFF;text-decoration:none;}
+.awardurl:hover{ color:#FFF;text-decoration:none;}
+.awardurl:visited{color:#FFF;text-decoration:none;}
+.sharebox{  position:relative;  top:-22.5px;  height:45px;text-align:center;}
+a.sharebtn{ display:inline-block; position:relative; width:150px;height:45px;padding:5px; background-size:100% 100% !important; line-height: 35px ; background: url({php echo MODULE_URL.'resources/images/btnbg.png'}); color:#fff; font-size:1.4rem; text-decoration:none;}
+a.sharebtn:last-child{ margin-left: 10px; }
+a.sharebtn.gray{ background: url({php echo MODULE_URL.'resources/images/btnbg1.png'}); color:#fff;text-decoration:none}
+#bottom #bottombottom{ position: absolute; bottom: 0px;width: 100% }
+#bottom .cardbox{ float:left; width:{php echo substr(sprintf("%.3f",(100-$act['totalcard'])/$act['totalcard']), 0, -1)}%; margin:0px 0.5%; height:auto; overflow:hidden;}
+.cardimg{ border-radius:2px;}
+.faninfo{ height:40px; line-height: 30px; margin:auto;  color: #fff; font-size:14px; padding: 5px 20px;  display: inline-block; position: absolute;top:0;left: 0}
+.faninfo img{ border-radius:50%;}
+</style>
+<script>
+var starttime={$act['starttime']};
+var endtime={$act['endtime']};
+var exendtime={$act['exendtime']};
+var sharetype='{$act['sharetype']}';
+var cards={php echo json_encode($cards)};
+var attachurl='{$_W['attachurl']}'
+var fancardgroup={php echo json_encode($fancardgroup)};
+var sharetype={$act['sharetype']};
+var granturl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('grant',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var helpurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('help',array('actid'=>$act['id'],'sid'=>$fan['id']))}';
+var indexurl='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('index',array('actid'=>$act['id']))}';
+var sharedata;
+var sharedata_={php echo json_encode($act['sharedata'])};
+var pageurl='{$_W['siteurl']}';
+var crtgive_url='{php echo $this->createmobileurl('index',array('op'=>'creategive','actid'=>$act['id']))}'
+var give_url='{if $act['jumpurl']}{$act['jumpurl']}/{else}{$_W['siteroot']}{/if}'+'app/{php echo $this->createmobileurl('give',array('actid'=>$act['id']))}';
+var getgive_url='{php echo $this->createmobileurl('index',array('op'=>'getgive','actid'=>$act['id']))}'
+var checklocation_url='{php echo $this->createMobileUrl('checkposition',array('actid'=>$act['id']))}'
+var checkiplocation_url='{php echo $this->createMobileUrl('checkipposition',array('actid'=>$act['id']))}'
+var fannickname='{$fan['nickname']}'
+var fanavatar='{php echo $_W['attachurl'].$fan['avatar']}'
+var module_url='{MODULE_URL}'
+var area='{$act['area']}'
+var iparea='{$act['iparea']}'
+var cardname='{$act['cardname']}';
+var getlocation=function (){
+	return undefined;
+};
+var getiplocation=function (){
+	return undefined;
+};
+{if !empty($initdata)}
+var accessdata={$initdata};
+{/if}
+</script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv"></script>
+<script src="{MODULE_URL}/resources/js/module.js?{TIMESTAMP}"></script>
+<script>
+function analyzemenu(){
+	if (sharetype){
+		wx.hideAllNonBaseMenuItem();
+	}else{
+		bindshare();
+	}
+}
+function bindshare(){
+	{if !empty($fan)}
+				window.sharedata={
+					title:sharedata_.sharetitle,
+					imgUrl:sharedata_.sharethumb,
+					desc:sharedata_.sharedesc,
+					link:helpurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{else}
+				window.sharedata={
+					title:sharedata_.defaultsharetitle,
+					imgUrl:sharedata_.defaultsharethumb,
+					desc:sharedata_.defaultsharedesc,
+					link:indexurl,
+					success:function(){
+						window.currentlayer.hidelayer()
+					},
+					fail:function(data){
+						$('#timeoutlayer').showlayer('生成分享失败，重载页面，请稍候！',pageurl,true,true,'middle')
+					}
+				}
+				{/if}
+	wx.onMenuShareAppMessage(window.sharedata);
+	wx.onMenuShareTimeline(window.sharedata);
+}
+function cardlink(a){
+	if (a.getAttribute('link')=='')
+	{return false}else{
+		location.href=a.getAttribute('link');
+	}
+}
+wx.ready(function (){
+ if (sharetype){
+	wx.hideAllNonBaseMenuItem();
+ }else{
+	bindshare()
+ }
+})
+$(function(){
+		   //alert($(window).width()+'|'+$(window).height());
+		   {if !$_GPC['preview']}initpage();{/if}
+		   setinterval()
+		   })
+ </script>
+</head>
+<body >
+<div class="container container-fill">
+<div id="top"><img src="{php echo $_W['attachurl'].$act['pagesetting']['topimg']}" width="50" /></div>
+
+<div class="actinterval timeout"><span class="totaltip">{$totalfan}人参与 已发放{$totalgrantcard}张{$act['cardname']} </span><br/><span class="totaltip">共{$totalaward}份奖品 先兑先得，兑完即止 </span><br /><span class="tipname"></span><span class="day"></span><span class="hour"></span><span class="minute"></span><span class="second"></span></div>
+
+<div class="fancardsection"><div class="faninfo"><img src="{php echo $fan['avatar']}" width="30" height="30"> {$fan['nickname']}</div>
+<a class="ruleurl" href="{php echo $this->createmobileurl('rule',array('actid'=>$act['id']))}"><i class="fa fa-th-list"></i>活动规则</a>
+<a class="awardurl" href="{php echo $this->createmobileurl('award',array('actid'=>$act['id']))}"><i class="fa fa-gift"></i>兑换奖品</a><div class="fancard"><li class="card__"><div class="card___"><a  href="javascript:void(0)" link="{$cur_card['cardlink']}" onClick="cardlink(this)"><img src="{php echo $_W['attachurl'].$cur_card['thumb']}" width="70%"/></a></div></li><li class="cardtip"><div class="cardtip_">{$fan['nickname']}共有{$fantotalcard}张{$act['cardname']}</div></li></div>
+</div>
+<div class="sharebox">
+{if $ishelped}
+<a class="sharebtn gray"  href="javascript:;">您已帮他集卡</a>
+{else}
+<a class="sharebtn" href="{php echo $this->createmobileurl('help',array('actid'=>$act['id'],'sid'=>$fan['id']))}">点击帮他集卡</a>
+{/if}
+
+{if !empty($curfan)}
+<a class="sharebtn" href="{php echo $this->createmobileurl('index',array('actid'=>$act['id']))}">返回我的集卡</a>
+{else}
+<a class="sharebtn" href="{php echo $this->createmobileurl('grant',array('actid'=>$act['id'],'sid'=>'sys'))}">我也要参加</a>
+{/if}
+</div>
+<div id="bottom">
+<div id="bottombottom">
+{php $i=0}
+{loop $cards $card}
+<div class="cardbox" data="{$card['id']}">
+	<div class="cardbox1"><div class="cardbg1"><div class="cardtotal">{if !empty($fancardgroup[$card['id']])}{$fancardgroup[$card['id']]}{else}0{/if}</div><img class="cbg_2" src="" width="100%"/></div>
+  <div class="card"><img class="cardimg" src="{$_W['attachurl']}{php echo $card['thumb_sm'].'?'.TIMESTAMP}{}" width="50%" height="100%"/></div>
+  <div class="cardbg2"><img class="cbg_1" src="" width="100%"></div></div>
+</div>
+{php $i++}
+{/loop}
+</div>
+</div>
+<div id="givelayer" class="layercontent">
+<div class="header">赠送给好友</div>
+<hr style="width:90%; height:1px; margin:0 auto"/> 
+<div class="body">
+<div class="message"></div>
+</div>
+<div class="footer"><a class="submit btn" href='javascript:void(0)'>确定</a> <a class="close_ btn" href='javascript:void(0)'>取消</a></div>
+</div>
+<div id="followlayer" class="layercontent">
+<div class="header">提示</div>
+<hr style="width:90%; height:1px; margin:0 auto"/> 
+<div class="body">
+{if $act['qrcode']}
+<div ><img id="qrcode" src="{$act['qrcode']}" width="100%"/></div>
+<div class="message">长按识别二维码，参与活动</div>
+{else}
+<div><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div class="message">长按识别二维码，关注{$_W['account']['name']}公众号。发送 <span style="color:red">{$act['keyword']}</span> 参与活动</div>
+{/if}
+</div>
+</div>
+<div id="timeoutlayer" class="layercontent"></div>
+<div id="sharelayer" class="layercontent close_ submit"><img src="{MODULE_URL}/resources/images/share.png"/></div>
+<div id="sharelayer_" class="layercontent close_"><img src="{MODULE_URL}/resources/images/share_.png"/></div>
+<div id="ajaxloading" class="layercontent"><img src="{MODULE_URL}/resources/images/loading.gif"  height="30"/></div>
+{template 'footer'}

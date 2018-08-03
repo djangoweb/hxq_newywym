@@ -1,0 +1,95 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+
+  <li class="active"><a href="{php echo $this->createWebUrl('biz')}">商家管理</a></li>
+  <li><a href="{php echo $this->createWebUrl('biz',array('op'=>'edit'))}" ><i class="fa fa-plus"></i>商家添加</a></li>
+    <div class="form-inline pull-right">
+<label>切换活动</label>
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('coupon')}&actid='+this.options[this.selectedIndex].value">
+{loop $acts $row}
+<option value="{$row['id']}" {if $act['id']==$row['id']}selected="selected"{/if} >{$row['name']}</option>
+{/loop}
+</select>
+</div>
+</ul>
+
+
+
+
+<div class="clearfix"></div>
+
+<style>
+
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+
+</style>
+
+<div class="panel panel-default">
+<div class="panel-heading">商家管理</div>
+<div class="clearfix"></div>
+<div class="panel-body">
+<form id="form1" name="form1" method="post" action="{php echo $this->createWebUrl('coupon')}">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="table">
+    <tr>
+    <th width="100" align="center">类型</th>
+    <th width="80" align="center">缩略图</th>
+    <th width="100" align="center">店名</th>
+    <th width="100" align="center">联系电话</th>
+    <th width="200" align="center">地址</th>
+    <th width="200" align="center">简介</th>
+    <th width="120" align="center">添加时间</th>
+    <th width="120" align="center">操作</th>
+    </tr>
+    {loop $bizs $row}
+    <tr class="active">
+      <td valign="middle">{$row['type']}</td>
+      <td valign="middle"><img src={php echo $_W['attachurl'].$row['thumb']} width="80" height="80" /></td>
+      <td valign="middle">{$row['name']}</td>
+      <td valign="middle">{$row['phone']}</td>
+      <td valign="middle">{$row['address']}</td>
+    <td valign="middle">{$row['description']}</td>
+    <td valign="middle"><span class="label label-success">{php echo date('Y-m-d h:i:s',$row['addtime'])}</span></td>
+    <td valign="middle">
+    <a data-original-title="修改" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('biz',array('op'=>'edit','id'=>$row['id']))}"><i class="fa fa-edit"></i></a>
+
+    <a data-original-title="删除" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('biz',array('op'=>'delete','id'=>$row['id']))}"><i class="fa fa-remove"></i></a>
+    </td>
+    </tr>
+    {/loop}
+
+    </table>
+  {$pager}
+  </form>
+
+ </div></div>
+ <div class="form-group">
+
+    <input name="token" type="hidden" value="{$_W['token']}"/>
+
+    <input name="dosort" type="submit" value="更新排序" class="btn btn-primary"/>
+
+  </div>
+</div>
+    <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+
+{template 'common/footer'}

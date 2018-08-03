@@ -1,0 +1,118 @@
+{template 'common/header'} 
+
+<ul class="nav nav-tabs">
+
+	<li class="active" ><a href="{php echo $this->createWebUrl('awardmanage',array('cateid'=>$cate['id']))}">奖品管理</a></li>
+
+	<li><a href="{php echo $this->createWebUrl('awardmanage',array('op'=>'edit','cateid'=>$cate['id']))}" ><i class="fa fa-plus"></i>奖品添加</a></li>
+    <div class="form-inline pull-right">
+    <label>切换活动</label>
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('awardmanage')}&actid='+this.options[this.selectedIndex].value">
+{loop $acts $row}<option value="{$row['id']}" {if $act['id']==$row['id']}selected="selected"{/if} >{$row['name']}</option>{/loop}
+</select>
+<label>切换码段</label>
+<select name="cateid" class="form-control" onchange="location.href='{php echo $this->createWebUrl('awardmanage',array('actid'=>$act['id']))}&cateid='+this.options[this.selectedIndex].value">
+{loop $cates $row}<option value="{$row['id']}" {if $cate['id']==$row['id']}selected="selected"{/if} >ID:{$row['id']} ({$row['mintk']}-{$row['maxtk']})</option>{/loop}
+</select>
+</div>
+</ul>
+
+<div class="panel panel-info">
+
+<div class="panel-body">奖品实际中奖率等于<strong class=text-success>中奖率</strong><strong class="text-danger">除以</strong><strong class=text-success>所有未禁用奖品中奖率之和</strong>,当前中奖率之和<strong class="text-danger">{$totalrate}</strong>，中奖率之和不能超过<strong class="text-danger">10000</strong>。调剂奖品的意思是，假如抽到已经抽完的奖品则会改发调剂奖品，<span class="text-danger">所以一定要保持调剂奖品的数量足够发放。</span>
+
+</div></div>
+
+
+
+<div class="clearfix"></div>
+
+<style>
+
+.table td{ word-break:break-all !important; overflow: visible !important; word-spacing:normal; white-space:normal !important}
+
+</style>
+
+<style type="text/css">
+.table-bordered{margin:15px auto}
+.table-bordered .th-div{text-align:left;line-height:25px;padding:5px;}
+.table-bordered .th-td{padding:0px;border: none; background: #ebebeb}
+.table-bordered td,th{padding: 5px}
+</style>
+<div class="panel panel-default">
+<div class="panel-heading">码段ID <span class="label label-success">{$cate['id']}</span> 码段 <span class="label label-success">{$cate['mintk']}-{$cate['maxtk']}</span> 共<span class="label label-success">{$cate['total']}</span>个二维码 活动 {if $acts[$cate['actid']]}<span class="label label-success">[{$acts[$cate['actid']]['name']}]</span>{else}<span class="label-danger label">未绑定</span>{/if} 
+
+{if $cate['actid']}<a href="{if $_W['isfounder']}{php echo $this->createweburl('catemanage',array('uniacid_'=>$_W['uniacid'],'actid'=>$cate['actid']))}{else}{php echo $this->createweburl('catemanage',array('actid'=>$cate['actid']))}{/if}" class="label label-primary">点击查看该活动所有码段</a>{/if}</div>
+<div class="clearfix"></div>
+</div>
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class=" table-bordered ">
+    <tr>
+
+      <th width="120" align="center">奖品名称</th>
+    <th width="80" align="center">类型</th>
+    <th width="80" align="center">金额</th>
+    <th width="80" align="center">积分</th>
+    <th width="280" align="center">中奖率</th>
+    <th width="60" align="center">已抽</th>
+    <th width="80" align="center">奖品总数</th>
+    <th width="100" align="center">操作</th>
+    </tr>
+
+    {loop $awards $row}
+    <tr {if $row['disable']==1}class="active"{/if}>
+    <td valign="middle">{if $row['type']==4||$row['type']==100}<img src="{php echo $_W['attachurl'].$row['thumb']}" width="35" class="img-circle" />{/if} {$row['title']}</td>
+    <td valign="middle">
+    {if $row['type']==1}
+    普通红包
+    {elseif $row['type']==2}
+    裂变红包
+    {elseif $row['type']==3}
+    积分
+    {elseif $row['type']==4}
+    实物奖品
+    {elseif $row['type']==5}
+    模块优惠券
+    {elseif $row['type']==100}
+    谢谢参与
+    {/if}</td>
+    <td valign="middle">{if $row['type']==1||$row['type']==2}{$row['redpack']}{/if}</td>
+    <td valign="middle">{if $row['type']==3}{$row['credit1']}{/if}</td>
+    <td valign="middle">{if $row['ratepercent']>0}<span class="label label-success">{$row['ratepercent']}%</span>{else}<span class="label label-danger">{$row['ratepercent']}%</span>{/if}</td>
+    <td valign="middle"><span class="label label-danger">{$row['awarded']}</span></td>
+    <td valign="middle"><span class="label label-success">{$row['total']}</span></td>
+    <td valign="middle"><a data-original-title="修改" title="" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('awardmanage',array('op'=>'edit','id'=>$row['id'],'cateid'=>$cate['id']))}"><i class="fa fa-edit"></i></a>
+
+    {if empty($row['disable'])}<a data-original-title="点击禁用" title="" data-toggle="tooltip" data-placement="top" class="btn btn-success btn-sm" href="{php echo $this->createWebUrl('awardmanage',array('op'=>'disable','id'=>$row['id'],'cateid'=>$cate['id']))}">启用</a>
+    {else}
+    <a data-original-title="点击启用" title="" data-toggle="tooltip" data-placement="top" class="btn btn-danger btn-sm" href="{php echo $this->createWebUrl('awardmanage',array('op'=>'disable','id'=>$row['id'],'cateid'=>$cate['id']))}">禁用</a>
+    {/if}
+    </td>
+
+    </tr>
+
+    {/loop}
+
+    </table>
+</div>
+    <script type="text/javascript">
+
+	var category = [];
+
+	require(['bootstrap'],function($){
+
+		$('.btn').hover(function(){
+
+			$(this).tooltip('show');
+
+		},function(){
+
+			$(this).tooltip('hide');
+
+		});
+
+	});
+
+</script>
+
+
+{template 'common/footer'}

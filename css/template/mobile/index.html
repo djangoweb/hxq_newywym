@@ -1,0 +1,253 @@
+{template 'header'}
+<style>
+body{ background-size:100% 100% ;background-image: url('{php echo $_W['attachurl']}{$act['page']['index']}');}
+a.more:link{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+a.more:hover{  height: 16px;  padding: 1px 4px; font-size: 1.4rem;  border-radius:2px;background: #fed700; color: #6e2020; text-align: center;}
+.product{width: 100%;  margin:auto ; position: relative; padding:10px;margin-top: 10px; background: #f8f6ec}
+.product>.ptop{ width: 100%; text-align: center; margin:auto; overflow: hidden; height: 150px}
+.product>.ptop>img{ width:100%; height: 100%}
+.product>.intro{ width: 100%; margin:auto }
+.product>.intro>.name{ width:100%;height: 20px ; margin-top:5px;   line-height: 20px; font-size:1.4rem; color: #000; text-align:center;}
+.product>.intro>.introduce{ width:100%; line-height:24px;  font-size:1.3rem;color: #000 }
+.more{height: 18px ; display: inline-block;  line-height:14px; font-size:1.4rem;color: #000； padding:2 4px; }
+.comp{ width: 100%;position: relative; height:40px;  margin:10px auto;  ; line-height: 30px; font-size: 1.4rem; padding:5px 10px;background: #f8f6ec;}
+.comp>a.name:link{ display:block;width:100%;height:100%; line-height: 30px;margin-left:20px;color: #000}
+.comp>a.name:hover{ display:block;width:100%;height:100%; line-height: 30px;margin-left:20px;color: #000}
+
+.comp>a.name:visited{ display:block;width:100%;height:100%; line-height: 30px;margin-left:20px;color: #000}
+.comp:before{content:" "; position: absolute;  height: 8px; width: 8px; right:15px; border-right: 1px solid #cccccc;border-bottom: 1px solid #cccccc;transform:rotate(-45deg);top:50%; margin-top:-4px}
+.comp:after{content:" "; position: absolute; background: #ccc ;  height: 1px;  right:10px;left:10px; bottom:-1px; }
+
+.iconcomp{ background:url({MODULE_URL}images/icon.png); width:16px; height: 16px; background-size: 100%;margin:7px auto 0 auto !important; display:block; float: left;}
+.btn{width: 80px; height: 80px; line-height: 80px; background: orange; color: #e60012;position: absolute;bottom: 15%;left: 0px;right: 0px;margin: auto;text-align: center;border-radius:50%;font-weight: bolder;font-size: 2.4rem;border:none;}
+.btn.disable{ background: #cccccc; color:#fff;}
+.award{ height:75%;width: 100%; position: relative;}
+.corpright{height: 40px;line-height: 40px;bottom: 0px;position: absolute;text-align: center;color:#fff;width: 100%}
+.awardbox{margin:auto; width: 85% ;position: absolute;top:20px;bottom:45px;left:0px;right:0px;padding:1px 0px;list-style:none ;background:url('{MODULE_URL}/images/rp.png?{TIMESTAMP}');background-size:100% 100% ;}
+.awardbox>.atop{ margin:0px; list-style: none; font-size: 1.4rem;color:#fff;font-weight: bolder; line-height: 35px;padding: 0px 10px;background:#fe7f02;border-top-left-radius: 2px ;border-top-right-radius: 2px; text-align:center;}
+.awardbox>.row1{ margin:20px auto 10px auto; list-style: none;  overflow: hidden;font-size: 1.4rem;color:#fff; width:80%;line-height: 24px;height:72px;}
+.awardbox>.row2{ margin: 10px auto;  list-style: none;  overflow: hidden;font-size: 1.4rem;color:#fff; width:80%;height:60px; line-height: 20px}
+.awardbox>form>.row3{ text-align:center;list-style: none;  font-size: 1.4rem;width: 80%;margin:10px auto;color: #fff;line-height: 24px;overflow: hidden;white-space: normal;}
+.awardbox>form>.row3>.inputtext{width: 100%;padding: 5px;border-radius:5px;height: 35px;;border: none;}
+.lotterytip{ width: 100%;border-radius: 10px; line-height: 24px;background:#fff;margin:10px auto; padding: 5px 0px  }
+
+.wxtips{ position:absolute;bottom:15px;width:90%; margin:auto;text-align: center; left: 0px; right: 0px;}
+.wxtips>#myrp{ float: left; }
+.wxtips>#help{ float: right; }
+.btm{position: fixed;display:flex; height: 45px;bottom:0px;width: 100% }
+.btm>div{flex:1; width: 25%; height: 45px; text-align: center; background:#f8f8f8 }
+.btm>div:last-child{border-right:none: }
+a.btmlink:link{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000 }
+a.btmlink:hover{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+a.btmlink:visited{ display:block; width: 100%;  height:100%;text-decoration:none; color: #000;}
+.h35{height: 55px}
+.text{ height: 15px;margin-top:5px ;display:inline-block; line-height: 15px;font-size: 14px;}
+.tip{background: #ebebeb; border-radius:5px; margin: 10px auto;line-height: 24px;padding: 5px;text-align: left; }
+.icon{  background:url({MODULE_URL}images/icon.png); width:16px; height: 16px; background-size: 100%;margin:5px auto 0 auto; display:block;}
+.iconhome{ background-position:0px 0px;}
+.iconmp{ background-position:0px -144px;}
+.iconawarded{ background-position:0px -64px;}
+.iconmy{ background-position:0px -96px;}
+.iconhome_{ background-position:0px -16px;}
+.iconmp_{ background-position:0px -48px;}
+.iconawarded_{ background-position:0px -80px;}
+.iconmy_{ background-position:0px -112px;}
+.iconscan{ background-position:0px -128px;}
+
+a.button:link{ padding: 0px 10px;min-width:100px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:hover{ padding: 0px 10px;min-width:100px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.button:visited{ padding: 0px 10px;min-width:100px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem}
+a.large{ width: 100%;font-size: 1.4rem }
+input.button{ padding: 0px 10px;min-width:100px;height:35px;line-height: 35px; background: #fed700; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #f09e00, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block;font-size: 1.4rem;border:none;}
+input.large{ width: 100%;font-size: 1.4rem }
+input.danger{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3);}
+input.success{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3);}
+a.danger:link{ background: #f44040; color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:hover{ background: #f44040 ;color:#fff;box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.danger:visited{ background: #f44040; color:#fff; box-shadow:0 4px 0 #ca0909, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:link{ background: #5cb85c; color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:hover{ background: #5cb85c ;color:#fff;box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.success:visited{ background: #5cb85c;color:#fff; box-shadow:0 4px 0 #2d962d, 0 5px 3px rgba(0, 0, 0, 0.3); }
+a.disable:link{ padding: 0px 10px;height:35px;line-height: 35px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+a.disable:visited{ padding: 0px 10px;height:35px;line-height: 35px; background: #fcdea3; border-radius: 200px; color:#6e2020;box-shadow:0 4px 0 #facf7d, 0 5px 3px rgba(0, 0, 0, 0.3); text-align: center;display:inline-block}
+.top{ height:25%; }
+.top img{ width:100%;height: 100%}
+</style>
+
+<script>
+var pagename='index';
+var locationurl='{php echo $this->createmobileurl('index')}'
+var posiurl='{php echo $this->createmobileurl('position')}'
+var dscanwarning={$act['dscanwarning']};
+var tk='{$_GPC['tk']}';
+{if !empty($act['districtarr'])}
+var districtarr={php echo json_encode($act['districtarr'])};
+{/if}
+var strDistrict='{$act['strDistrict']}'
+{if $_M['qr']}
+var istoken=true;
+{else}
+var istoken=false;
+{/if}
+scanid={if $_M['scanid']}{$_M['scanid']}{else}0{/if};
+</script>
+<div class="top"><!-- <img src="{$_W['attachurl']}{$act['thumb']}" width=100% > -->
+</div>
+<div  class="award">
+<ul class=awardbox >
+<li class="row1">{$act['shortjj_']} {if strlen($act['shortjj'])>strlen($act['shortjj_'])}<a id="more" href="javascript:void(0)" class="more">详细</a>{/if}</li>
+<li class="row2"><div class="rctbox" style="height: 60px;">
+{loop $rctawarded $row}
+<div class="awardedrow" style="text-align: center;line-height: 20px;">{$row['nickname']}&nbsp;抽中了&nbsp; {if $row['type']==1}红包{$row['redpack']}元{elseif $row['type']==2}裂变红包{$row['redpack']}元{elseif $row['type']==3}{$row['credit1']}积分{elseif $row['type']==4}{$row['title']}{/if}</div>
+{/loop}
+</div>
+</li>
+<form name="lottery" method="post" action="{php echo $this->createMobileurl('lottery',array('tk'=>$_GPC['tk'],'vtk'=>$_GPC['vtk'],'scanid'=>$_M['scanid']))}">
+{if $msg['errno']==0&&$act['getfaninfo']&&empty($fan)}
+{if $act['focusfollow']}
+	{if $_W['fans']['follow']}
+	{loop $act['faninfoarr'] $k $v}
+<div class="row3"><input style="border:solid orange 1px;" {if $k=='mobile'}type='number'{/if} class="form-control inputtext" name={$k} placeholder="请填写{$v}"></div>
+	{/loop}
+	{/if}
+{else}
+	{loop $act['faninfoarr'] $k $v}
+<div class="row3"><input style="border:solid orange 1px;" {if $k=='mobile'}type='number'{/if} class="form-control inputtext"  placeholder="请填写{$v}" name={$k} value="">
+	</div>
+	{/loop}
+{/if}
+{/if}
+{if $msg['errno']>0}
+<div class="row3">{$msg['message']}</div>
+<input name=submit type="submit" class="btn disable" value=拆 onclick="return false">
+{else}
+<div class="btn" style=" padding:18px 0px;line-height: 25px;">拆<div style="line-height: 14px;margin-top:5px;  font-size:1.0rem;height: 14px;color:#6e2020;font-weight: normal;">第{$totalscan}次</div></div>
+<input name=submit type="submit" class="btn" value="拆" style="opacity: 0; z-index: 2">
+{/if}
+</form>
+<div class="wxtips"><a id="myrp" class="button" href="{php echo $this->createMobileUrl('my',array('actid'=>$act['id']))}">我的红包</a><a id="help" href="{php echo $this->createMobileUrl('content',array('actid'=>$act['id']))}" class="button success">活动说明</a></div>
+</ul>
+<div class="corpright">{php echo $this->module['config']['corpright']}</div>
+</div>
+<div id="followlayer" class="layercontent">
+<div class="header">关注我们</div>
+<span class="close_ close" data-target='fanallayer'><img src="{MODULE_URL}images/close.png" width="30" height="30"/></span>
+<hr style="width:90%;  margin:0 auto"/> 
+<div class="body">
+<div><img id="qrcode" src="{$_W['account']['qrcode']}" width="100%"/></div>
+<div class="message" style="text-align: center;font-size: 1.4rem">{$_W['account']['name']}<br>长按识别二维码</div>
+</div>
+</div>
+<div id="jjlayer" class="layercontent">
+<span class="close_ close" data-target='fanallayer'><img src="{MODULE_URL}images/close.png" width="30" height="30"/></span> 
+<div class="body">
+<div>{$act['jj_']}</div>
+</div>
+</div>
+<div id="timeoutlayer" class="layercontent"></div>
+<script>
+wx.ready(function(){
+require(['index'],function(modal){
+	params={};
+	modal.init(params);
+	window.autoScroll=function(obj){ 
+    $(obj).find(".rctbox").animate({ 
+        marginTop : "-20px" 
+    },500,function(){ 
+        $(this).css({marginTop : "0px"}).find("div:first").appendTo(this); 
+    })
+	}
+	setInterval("window.autoScroll('.row2')",1000);
+		wx.getLocation({
+		success: function (res) {
+			$(window.currentlayer).hidelayer()
+			//alert(JSON.stringify(res))
+			var latitude = res.latitude;//手机端坐标res.latitude， 开发者工具坐标res.res.latitude // 纬度，浮点数，范围为90 ~ -90
+			var longitude = res.longitude;
+			window.longitude=longitude
+	   		window.latitude=latitude
+			script=document.createElement('script')
+			script.src='http://api.map.baidu.com/api?v=1.5&ak=8qkuwVCdEna6zLwLdHWmgPAv&callback=mapCallback'
+			head=document.head||document.getElementsByTagName('head')[0]
+			document.body.appendChild(script)
+		    script.onload = script.onreadystatechange=function(){
+		   	if(!this.readyState || this.readyState=='loaded' || this.readyState=='complete'){
+			}
+	　　　　	}
+			script.onload = script.onreadystatechange = null;
+		},
+		fail:function(res){
+		{if $msg['errno']==0}
+				if (dscanwarning){
+					$(window.currentlayer).showlayer('请同意获取您的位置，请稍后...',location.href,3);
+				}
+		{/if}
+			},
+		cancel:function(res){
+			{if $msg['errno']==0}
+				if (dscanwarning){
+					$(window.currentlayer).showlayer('请同意获取您的位置，请稍后...',location.href,3);
+				}
+				{/if}
+				console.log('获取gps位置失败')
+			//checkLocation()
+			}
+						})
+		{if $msg['errno']==0}
+		if (dscanwarning){
+			$('#timeoutlayer').showlayer('正在获取您的位置信息,请稍后...','',false,true,'middle');
+		}
+		{/if}
+});
+
+			}
+		)
+function mapCallback(){
+				var longitude,latitude,vdistrict;
+				longitude=window.longitude,latitude=window.latitude;
+				var point = new BMap.Point(longitude, latitude);    // 创建点坐标
+									  var gc = new BMap.Geocoder(); //地址匹配类   
+									  gc.getLocation(point, function(rs){
+									  			city=rs.addressComponents.city;
+									  			district=rs.addressComponents.district;
+									  			province=rs.addressComponents.province;
+									  			street=rs.addressComponents.street;
+									  			streetNumber=rs.addressComponents.streetNumber;
+												setCookie('city',city);	 
+												setCookie('district',district);	 
+												setCookie('province',province);
+												setCookie('street',street);
+												setCookie('streetnum',streetNumber);
+												setCookie('address',rs.address);
+												if (typeof districtarr!='undefined'&&(dscanwarning)){
+													vdistrict=false
+													for(a in districtarr){
+													if (rs.address.indexOf(districtarr[a])!=-1){
+														vdistrict=true
+														break;
+													}
+													}
+												}
+												if (scanid){
+													url='{php echo $this->createmobileurl('location',array('actid'=>$_M['act']['id'],'scanid'=>$_M['scanid']))}'
+													if (typeof vdistrict!='undefined'){
+														url=url+'&vdistrict='+vdistrict.toString()
+													}
+													//alert(url)
+													$.ajax({
+														type:'get',
+														dataType:'json',
+														url:url,
+														success:function(data){
+															console.log(data.message)
+														},
+														error:function(a,b,c){
+															alert(b)
+														},
+													})
+												}
+								  	 })
+}
+
+</script>
+{template 'footer'}
